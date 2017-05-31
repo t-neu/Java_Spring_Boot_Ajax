@@ -31,7 +31,6 @@ driverManagerDataSource.setUrl("Database information"); <br />
 driverManagerDataSource.setUsername("admin"); <br />
 driverManagerDataSource.setPassword("rootroot");
 
-## Getting Started
 #### Edit the Beans.xml file. <br />
 
 property name="url" value="Database information" <br />
