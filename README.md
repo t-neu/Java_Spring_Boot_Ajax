@@ -1,6 +1,6 @@
 # Project Title
 
-Java Spring Boot Login and Passowrd Reset
+Java Spring Boot Login and Password Reset
 
 ![alt text](https://github.com/t-neu/Java_Spring_Boot_Ajax/blob/master/homepage.jpg?raw=true)
 
@@ -13,33 +13,33 @@ The username field also uses JQuery and an Ajax call to find out if the username
 
 ## Built With
 
-Java
-Spring
-Boot
-AWS
-JQuery
-MySql
-Hibernate Validation
-Themeleaf
-Maven
-JDBC
+Java<br />
+Spring<br />
+Boot<br />
+AWS<br />
+JQuery<br />
+MySql<br />
+Hibernate Validation<br />
+Themeleaf<br />
+Maven<br />
+JDBC<br />
 
 ## Instructions
 
-Edit the AuthenticationProviderConfig.java file.
-driverManagerDataSource.setUrl("Database information");
-driverManagerDataSource.setUsername("admin");
+Edit the AuthenticationProviderConfig.java file.<br />
+driverManagerDataSource.setUrl("Database information");<br />
+driverManagerDataSource.setUsername("admin");<br />
 driverManagerDataSource.setPassword("rootroot");
 
 ## Getting Started
-Edit the Beans.xml file.
-<property name="url" value="Database information"/>
-<property name="username" value="username"/>
-<property name="password" value="password"/>
+Edit the Beans.xml file.<br />
+<property name="url" value="Database information"/><br />
+<property name="username" value="username"/><br />
+<property name="password" value="password"/><br />
 
-Edit the application.properties file.
-cloud.aws.credentials.accessKey = 
-cloud.aws.credentials.secretKey = 
+Edit the application.properties file.<br />
+cloud.aws.credentials.accessKey = <br />
+cloud.aws.credentials.secretKey = <br />
 
 ## Authors
 
