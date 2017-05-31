@@ -50,7 +50,6 @@ driverManagerDataSource.setPassword("password");
 
 #### Edit the Beans.xml file. <br />
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD) <br />
-<br />
 ```
 <property name="url" value="Database information"/>
 <property name="username" value="username"/>
@@ -59,7 +58,6 @@ Go into AWS, setup RDS. (URL, USERNAME, PASSWORD) <br />
 
 #### Edit the application.properties file. <br />
 Go into AWS, setup IAM. <br />
-<br />
 ```
 cloud.aws.credentials.accessKey =
 cloud.aws.credentials.secretKey =
