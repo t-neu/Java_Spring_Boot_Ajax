@@ -32,12 +32,12 @@ driverManagerDataSource.setUsername("admin");<br />
 driverManagerDataSource.setPassword("rootroot");
 
 ## Getting Started
-Edit the Beans.xml file.<br />
-<property name="url" value="Database information"/><br />
-<property name="username" value="username"/><br />
-<property name="password" value="password"/><br />
+Edit the Beans.xml file. <br />
+<property name="url" value="Database information"/> <br />
+<property name="username" value="username"/> <br />
+<property name="password" value="password"/> <br />
 
-Edit the application.properties file.<br />
+Edit the application.properties file. <br />
 cloud.aws.credentials.accessKey = <br />
 cloud.aws.credentials.secretKey = <br />
 
