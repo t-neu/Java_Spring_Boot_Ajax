@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<!-- Div login visibility condition -->
+	<div class="container">
+		<h3>Reset Password</h3>
+		<p class="alert alert-danger" role="alert" th:if="${param.error}">
+			Wrong Username or Password</p>
+		<p class="alert alert-success" role="alert" th:if="${message} == 'success'">
+			A link has been sent to your email!</p>
+		<form th:action="@{/reset}" th:object="${PasswordResetForm}" method="POST">
+			<div class="form-group">
+				<label for="Username">Username</label> <input class="form-control"
+					type="text" name="username" placeholder="Username" />
+			</div>
+			<div class="form-group">
+				<input class="btn btn-default" type="submit" value="Reset" />
+			</div>
+		</form>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

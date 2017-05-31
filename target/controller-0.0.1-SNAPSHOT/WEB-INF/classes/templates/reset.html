@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="site-wrapper">
+		<nav class="navbar navbar-default"
+			th:replace="fragments/header :: header"></nav>
+		<!-- Div login visibility condition -->
+		<div class="container">
+			<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-4"></div>
+				<div class="col-xs-12 col-sm-8 col-md-4 border_box login">
+					<h3>Reset Password</h3>
+					<p class="alert alert-danger" role="alert" th:if="${param.error}">
+					Wrong Username or Password</p>
+					<p class="alert alert-success" role="alert" th:if="${message} == 'success'">
+					A link has been sent to your email!</p>
+					<p class="alert alert-danger" role="alert" th:if="${message} == 'notfound'">
+					The link is no longer active.</p>
+					<div th:if="${message} != 'success'">
+					<form action="#" th:action="@{/reset}" th:object="${personForm}" method="post">
+						<div class="form-group">
+			                    <input class="form-control form-big-letters" type="text" th:field="*{username}" placeholder="Email"/>
+			            		<div class="alert alert-danger form-password-error margin-top-5"
+										role="alert" th:if="${#fields.hasErrors('username')}"
+										th:errors="*{username}">Password Error</div>
+			            </div>
+			            <div class="form-group">
+							<input class="btn btn-orange login-btn" type="submit" value="Reset" />
+						</div>
+			        </form>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-4">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

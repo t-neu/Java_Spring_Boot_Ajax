@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<!-- Div login visibility condition -->
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<div class="col-xs-12 col-sm-8 col-md-8">
+					<!-- <div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding" th:if="${tokenSize} &gt; 0">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header bg-orange">
+							Next Step</div>	
+							<div class="col-xs-12 col-sm-12 col-md-12 margin-bottom-15">	
+						
+							<h3 class="header-center">Search For A Location</h3>
+							<div class="input-group" id="search-group">
+								<input type="hidden" name="search_param" value="zip"
+									id="search_param"> </input> <input type="text"
+									class="form-control" name="search" id="location-search"
+									th:value="${search}" placeholder="Enter a City, State or Zipcode"></input>
+								<span class="input-group-btn">
+									<button class="btn btn-orange" id="search-btn" type="submit">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+						</div>
+						</div>
+					</div>  -->
+					<div class="col-xs-12 col-md-12 border_box">
+						<h3 class="h3-header">
+							<span>Purchases</span><span class="badge custom-badge"
+								th:text="${tokenSize}"></span>
+						</h3>
+						<div class="col-xs-12 col-md-12"
+							data-th-each="tokensItem : ${tokens}">
+							<div
+								class="col-xs-12 col-md-12 thumbnail remove-border border_box w-bg">
+								<!--<img th:src="@{/images/token.svg}" src="../images/token.svg"
+										class="img-responsive" alt="Responsive image" /> -->
+								<h3 class="details site_sea" data-toggle="collapse"
+									th:attr="data-target = '#' + ${tokensItem.amazon_ref_id}">
+									<span class="pull-left glyphicon glyphicon-plus"></span>Details
+								</h3>
+								<div th:id="${tokensItem.amazon_ref_id}" class="collapse">
+									<div class="col-xs-12 col-md-12 remove-padding">
+										<div class="col-xs-12 col-md-6"
+											th:replace="fragments/profile :: location"></div>
+										<div class="hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+										<div class="col-xs-12 col-md-6"
+											th:replace="fragments/profile :: product"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12 border_box">
+						<h3 class="h3-header details" data-toggle="collapse"
+							data-target="#email-settings">
+							<span class="pull-left glyphicon glyphicon-plus"></span> Email
+							Settings
+						</h3>
+						<div class="col-xs-12 col-md-12 collapse" id="email-settings">
+							<form th:action="@{/email-settings}" method="POST">
+								<div class="col-xs-12 col-md-12">
+									<h4>Receive emails for</h4>
+								</div>
+								<div class="col-xs-12 col-md-12">
+									<div class="col-xs-12 col-sm-6 col-md-6">
+										<div class="col-xs-12 col-md-12">
+											<label>Marketing</label>
+										</div>
+										<div class="col-xs-12 col-md-12">
+											<label class="switch"> <input type="checkbox"
+												value="1" data-toggle="toggle" name="marketing"
+												th:checked="${EmailSettings[0].marketing}"></input>
+												<span class="slider round"></span>
+											</label>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-6">
+										<div class="col-xs-12 col-md-12">
+											<label>Purchases</label>
+										</div>
+										<div class="col-xs-12 col-md-12">
+											<label class="switch"> <input type="checkbox"
+												value="1" data-toggle="toggle" name="purchases"
+												th:checked="${EmailSettings[0].purchases}"></input>
+												<span class="slider round"></span>
+											</label>
+										</div>
+									</div>
+									<div class="col-xs-12 col-md-12">
+										<div class="form-group">
+											<input class="btn btn-orange btn-lg" type="submit" value="Save"></input>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!-- <div class="border_box" style="padding-bottom: 15px;">
+						<h3 class="h3-header">
+							<span th:if="${not #lists.isEmpty(appointments)}">Current
+								Appointment</span> <span th:if="${#lists.isEmpty(appointments)}">No
+								Current Appointment</span>
+						</h3>
+						<div class="" data-th-each="appointment : ${appointments}">
+							<div class="col-xs-12 col-md-12">
+								<h4 class="" data-th-text="${company.companyname}"></h4>
+							</div>
+							<div class="col-xs-12 col-md-12">
+								<p>
+									<strong>Status</strong>
+								</p>
+								<p th:switch="${appointment.status}">
+									<span th:case="'1'">Pending Approval</span><span th:case="'2'">Approved</span><span
+										th:case="'0'">Canceled</span>
+								</p>
+							</div>
+							<div class="col-xs-6 col-md-6">
+								<p>
+									<strong>Date</strong>
+								</p>
+								<h4 class=""
+									data-th-text="*{#dates.format(appointment.date,'MMM dd, yyyy')}"></h4>
+							</div>
+							<div class="col-xs-6 col-md-6">
+								<p>
+									<strong>Time</strong>
+								</p>
+								<h4 class="" data-th-text="${appointment.time}"></h4>
+							</div>
+							<div class="col-xs-12 col-md-6">
+								<p>
+									<strong>Special Request</strong>
+								</p>
+								<p class="" data-th-text="${appointment.special_request}"></p>
+							</div>
+							<div class="clearfix"></div>
+							<div class="col-xs-12 col-md-6">
+								<p>
+									<strong>Address</strong>
+								</p>
+								<p class=""
+									data-th-utext="${company.address} + '&lt;br /&gt;' + ${company.zipcode} + '&lt;br /&gt;' + ${company.city} + ', ' + ${company.state}"></p>
+							</div>
+							<div class="col-xs-12 col-md-6">
+								<p>
+									<strong>Phone</strong>
+								</p>
+								<p class="" data-th-text="${pnum}"></p>
+							</div>
+							<div class="clearfix"></div>
+							<div class="col-xs-6 col-md-6">
+								<a th:href="'/company/' + ${appointment.company_id}"
+									class="btn btn-success" role="button">View Location</a>
+							</div>
+							<div class="col-xs-6 col-md-6">
+								<a href="/list" class="btn btn-success" role="button">Cancel</a>
+							</div>
+						</div>
+
+					</div> -->
+					<!--
+						<div class="col-xs-12 col-md-12 border_box">
+							<h3 class="h3-header">
+								<span>Past Purchases</span><span class="badge custom-badge-used"
+									th:text="${usedTokenSize}"></span>
+							</h3>
+							<div class="col-xs-3 col-md-2 gap-2"
+								data-th-each="tokensItem : ${usedTokens}">
+								<div
+									class="col-xs-12 col-md-12 thumbnail remove-border border_box w-bg">
+									<img th:if="${tokensItem.used} == '1'"
+										th:src="@{/images/token_g.svg}" src="../images/token_g.svg"
+										class="img-responsive" alt="Responsive image" /> <img
+										th:if="${tokensItem.used} == '2' or ${tokensItem.used} == '3'"
+										th:src="@{/images/token_r.svg}" src="../images/token_r.svg"
+										class="img-responsive" alt="Responsive image" />
+									<p class="text-center details" data-toggle="collapse"
+										th:attr="data-target = '#' + ${tokensItem.amazon_ref_id}">Details</p>
+									<div th:id="${tokensItem.amazon_ref_id}" class="collapse">
+										<p class="text-center details-text">Transaction Id Number</p>
+										<p class="text-center details-text"
+											data-th-text="${tokensItem.amazon_ref_id}">Name</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						-->
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+						<a th:href="@{'/buy/'}"><img
+							th:src="@{'/images/300x600/' + ${ad300x600} + '.png'}"
+							src="../images/privacy/3.png" class="img-responsive img-border"
+							alt="Responsive image" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

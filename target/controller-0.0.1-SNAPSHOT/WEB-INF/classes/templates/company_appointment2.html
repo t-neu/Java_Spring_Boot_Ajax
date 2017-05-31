@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+		<div class="col-xs-6 col-md-4">
+		<label for="Date">Date</label>
+					<div class="input-group date" data-provide="datepicker">
+						<input type="text" class="form-control" id="datepicker" name="date"/>
+						<div class="input-group-addon datepicker">
+							<span class="glyphicon glyphicon-th"></span>
+						</div>
+					</div>
+		</div>
+	<div class="container-fluid bg_grey br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="hiw_registration"></div>
+			</div>
+			<div class="col-md-8">
+				<div class="row_slogan site_green">
+					<h1>Extremely Fast Registration!</h1>
+					<h5>
+						Finish Within Seconds!
+					</h5>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey_other br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 location1">
+				<div class="row_slogan site_green">
+					<h1>Choose A Location</h1>
+					<h5>
+						We have relationships with business's in your area!
+					</h5>
+				</div>
+			</div>
+			<div class="col-md-6 location2">
+				<div class="hiw_location"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="hiw_verified"></div>
+			</div>
+			<div class="col-md-9">
+				<div class="row_slogan site_green">
+					<h1>Receive your results within days!</h1>
+					<h5>
+						You than have the option to post those results and the date of verification.
+					</h5>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement2"></div>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="jumbotron svg-background">
+	    <div class="container-fluid text-center">
+	    	<div class="jumbotron-heading">
+		       <h1><span>Start the Process</span></h1>      
+		       <a type="button" th:href="@{'/products/'}" class="btn btn-orange btn-lg">Choose a Product</a>
+		    </div>
+	    </div>
+    </div>
+    <!--
+	<div class="container-fluid">
+		<div class="row svg-background">
+			<div class="col-md-12 col-xs-12">
+				<div class="header_slogan">
+					<h1>Get The Freedom</h1>
+					<h5>To Fearlessly Explore Your Desires</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+	-->
+	<div class="container-fluid bg_grey br_top">
+		<div class="container">
+			<div class="row remove-top-margin">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+				<div class="col-xs-12 col-md-12 bcjs border_box_bcjs">
+						<div class="col-xs-12 col-md-12" th:replace="fragments/breadcrumb :: breadcrumb">
+						</div>
+					</div>
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Features</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 site_sea"
+							style="text-align: center;"></div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Privacy
+								Guaranteed</h4>
+							<img th:src="@{/images/privacy_first.svg}"
+								src="../images/privacy_first.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" />
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">All Major
+								Credit Cards Accepted</h4>
+							<a th:href="@{'/payment-details/'}"><img th:src="@{/images/cc200300.svg}"
+								src="../images/cc200300.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Thousands
+								Of Locations</h4>
+							<a th:href="@{'/map/'}"><img
+								th:src="@{/images/united_states.svg}"
+								src="../images/united_states.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Process</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 site_sea"
+							style="text-align: center;"></div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Quick
+								Registration</h4>
+							<a th:href="@{'/signup/'}"><img
+								th:src="@{/images/registration.svg}"
+								src="../images/registration.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Choose a
+								Location</h4>
+							<a th:href="@{'/map/'}"><img th:src="@{/images/location.svg}"
+								src="../images/location.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Get Results</h4>
+							<a th:href="@{'/profile/'}"><img th:src="@{/images/verified.svg}"
+								src="../images/verified.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 col-md-8">
+					<div class="col-xs-12 col-md-12" th:replace="fragments/locationsearch :: locationsearch">
+					</div>
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Reviews</div>
+						<blockquote class="quotes">
+							<p class="mb-0 home-review">I wanted to thank you at Genital
+								Genie for making everything so easy. The website allowed me to
+								remain anonymous and keep the blood test off my medical record.
+								The process was simple and quick. I honestly was a little
+								nervous when I arrived at the testing site. However, my nerves
+								faded quickly when I was truly never asked for my name or
+								address. The overall testing process took about 5 minutes.</p>
+							<footer class="blockquote-footer">Anonymous</footer>
+						</blockquote>
+						<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+						<div class="rating-home">
+							<div class="rating-wrapper">
+								<span class="star" data-number="5"
+									th:class="rating-star-yellow"></span>
+								<span class="star" data-number="4"
+									th:class="rating-star-yellow"></span>
+								<span class="star" data-number="3"
+									th:class="rating-star-yellow"></span>
+								<span class="star" data-number="2"
+									th:class="rating-star-yellow"></span>
+								<span class="star" data-number="1"
+									th:class="rating-star-yellow"></span>
+							</div>
+							<div class="rating-text">Rating: 5/5</div>
+						</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Fast Process</div>
+							<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">30 Second Purchase</h4>
+							<a th:href="@{'/signup/'}"><img
+								th:src="@{/images/30seconds.svg}"
+								src="../images/30seconds.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+							</div>
+							<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">5 Min Test</h4>
+							<a th:href="@{'/signup/'}"><img
+								th:src="@{/images/testtube.svg}"
+								src="../images/testtube.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+							</div>
+							<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Results In 2 Days</h4>
+							<a th:href="@{'/signup/'}"><img
+								th:src="@{/images/email.svg}"
+								src="../images/email.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+							</div>
+						
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<div class="col-xs-12 col-sm-12 col-md-12 remove-padding" th:replace="fragments/ad/ad300x600 :: ad300x600">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 remove-padding" th:replace="fragments/ad/video :: player1">
+						<h3 class="video-player-btn">Click Video</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="site-wrapper">
+	<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+		<nav class="navbar navbar-default"
+			th:replace="fragments/header :: header"></nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-2 col-md-3"></div>
+				<div class="col-xs-12 col-sm-8 col-md-6">
+					<div class="col-xs-12 col-md-12"
+						th:if="${session.product != null and session.location != null}">
+						<div class="col-xs-12 col-md-12"
+							th:replace="fragments/breadcrumb :: breadcrumb"></div>
+					</div>
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box login remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<h1>Sign Up</h1>
+							<h4>Please remember we will never ask for your name or
+								address.</h4>
+							<p class="alert alert-danger" role="alert" th:if="${error}"
+								th:text="${error}"></p>
+							<form action="#" th:action="@{/signup}" th:object="${userForm}"
+								method="post">
+								<div
+									class="form-group email has-feedback col-xs-12 col-sm-12 col-md-12 remove-padding">
+									<div class="msg-container">
+										<span class="msg-text">Email</span>
+										<div class="arrow-down"></div>
+									</div>
+									<input type="text" class="form-control form-big-letters"
+										th:field="*{email}" placeholder="Email" id="email" /> <span
+										class="glyphicon glyphicon-ok form-control-feedback"></span>
+									<div class="form-email-error form-error" role="alert"
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+										Error</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 email-errors">
+										<div class="form-error">
+											<ul>
+												<li class="validation-email-taken"></li>
+												<li class="validation-email-mirror"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span><span
+													class="email-valid-name">Name</span><span
+													class="validation-noAt">@</span><span
+													class="email-valid-domain">domain</span><span
+													class="validation-com">.com</span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div
+									class="form-group password has-feedback col-xs-12 col-sm-12 col-md-12 remove-padding">
+									<div class="msg-container">
+										<span class="msg-text">Password</span>
+										<div class="arrow-down"></div>
+									</div>
+									<input type="password" class="form-control form-big-letters"
+										th:field="*{password}" id="password" placeholder="Password" />
+									<span class="glyphicon glyphicon-ok form-control-feedback"></span>
+									<div class="alert alert-danger form-password-error"
+										role="alert" th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}">Password Error</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 password-errors">
+										<div class="form-error">
+											<ul>
+												<li class="validation-length"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>8-30
+													characters, numbers and symbols.</li>
+												<li class="validation-number"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Number (0-9)</li>
+												<li class="validation-lowercase"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Lowercase Letter (a-z)</li>
+												<li class="validation-Uppercase"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Uppercase Letter (A-Z)</li>
+												<li class="validation-symbol"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Symbol (!@#$%^&amp;*()_+)</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-orange login-btn" type="submit"
+										id="submit" disabled="disabled">Sign Up</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-3"></div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+	<div th:replace="fragments/breadcrumb :: breadcrumb-js"></div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var str = "";
+		document.getElementById("email").focus();
+		var wasVisible = false;
+		var emailVisible = false;
+		var takenEmail = false;
+		var emailValidationPoints = 0;
+		var passwordValidationPoints = 0;
+		var inputPos = "";
+		var inputName = "email";
+		checkEmailValidation();
+		checkPasswordValidation();
+
+		if ($('.form-password-error').is(':visible') || wasVisible == true) {
+			wasVisible = true;
+			$('.form-password-error').css("display", "none");
+			$('.password-errors').css("display", "block");
+		} else {
+			$('.password-errors').css("display", "none");
+		}
+
+		if ($('.form-email-error').is(':visible') || emailVisible == true) {
+			emailVisible = true;
+			$('.form-email-error').css("display", "none");
+			$('.email-errors').css("display", "block");
+		} else {
+			$('.email-errors').css("display", "none");
+		}
+
+		function checkPasswordValidation() {
+
+			str = document.getElementById("password").value;
+			var res = (/[0-9]/.test(str));
+			passwordValidationPoints = 0;
+
+			if (str.length >= 1) {
+				var x = $("#password").position();
+				$(".msg-text").html("Password");
+				$(".password .msg-container").css('top', x.top - 35);
+				$(".password .msg-container").css('left', x.left);
+				$(".msg-container").hide();
+				$(".password .msg-container").show();
+			}
+
+			if (res == 1) {
+				//alert("Contains a number");
+				$('.validation-number').css("color", "green");
+				$(".validation-number .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-number').css("color", "red");
+				$(".validation-number .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			res = (/[a-z]/.test(str));
+
+			if (res == 1) {
+				$('.validation-lowercase').css("color", "green");
+				$(".validation-lowercase .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-lowercase').css("color", "red");
+				$(".validation-lowercase .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			res = (/[A-Z]/.test(str));
+
+			if (res == 1) {
+				$('.validation-Uppercase').css("color", "green");
+				$(".validation-Uppercase .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-Uppercase').css("color", "red");
+				$(".validation-Uppercase .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			if (containsSymbol(str) == 1) {
+				$('.validation-symbol').css("color", "green");
+				$(".validation-symbol .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-symbol').css("color", "red");
+				$(".validation-symbol .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			if (str.length >= 4 || wasVisible == true) {
+				wasVisible = true;
+				$('.password-errors').css("display", "block");
+			} else {
+				$('.password-errors').css("display", "none");
+			}
+
+			if (str.length >= 8) {
+				$('.validation-length').css("color", "green");
+				$(".validation-length .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				$('.validation-length').css("color", "red");
+				$(".validation-length .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+			checkValid();
+		}
+
+		$("#password").focus(function() {
+			inputName = "password";
+			inputPos = $("#password").position();
+			$(".msg-text").html("Password");
+			$(".password .msg-container").css('top', inputPos.top - 35);
+			$(".password .msg-container").css('left', inputPos.left);
+			$(".msg-container").hide();
+			$(".password .msg-container").show();
+		});
+		$("#email").focus(function() {
+			inputName = "email";
+			inputPos = $("#email").position();
+			$(".msg-text").html("Email");
+			$(".email .msg-container").css('top', inputPos.top - 35);
+			$(".email .msg-container").css('left', inputPos.left);
+			$(".msg-container").hide();
+			$(".email .msg-container").show();
+		});
+
+		function checkEmailValidation() {
+
+			emailValidationPoints = 0;
+			var atSymbolFound = false;
+			var email = $("#email").val();
+			var aresult = "";
+			var suffix = "";
+			var domain = "";
+			var beforeAt = "";
+
+			if (email.length >= 1) {
+				var x = $("#email").position();
+				$(".msg-text").html("Email");
+				$(".email .msg-container").css('top', x.top - 35);
+				$(".email .msg-container").css('left', x.left);
+				$(".msg-container").hide();
+				$(".email .msg-container").show();
+			}
+
+			if (email.length >= 4 || emailVisible == true) {
+				emailVisible = true;
+				$('.email-errors').css("display", "block");
+			} else {
+				$('.email-errors').css("display", "none");
+			}
+
+			if (email.indexOf("@") != -1) {
+				console.log("@ symbol found");
+				atSymbolFound = true;
+				var a = email.lastIndexOf("@");
+				aresult = email.substring(a, email.length);
+				console.log("@ " + aresult);
+				var t = email.lastIndexOf(".");
+				suffix = email.substring(t, email.length);
+				console.log("suffix " + suffix);
+				domain = aresult.substring(aresult.lastIndexOf("@") + 1,
+						aresult.lastIndexOf("."));
+				console.log("between: " + domain);
+				beforeAt = email.substr(0, email.lastIndexOf('@'))
+				console.log("before At: " + beforeAt);
+
+				$('.validation-noAt').html("@");
+				$('.validation-noAt').css("color", "green");
+				$('.validation-noAt .glyphicon-ok').css("color", "green");
+				emailValidationPoints++;
+
+			} else {
+				$('.validation-noAt').html("@");
+				$('.validation-noAt').css("color", "red");
+				$('.validation-noAt .glyphicon-remove').css("color", "red");
+				atSymbolFound = false;
+			}
+
+			if (atSymbolFound == true) {
+
+				//domain name
+				if ((/^[a-zA-Z0-9][a-zA-Z0-9-._]{0,61}$/.test(beforeAt)) == false) {
+					//if (beforeAt.length < 1) {
+					$('.email-valid-name').css("color", "red");
+					$(".email-valid-name").html("name");
+					$(".validation-email-taken")
+							.html(
+									"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is not valid.");
+					$('.validation-email-taken').css("color", "red");
+					//$(".validation-com").html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Valid suffix");$('.validation-com').css("color", "red");
+				} else {
+					$(".email-valid-name").html(beforeAt);
+					$('.email-valid-name').css("color", "green");
+					emailValidationPoints++;
+				}
+				if ((/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]{1,}$/
+						.test(domain)) == false
+						|| aresult.indexOf(".") == -1) {
+					$('.email-valid-domain').css("color", "red");
+					$(".email-valid-domain .glyphicon-ok").addClass(
+							"glyphicon-remove").removeClass("glyphicon-ok")
+							.css("color", "red");
+					$(".email-valid-domain").html("domain");
+					$(".validation-email-taken")
+							.html(
+									"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is not valid.");
+					$('.validation-email-taken').css("color", "red");
+					$(".validation-com").html(".com");
+					$('.validation-com').css("color", "red");
+				} else {
+
+					//$(".email-valid-domain .glyphicon-remove").addClass("glyphicon-ok").removeClass("glyphicon-remove").css("color", "green");
+					$(".email-valid-domain").html(domain);
+					$('.email-valid-domain').css("color", "green");
+					$('.email-valid-domain .glyphicon-ok')
+							.css("color", "green");
+					var valid = (/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]{1,}$/
+							.test(domain));
+					console.log("domain valid " + valid);
+
+					emailValidationPoints++;
+				}
+
+				if (aresult.indexOf(".") != -1) {
+					if ((/^\.[a-zA-Z]{2,61}$/.test(suffix)) == true) {
+
+						//if (suffix.length >= 3) {
+						console.log("suffix " + suffix);
+						$(".validation-com").html(suffix);
+						$('.validation-com').css("color", "green");
+						emailValidationPoints++;
+						if (emailAjaxCall() == 1) {
+							$('.validation-email-taken').css("color", "red");
+							$(".validation-email-taken .glyphicon-ok")
+									.addClass("glyphicon-remove").removeClass(
+											"glyphicon-ok").css("color", "red");
+							$(".validation-email-taken")
+									.html(
+											"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is already registered <span class='email-taken-msg'></span>");
+							$(".validation-email-taken .email-taken-msg")
+									.html(
+											"<br />Would you like to <a href='/login/'>login</a> or <a href='/reset/'>reset your password</a>.");
+							takenEmail = true;
+
+						} else {
+							$(".validation-email-taken")
+									.html(
+											"<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>Valid email.<span class='email-taken-msg'></span>");
+							$(".validation-email-taken .email-taken-msg").html(
+									" We will send you a welcome email.");
+							hideLi();
+							$('.validation-email-taken').css("color", "green");
+							$(".validation-email-taken .glyphicon-ok").css(
+									"color", "green");
+							takenEmail = false;
+							emailValidationPoints++;
+						}
+					} else {
+						$(".validation-email-taken")
+								.html(
+										"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is not valid.");
+						$('.validation-email-taken').css("color", "red");
+						$(".validation-com").html(".com");
+						$('.validation-com').css("color", "red");
+					}
+
+				}
+			} else {
+				if (email.length > -1) {
+					$(".email-valid-name").html(email);
+					$('.email-valid-name').css("color", "green");
+
+					emailValidationPoints++;
+				}
+			}
+			checkValid();
+		}
+
+		function hideLi() {
+			//$('.validation-noAt').css("display", "none");
+			//$('.email-valid-domain').css("display", "none");
+			//$('.validation-com').css("display", "none");
+			//$('.email-valid-name').css("display", "none");
+			$('.validation-email-taken').css("display", "block");
+			$('.email .form-control-feedback').css("display", "block");
+			$("#email").css("color", "green");
+
+		}
+
+		function showLi() {
+			$('.validation-noAt').css("display", "inline-block");
+			$('.email-valid-domain').css("display", "inline-block");
+			$('.validation-com').css("display", "inline-block");
+			$('.email-valid-name').css("display", "inline-block");
+			$('.email .form-control-feedback').css("display", "none");
+			$("#email").css("color", "#555");
+			if (takenEmail == true) {
+				$('.validation-email-taken').css("display", "block");
+			} else {
+				$('.validation-email-taken').css("display", "none");
+			}
+		}
+		function hidePassLi() {
+			$('.validation-length').css("display", "none");
+			$('.validation-number').css("display", "none");
+			$('.validation-lowercase').css("display", "none");
+			$('.validation-Uppercase').css("display", "none");
+			$('.validation-symbol').css("display", "none");
+			$('.password-errors').css("display", "none");
+			$('.password .form-control-feedback').css("display", "block");
+			$("#password").css("color", "green");
+		}
+
+		function showPassLi() {
+			$('.validation-length').css("display", "block");
+			$('.validation-number').css("display", "block");
+			$('.validation-lowercase').css("display", "block");
+			$('.validation-Uppercase').css("display", "block");
+			$('.validation-symbol').css("display", "block");
+			if (str.length > 1) {
+				$('.password-errors').css("display", "block");
+			}
+			$('.password .form-control-feedback').css("display", "none");
+			$("#password").css("color", "#555");
+		}
+
+		function checkValid() {
+			console.log("passwordValidationPoints " + passwordValidationPoints);
+			console.log("emailValidationPoints " + emailValidationPoints);
+			if (passwordValidationPoints < 5) {
+				showPassLi();
+			} else {
+				hidePassLi();
+			}
+			if (emailValidationPoints < 5) {
+				$(".validation-email-mirror .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+				showLi();
+			} else {
+				$(".validation-email-mirror .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+			}
+			if (passwordValidationPoints == 5 && emailValidationPoints == 5) {
+				$("#submit").removeAttr('disabled');
+			} else {
+				$("#submit").prop("disabled", true);
+			}
+
+		}
+
+		function containsSymbol(str1) {
+			var symbols = "!@#$%^&*()_+";
+
+			for (var i = 0; i < str1.length; i++) {
+				if (symbols.indexOf(str1.charAt(i)) != -1) {
+					return true;
+				}
+			}
+			return false;
+		}
+		function emailAjaxCall() {
+			var variable = $("#email").val();
+			var returnVar = 0;
+			$.ajax({
+				url : "/validate/email",
+				async : false,
+				data : {
+					val : variable
+				},
+				dataType : 'html',
+				success : function(dat) {
+					console.log("-----------------");
+					console.log(dat);
+					//var json = JSON.parse(dat);
+					//console.log("-----------------");
+					//console.log(json);
+					if (dat == 1) {
+						console.log("true");
+						returnVar = 1;
+					} else {
+						console.log("false");
+						returnVar = 0;
+					}
+					//   /.+@.+\\..+/
+				}
+			});
+			return returnVar;
+		}
+		$('#password').on('input', function(e) {
+			checkPasswordValidation();
+		});
+		$('#password').bind('paste', function(e) {
+			checkPasswordValidation();
+		});
+
+		var globalTimeout = null;
+		$('#email').on('input', function(e) {
+
+			checkEmailValidation();
+		});
+		$('#email').bind('paste', function(e) {
+			checkEmailValidation();
+		});
+
+		/*]]>*/
+	</script>
+</body>
+</html>

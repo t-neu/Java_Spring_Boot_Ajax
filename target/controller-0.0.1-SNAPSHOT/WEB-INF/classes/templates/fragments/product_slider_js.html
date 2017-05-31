@@ -1,0 +1,88 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+	th:fragment="product_slider_js">
+	<script th:inline="javascript">
+/*<![CDATA[*/
+	//slider
+var $items = $('.product-slider .item');
+//console.log("length: " + $items.length);
+var $count = 0;
+var $current = 0;
+$('.product-slider .multi-item-carousel').carousel({
+interval: false
+});
+
+$(document).ready(function(){
+	//console.log("length: " + $items.length);
+	bootstrapSizeChange();
+	
+	//console.log("count " + $count);
+	
+	$items.slice(0, $items.length).hide();
+	$items.slice($current, $current + $count).show();
+	//console.log("current " + $current + " count " + $count);
+	$current = $current + $count;
+	if($current == $items.length){
+		$current = 0;
+	}
+	
+  $(".product-slider .right").click(function(){
+		$current = $current + $count;
+		if($current >= $items.length){
+			$current = 0;
+		}
+		//console.log("right: current " + $current + " count " + $count);
+		$items.slice(0, $items.length).fadeOut();
+		$items.slice($current, $current + $count).fadeIn();
+		//console.log("current " + $current + " length " + $items.length);
+		//console.log($current);
+  });
+	$(".product-slider .left").click(function(){
+		$current = $current - $count;
+		if($current >= $items.length){
+			$current = 0;
+		}
+		if($current < $count){
+			//console.log("---- current " + $current + " count " + $count);
+			$current = $count * Math.ceil($items.length / $count);
+			$items.slice(0, $items.length).fadeOut();
+			$items.slice(0, $count).fadeIn();	
+			//console.log("---- final " + $current);		
+		}else{
+			//console.log("---- rounded other " + $current);
+			//console.log("left: current " + $current + " count " + $count);
+			$items.slice(0, $items.length).fadeOut();
+			$items.slice($current, $current + $count).fadeIn();
+		}
+  });
+});
+
+$(window).resize(function() {
+	bootstrapSizeChange();
+});
+
+function bootstrapSizeChange() {
+//console.log("bootstrapSizeChange");
+if ($('.slider-width').width() >= 1140) {
+	$count = 6;
+}
+if ($('.slider-width').width() >= 720 && $('.slider-width').width() < 1140) {
+	$count = 4;
+}
+if ($('.slider-width').width() >= 480 && $('.slider-width').width() < 720) {
+	//console.log("tyler");
+	$count = 4;
+}
+if ($('.slider-width').width() < 480) {
+	//console.log("tyler j neumeyer he is 4");
+	$count = 2;
+}
+//console.log("count " + $count);
+//console.log("Console width " + $('.slider-width').width())
+}
+    
+    //end of slider
+    /*]]>*/
+</script>
+</div>
+</html>

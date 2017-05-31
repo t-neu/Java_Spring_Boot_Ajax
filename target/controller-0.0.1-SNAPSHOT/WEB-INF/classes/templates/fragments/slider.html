@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="col-xs-12 col-md-12 remove-padding"
+	th:fragment="slider">
+	<div id="carousel-example-generic" class="carousel slide"
+		data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#carousel-example-generic" data-slide-to="0"
+				class="active"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+		</ol>
+		
+		<style th:inline="text">
+		.slider-image-1 {
+		    background-image: url('../images/small-hot-love-couple-kiss2.jpg'); 
+		}
+		.slider-image-2 {
+		    background-image: url('../images/small-hot-love-couple-kiss3.jpg'); 
+		}
+		.slider-image-3 {
+		    background-image: url('../images/small-getresults.svg'); 
+		}
+		/* 300 to X */
+		@media (min-width: 480px) and (max-width: 1024px){ 
+		    .slider-image-1 {   
+		        background-image: url('../images/medium-hot-love-couple-kiss2.jpg');
+		    }
+		    .slider-image-2 {   
+		        background-image: url('../images/medium-hot-love-couple-kiss3.jpg');
+		    }
+		    .slider-image-3 {   
+		        background-image: url('../images/medium-getresults.svg');
+		    }
+		}
+		@media (min-width: 1025px) { 
+		    .slider-image-1 {   
+		        background-image: url('../images/hot-love-couple-kiss2.jpg');
+		    }
+		    .slider-image-2 {   
+		        background-image: url('../images/hot-love-couple-kiss3.jpg');
+		    }
+		    .slider-image-3 {   
+		        background-image: url('../images/getresults.svg');
+		    }
+		}
+		</style>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner" role="listbox">
+			<div class="item active slider-image-1">			
+				<div class="carousel-caption">Are you practicing safe sex?<br/><a type="button" th:href="@{'/products/'}" class="btn btn-orange btn-lg">Get Started Now!</a></div>
+			</div>
+			<div class="item slider-image-2">
+				<div class="carousel-caption">When was your last STD test?<br/><a type="button" th:href="@{'/products/'}" class="btn btn-orange btn-lg">Choose A Product!</a></div>
+			</div>
+			<div class="item slider-image-3">
+				<div class="carousel-caption">Results in 2 days!*<br/><a type="button" th:href="@{'/products/'}" class="btn btn-orange btn-lg">Get Tested Now!</a></div>
+			</div>
+		</div>
+
+		<!-- Controls -->
+		<a class="left carousel-control" href="#carousel-example-generic"
+			role="button" data-slide="prev"> <span
+			class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span
+			class="sr-only">Previous</span>
+		</a> <a class="right carousel-control" href="#carousel-example-generic"
+			role="button" data-slide="next"> <span
+			class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>
+</html>

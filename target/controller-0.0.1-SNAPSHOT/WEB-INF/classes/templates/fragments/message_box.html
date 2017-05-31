@@ -1,0 +1,328 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="message-container" th:fragment="box">
+	<style th:inline="text">
+	
+.message-container .panel-heading {
+	cursor: pointer;
+}
+.message-container .row:first-of-type {
+	margin-top: 0px!important;
+}
+
+.message-visitor .message-content {
+	color: #FFFFFF;
+	background-color: #318f4d;
+	border-color: #09450C;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.message-company .message-content {
+	color: #FFFFFF;
+	background-color: #31708f;
+	border-color: #093145;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.message-company .message-content>.arrow {
+	top: 50%;
+	left: -6px;
+	margin-top: -11px;
+	border-right-color: #31708f;
+	border-left-width: 0;
+}
+
+.message-company .message-content>.arrow {
+	border-width: 11px;
+}
+
+.message-company .message-content>.arrow, .message-company .message-content>.arrow:after
+	{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.panel-heading .glyphicon {
+	top: 4px;
+}
+
+.message-visitor .message-content>.arrow {
+	top: 50%;
+	right: -6px;
+	margin-top: -11px;
+	border-right-width: 0;
+	border-left-color: #318f4d;
+}
+
+.message-visitor .message-content>.arrow {
+	border-width: 11px;
+}
+
+.message-visitor .message-content>.arrow, .message-visitor .message-content>.arrow:after
+	{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.panel-body .row {
+	margin-bottom: 10px;
+}
+
+.message-container {
+	position: fixed;
+	right: 5px;
+	bottom: -15px;
+	width: 350px;
+	z-index: 20;
+	max-width: 98%;
+}
+
+.message-container img {
+	width: 80px;
+	border-radius: 9999px;
+	border: 2px solid #FFF;
+}
+
+.visitor-img {
+	width: 80px;
+	height: 80px;
+	border-radius: 9999px;
+	border: 2px solid #FFF;
+	overflow: hidden;
+	background-color: #318f4d;
+	text-align: center;
+}
+
+.visitor-img span {
+	font-size: 64px;
+	margin-top: 15px;
+	color: white;
+}
+</style>
+	<div class="row">
+		<div class="message-box">
+			<div class="col-sm-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading" data-toggle="collapse"
+						data-target="#message-footer , #message-content"
+						th:text="'Need Help?'">
+						<span style="cursor: pointer;"
+							class="pull-right glyphicon glyphicon-plus"></span>
+					</div>
+					<div class="panel-body collapse" id="message-content">
+						<div data-th-each="messageItem : ${Messages}">
+							<div th:if="${messageItem.user} == 1" class="row message-company">
+								<div class="col-xs-4 col-sm-4">
+									<img th:src="@{/images/user/head1.png}" class="img-responsive"
+										alt="Image"></img>
+								</div>
+								<div class="col-xs-8 col-sm-8">
+									<div class="message-content">
+										<div class="arrow" style="top: 50%;"></div>
+										<div th:text="${messageItem.message}"></div>
+									</div>
+								</div>
+							</div>
+
+							<div th:if="${messageItem.user} == 2" class="row message-visitor">
+								<div class="col-xs-8 col-sm-8">
+									<div class="message-content">
+										<div class="arrow" style="top: 50%;"></div>
+										<div th:text="${messageItem.message}"></div>
+									</div>
+								</div>
+								<div class="col-xs-4 col-sm-4">
+									<div class="visitor-img">
+										<span class="glyphicon glyphicon-user"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer collapse" id="message-footer">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Message"
+										id="message" data-conversation_id="1"></input>
+									<div class="input-group-btn">
+										<button class="btn btn-default" type="submit" id="send">
+											Send</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+	/*<![CDATA[*/
+	var folder = [[@{/images/}]];
+	function is_jquery_here(){
+    setTimeout(function(){
+      if(window.jQuery){
+    	  $.ajax({
+				url : "/messages/get",
+				async : false,
+				data : {				
+				},
+				dataType : 'html',
+				success : function(dat) {
+					var json = JSON.parse(dat);
+					//console.log("get " + json);
+					//console.log($( ".panel-body .row" ).length + " " + json.length);
+					var userMessage = "";
+					for(var i = $( ".panel-body .row" ).length; i < json.length; i++){
+						if (json[i].user == 2){
+							userMessage = "<div class='row message-visitor'><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div>"+ json[i].message +"</div></div></div><div class='col-xs-4 col-sm-4'><div class='visitor-img'><span class='glyphicon glyphicon-user'></span></div></div></div>";
+						}else{
+							userMessage = "<div class='row message-company'><div class='col-xs-4 col-sm-4'><img src='"+ folder +"user/head1.png' class='img-responsive' alt='Image'></img></div><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div>"+ json[i].message +"</div></div></div></div>";
+						}
+						if($( ".panel-body .row" ).length == 0){
+							$( "#message" ).data( "conversation_id", json[0].conversation_id );
+							$( ".panel-body" ).html( userMessage );
+						}else{
+							$( ".panel-body" ).last().append( userMessage );
+						}
+					}
+				}
+			});
+    	  
+    	  	function updateChat(){
+    	  		//console.log("updateChat");
+    	  		$.ajax({
+    				url : "/messages/get",
+    				async : false,
+    				data : {				
+    				},
+    				dataType : 'html',
+    				success : function(dat) {
+    					var json = JSON.parse(dat);
+    					//console.log("get " + json);
+    					//console.log($( ".panel-body .row" ).length + " " + json.length);
+    					var userMessage = "";
+    					for(var i = $( ".panel-body .row" ).length; i < json.length; i++){
+    						if (json[i].user == 2){
+    							userMessage = "<div class='row message-visitor'><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div>"+ json[i].message +"</div></div></div><div class='col-xs-4 col-sm-4'><div class='visitor-img'><span class='glyphicon glyphicon-user'></span></div></div></div>";
+    						}else{
+    							userMessage = "<div class='row message-company'><div class='col-xs-4 col-sm-4'><img src='"+ folder +"user/head1.png' class='img-responsive' alt='Image'></img></div><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div>"+ json[i].message +"</div></div></div></div>";
+    						}
+    						if($( ".panel-body .row" ).length == 0){
+    							$( "#message" ).data( "conversation_id", json[0].conversation_id );
+    							$( ".panel-body" ).html( userMessage );
+    						}else{
+    							$( ".panel-body" ).last().append( userMessage );
+    						}
+    						$(".panel-body").animate({ scrollTop: $(".panel-body").prop("scrollHeight")}, 1000);
+    					}
+    				}
+    			});
+    	  	}
+    	  	var myVar = setInterval(updateChat, 4000);
+    	  	//clearInterval(myVar);
+    	  	
+    	  	
+    	  	$(".message-container-top .panel-heading").on("click", function() {
+    		  //console.log(" click details");
+    		  $("span", this).toggleClass("glyphicon-plus glyphicon-minus");
+    		});
+    	  	$('#message-footer #message').keypress(function(e) {
+    	  		var key = e.which;
+    	  		if (key == 13) // the enter key code
+    	  		{
+    	  			$('#message-footer #send').click();
+    	  			//$('#location-search').bind("keypress");
+    	  			return false;
+    	  		}
+    	  	});
+    		$("#message-footer #send").on("click", function() {
+    		  //clearInterval(myVar);
+    		  //myVar = setInterval(updateChat, 4000);
+    		  //console.log("message " +  $("#message-footer #message").val() + " message id " +  $( "#message" ).data( "conversation_id" ));
+    		  var conversation_id = $( "#message" ).data( "conversation_id" );
+    		  var message = $("#message-footer #message").val();
+    		  
+    		  if (message != ""){
+	    		  $("#message-footer #message").val("");
+	    		  $.ajax({
+	    				url : "/messages/update",
+	    				async : false,
+	    				data : {
+	    					message : message,
+	    					conversation_id : conversation_id				
+	    				},
+	    				dataType : 'html',
+	    				success : function(dat) {
+	    					var json = JSON.parse(dat);
+	    					//console.log(json);
+	    					//console.log($( ".panel-body .row" ).length + " " + json.length);
+	    					var userMessage = "";
+	    					for(var i = $( ".panel-body .row" ).length; i < json.length; i++){
+	    						if (json[i].user == 2){
+	    							userMessage = "<div class='row message-visitor'><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div>"+ json[i].message +"</div></div></div><div class='col-xs-4 col-sm-4'><div class='visitor-img'><span class='glyphicon glyphicon-user'></span></div></div></div>";
+	    						}else{
+	    							userMessage = "<div class='row message-company'><div class='col-xs-4 col-sm-4'><img src='"+ folder +"user/head1.png' class='img-responsive' alt='Image'></img></div><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div>"+ json[i].message +"</div></div></div></div>";
+	    						}
+	    						$( ".panel-body" ).last().append( userMessage );
+	    					}
+	    				}
+	    			});
+	    			$(".panel-body").animate({ scrollTop: $(".panel-body").prop("scrollHeight")}, 1000);
+    		  }
+    		  //$("#message-footer #message").value();
+    		});
+      } else {
+        is_jquery_here();
+      }
+		    }, 300);
+		}
+		is_jquery_here();
+			//console.log("load ad javascript");
+		    //end of slider
+		    /*]]>*/
+		</script>
+	</div>
+</div>
+
+<div class="message-container" th:id="'message-container-' + ${DistinctMessagesItem.conversation_id}" th:fragment="adminbox">
+	<div class="row">
+		<div class="message-box">
+			<div class="col-xs-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading"
+						th:text="${DistinctMessagesItem.conversation_id}">
+						<span style="cursor: pointer;"
+							class="pull-right glyphicon glyphicon-plus"></span>
+					</div>
+	 
+					<div class="panel-body message-content" th:id="'message-content-' + ${DistinctMessagesItem.conversation_id}">
+						
+					</div>
+					<div class="panel-footer" id="message-footer">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group">
+									<input type="text" class="form-control message" placeholder="Message"
+										th:id="'message-' + ${DistinctMessagesItem.conversation_id}" th:attr="data-conversation_id=${DistinctMessagesItem.conversation_id}"></input>
+									<div class="input-group-btn">
+										<button class="btn btn-default send" type="submit" th:id="${DistinctMessagesItem.conversation_id}">Send</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>

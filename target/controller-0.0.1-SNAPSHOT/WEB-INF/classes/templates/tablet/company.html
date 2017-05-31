@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="navbar-form navbar-left">
+			<div class="form-group">
+				<!--<label for="Search">Search</label>-->
+				<input type="text" class="form-control" placeholder="Search By Name"
+					name="search" id="search" th:value="${search}" />
+				<!--<div th:if="${#fields.hasErrors('search')}" th:errors="*{search}">Name Error</div>-->
+			</div>
+			<button type="submit" id="search-btn" class="btn btn-primary">Search</button>
+		</div>
+	</div>
+	<div class="container">
+
+		<!-- This content is only shown to administrators. -->
+		<div class="alert alert-success" sec:authorize="hasRole('ROLE_ADMIN')">
+			Sample administrator content.</div>
+		<!-- This content is only shown to users.
+		<div class="alert alert-success" sec:authorize="hasRole('ROLE_USER')"></div> -->
+
+		<div th:switch="${action}">
+			<p class="alert alert-success" th:case="'delete'"
+				th:text="'Successfully deleted ' + ${name}"></p>
+			<p class="alert alert-success" th:case="'insert'"
+				th:text="'Successfully added ' + ${name}"></p>
+			<h3 th:case="'search'" th:text="'Searched for ' + ${term}"></h3>
+			<p class="alert alert-success" th:case="'new'" th:text="'New User'"></p>
+			<p th:case="*"></p>
+		</div>
+		<div th:if="${company.empty}">
+			<div>No Results</div>
+		</div>
+		 
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Address</th>
+						<th>City</th>
+						<th>Zipcode</th>
+						<th>State</th>
+						<th>Country</th>
+						<th>Delete</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-th-each="companyItem : ${company}">
+						<td data-th-text="${companyItem.id}">1</td>
+						<td data-th-text="${companyItem.companyname}">Name</td>
+						<td data-th-text="${companyItem.address}">22</td>
+						<td data-th-text="${companyItem.city}">22</td>
+						<td data-th-text="${companyItem.zipcode}">22</td>
+						<td data-th-text="${companyItem.state}">Name</td>
+						<td data-th-text="${companyItem.country}">22</td>
+						<td sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
+							class="btn btn-default" href="#"
+							data-th-href="@{'/company/'+ ${companyItem.id} + '/delete/'}"><span
+								class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+								Delete</a></td>
+						<td sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
+							class="btn btn-default" href="#" data-th-href="@{'/login/'}"><span
+								class="glyphicon glyphicon glyphicon-login" aria-hidden="true"></span>
+								Must be logged in</a></td>
+						<td><a class="btn btn-default" href="#"
+							data-th-href="@{'/company/'+ ${companyItem.id} + '/edit/'}"><span
+								class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
+								Edit</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6 col-md-2 thumbnail remove-border" data-th-each="companyItem : ${company}">
+			<img th:if="${companyItem.logo} == 'default-logo.png'"
+					th:src="@{/images/default-logo.png}"
+					src="../images/default-logo.png"
+					class="img-responsive company-logo" alt="Responsive image" /> <img
+					th:if="${companyItem.logo} != 'default-logo.png'"
+					th:src="@{${url} + ${companyItem.logo}}"
+					src="${url} + ${companyItem.logo}}" class="img-responsive company-logo"
+					alt="Responsive image" />
+				<p class="text-center">
+				<a class="btn btn-success" role="button" href="#"
+							data-th-href="@{'/company/'+ ${companyItem.id}}">View</a></p>
+				<p class="text-center details" data-toggle="collapse" th:attr="data-target = '#' + ${companyItem.id}">Details</p>
+				<div th:id="${companyItem.id}" class="collapse">
+					<p class="text-center details-text" data-th-text="${companyItem.companyname}">Name</p>
+					<p class="text-center details-text" data-th-text="${companyItem.zipcode}">Name</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+	<script
+	src="../js/custom.js"
+	th:href="@{/js/custom.js}"></script>
+</body>
+</html>

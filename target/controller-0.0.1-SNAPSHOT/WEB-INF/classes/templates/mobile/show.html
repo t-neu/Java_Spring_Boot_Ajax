@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<section>
+      <h5>Transaction</h5>
+        <table>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td th:text="${transaction.getId()}"></td>
+            </tr>
+            <tr>
+              <td>type</td>
+              <td th:text="${transaction.getType()}"></td>
+            </tr>
+            <tr>
+              <td>amount</td>
+              <td th:text="${transaction.getAmount()}"></td>
+            </tr>
+            <tr>
+              <td>status</td>
+              <td th:text="${transaction.getStatus()}"></td>
+            </tr>
+            <tr>
+              <td>created_at</td>
+              <td th:text="${new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss Z').format(transaction.getCreatedAt().getTime())}"></td>
+            </tr>
+            <tr>
+              <td>updated_at</td>
+              <td th:text="${new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss Z').format(transaction.getUpdatedAt().getTime())}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h5>Payment</h5>
+
+        <table>
+          <tbody>
+            <tr>
+              <td>token</td>
+              <td th:text="${creditCard.getToken()}"></td>
+            </tr>
+            <tr>
+              <td>bin</td>
+              <td th:text="${creditCard.getBin()}"></td>
+            </tr>
+            <tr>
+              <td>last_4</td>
+              <td th:text="${creditCard.getLast4()}"></td>
+            </tr>
+            <tr>
+              <td>card_type</td>
+              <td th:text="${creditCard.getCardType()}"></td>
+            </tr>
+            <tr>
+              <td>expiration_date</td>
+              <td th:text="${creditCard.getExpirationDate()}"></td>
+            </tr>
+            <tr>
+              <td>cardholder_name</td>
+              <td th:text="${creditCard.getCardholderName()}"></td>
+            </tr>
+            <tr>
+              <td>customer_location</td>
+              <td th:text="${creditCard.getCustomerLocation()}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+		<img th:src="@{/images/error.svg}" src="../images/error.svg"
+			class="img-responsive error-img center-block" alt="Responsive image" />
+		<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 col-md-8">
+				<div class="col-xs-12 col-md-12">
+				<a th:href="@{'/buy/'}"><img th:src="@{'/images/728v90/h/' + ${ad728x90} + '.png'}"
+					class="img-responsive center-block flex-img" alt="Responsive image" /></a>
+			</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Payment Details</div>
+						<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="sub-faq">
+						<h4>What cards do you support?</h4>
+						<img th:src="@{'/images/list_of_credit_cards.svg'}"
+							src="../images/list_of_credit_cards.svg" class="payment-card"
+							alt="Responsive image" />
+						</div>
+						<div class="sub-faq">
+						<h4>Can I use my prepaid debit or gift cards?</h4>
+						<h5>Yes, we can process any prepaid card that has one of the major card brand logos (Visa, Mastercard, Discover, American Express, Diners).</h5>
+						</div>
+						<div class="sub-faq">
+						<h4>Can I use my EMV (i.e. chip and pin) cards?</h4>
+						<h5>Yes, EMV cards can be used online just like normal credit cards.</h5>
+						</div>
+						<div class="sub-faq">
+						<h4>Do you support 3D Secure?</h4>
+						<h5>Yes, Braintree are payment processing site does support this feature.</h5>
+						</div>
+						<div class="sub-faq">
+						<h4>What payment processing site do you use?</h4>
+						<img th:src="@{'/images/bt-logo-black.svg'}"
+							src="../images/bt-logo-black.svg" class="braintree-logo"
+							alt="Responsive image" />
+						</div>
+						<div class="sub-faq">
+						<h4>Do you support healthcare cards that have the Visa or Mastercard logo?</h4>
+						<h5>No, we currently do no accept healthcare cards.</h5>
+						</div>
+						<div class="sub-faq">
+						<h4>What is your cancellation policy?</h4>
+						<h5>-- You may cancel your order any time before your visit to the test center. Refunds will be issued within 24-48 hours of cancellation minus a 20% cancellation fee. </h5><h5>All cancellation requests after 21 days of purchase will be given credit for future testing.</h5>
+						</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12" th:replace="fragments/locationsearch :: locationsearch">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+						<a th:href="@{'/buy/'}"><img th:src="@{'/images/privacy/3.png'}"
+							src="../images/privacy/3.png" class="img-responsive img-border"
+							alt="Responsive image" /></a>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 remove-padding" th:replace="fragments/ad/video :: player1">
+						<h3 class="video-player-btn">Click Video</h3>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div th:replace="fragments/product_slider :: product_slider_np"></div>
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Features</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 site_sea"
+							style="text-align: center;"></div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align: center;">Privacy
+								Guaranteed</h4>
+							<img th:src="@{/images/privacy_first.svg}"
+								src="../images/privacy_first.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" />
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align: center;">All Major
+								Credit Cards Accepted</h4>
+							<a th:href="@{'/payment-details/'}"><img th:src="@{/images/cc200300.svg}"
+								src="../images/cc200300.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align: center;">Thousands
+								Of Locations</h4>
+							<a th:href="@{'/map/'}"><img
+								th:src="@{/images/united_states.svg}"
+								src="../images/united_states.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Process</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 site_sea"
+							style="text-align: center;"></div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align: center;">Quick
+								Registration</h4>
+							<a th:href="@{'/signup/'}"><img
+								th:src="@{/images/registration.svg}"
+								src="../images/registration.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align: center;">Choose a
+								Location</h4>
+							<a th:href="@{'/map/'}"><img th:src="@{/images/location.svg}"
+								src="../images/location.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align: center;">Get Results</h4>
+							<a th:href="@{'/profile/'}"><img th:src="@{/images/verified.svg}"
+								src="../images/verified.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+		<div th:replace="fragments/product_slider_js :: product_slider_js "></div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		 <form name="employeeForm" method="post"> 
+	<input type="text" name="firstName" id="firstName" value=""></input>
+	<input type="text" name="city" id="city" value=""></input>
+	<input type="text" name="abr" id="abr" value=""></input>
+    
+<input type="button" value="Ajax Submit" onclick="madeAjaxCall();"></input>
+ </form>
+  <h1>Spring Framework Jquery Ajax Demo</h1>
+ <div id="result"></div>
+	</div>
+	<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+			<script type="text/javascript">
+function madeAjaxCall(){
+	var variable= $("#firstName").val();
+	$.ajax({
+	    url: "http://localhost:8080/employee/test1",
+	    async: false,
+	    data: {val: variable},
+	    dataType: 'html',
+	    success: function (dat) {
+	        console.log(dat);
+	    	var json = JSON.parse(dat);
+	    	console.log("-----------------");
+	    	console.log(json);
+	    	//alert(json[0].city); //mkyong
+	    	//alert(json[0].abr); //mkyong
+	        $("#city").val(json[0].city);
+	        $("#abr").val(json[0].abr);
+	    }
+	});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,963 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<style th:inline="text">
+		body {
+			background-color: #f1f1f1;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		.panel-btn {
+			display: inline-block;
+			padding: 3px 6px;
+			margin-bottom: 0;
+			font-size: 12px;
+			font-weight: 400;
+			line-height: 1.42857143;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: middle;
+			-ms-touch-action: manipulation;
+			touch-action: manipulation;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			background-image: none;
+			border: 1px solid rgb(224, 224, 224);
+			border-radius: 4px;
+			background-color: #FFF;
+			color: #a5a5a5;
+		}
+		
+		.panel-heading {
+			font-size: 18px;
+		}
+		
+		.b {
+			background-color: #f2f2f2;
+		}
+		
+		.navbar {
+			border-radius: 0px;
+			background-color: #f8f8f8;
+			padding-bottom: 0px;
+			color: #FFFFFF;
+			border: 0px;
+		}
+		
+		.box {
+			border: 1px solid #CCC;
+			background-color: #fbfbfb;
+			padding-bottom: 10px;
+			border-radius: 6px;
+			margin-bottom: 5px;
+			overflow: hidden;
+		}
+		
+		.header {
+			background-color: #EAEAEA;
+			color: #363636;
+		}
+		
+		.panel {
+			overflow: hidden;
+		}
+		
+		.form-control {
+			display: block;
+			width: 100%;
+			height: 34px;
+			padding: 6px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			color: #555;
+			background-color: #fbfbfb;
+			background-image: none;
+			border: 1px solid #e8e8e8;
+			border-radius: 4px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+			-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+				ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+				.15s;
+			transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		}
+		.nav-bar {
+			background-color: #f8f8f8;
+		}
+		
+		.navbar-inverse {
+			background-color: #f8f8f8;
+			border-color: #ffffff;
+		}
+		
+		.btn-orange {
+			color: #8f6a00;
+			background-color: #fff200;
+			border-color: #ffd600;
+		}
+		
+		<!--
+		sidebar -->
+		.nav-side-menu {
+			overflow: auto;
+			font-family: verdana;
+			font-size: 12px;
+			font-weight: 200;
+			background-color: #f8f8f8 !important;
+			position: fixed;
+			top: 0px;
+			height: 100%;
+			color: #e1ffff;
+			position: fixed;
+			top: 50px;
+			width: 100%;
+		}
+		
+		.nav-side-menu .toggle-btn {
+			display: none;
+		}
+		
+		.nav-side-menu ul, .nav-side-menu li {
+			list-style: none;
+			padding: 0px;
+			margin: 0px;
+			line-height: 35px;
+			cursor: pointer;
+		}
+		
+		.nav-side-menu ul :not(collapsed) .arrow:before, .nav-side-menu li :not(collapsed) .arrow:before
+			{
+			font-family: FontAwesome;
+			content: "\f078";
+			display: inline-block;
+			padding-left: 10px;
+			padding-right: 10px;
+			vertical-align: middle;
+			float: right;
+		}
+		
+		.nav-side-menu ul .active, .nav-side-menu li .active {
+			background-color: #00cac5;
+			padding-left: 5px;
+		}
+		
+		.nav-side-menu ul .sub-menu li.active, .nav-side-menu li .sub-menu li.active
+			{
+			color: #00cac5;
+		}
+		
+		.nav-side-menu ul .sub-menu li.active a, .nav-side-menu li .sub-menu li.active a
+			{
+			color: #00cac5;
+		}
+		
+		.nav-side-menu ul .sub-menu li, .nav-side-menu li .sub-menu li {
+			background-color: #929292;
+			border: none;
+			line-height: 28px;
+			border-bottom: 1px solid #6c6c6c;
+			margin-left: 0px;
+			color: #FFFFFF;
+		}
+		
+		.nav-side-menu ul .sub-menu li:hover, .nav-side-menu li .sub-menu li:hover
+			{
+			background-color: #020203;
+			color: #FFFFFF;
+		}
+		
+		.nav-side-menu ul .sub-menu li:before, .nav-side-menu li .sub-menu li:before
+			{
+			font-family: FontAwesome;
+			content: "\f2c0";
+			display: inline-block;
+			padding-left: 10px;
+			padding-right: 10px;
+			vertical-align: middle;
+		}
+		
+		.nav-side-menu li {
+			padding-left: 0px;
+			border-bottom: 1px solid #dfdfdf;
+			background-color: #f8f8f8;
+			padding: 10px;
+		}
+		
+		.nav-side-menu li a {
+			text-decoration: none;
+			color: #929292;
+		}
+		
+		.nav-side-menu li a i {
+			padding-left: 10px;
+			width: 20px;
+			padding-right: 20px;
+		}
+		.nav-side-menu li:hover:not(:first-child) {
+			background-color: #ffda00;
+			color: #ffffff;
+			-webkit-transition: all 1s ease;
+			-moz-transition: all 1s ease;
+			-o-transition: all 1s ease;
+			-ms-transition: all 1s ease;
+			transition: all 1s ease;
+		}
+		
+		.nav-side-menu li:hover:not(:first-child) a {
+			color: #ffffff;
+		}
+		
+		.brand {
+			text-align: left !important;
+			font-size: 22px;
+			padding-left: 20px;
+			line-height: 50px !important;
+		}
+		
+		.nav-side-menu {
+			position: relative;
+		}
+		
+		@media ( max-width : 767px) {
+		
+			.nav-side-menu {
+				position: relative;
+				width: 100%;
+				margin-bottom: 10px;
+			}
+		
+			.nav-side-menu .toggle-btn {
+				display: block;
+				cursor: pointer;
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				z-index: 10 !important;
+				padding: 3px;
+				background-color: #ffffff;
+				color: #000;
+				width: 40px;
+				text-align: center;
+			}
+		}
+		
+		.no-gutter>[class*='col-'] {
+			padding-right: 1px;
+			padding-left: 1px;
+		}
+		
+		.payment-numbers {
+		    font-size: 24px;
+		    text-align: center;
+		}
+		.payment-money {
+		    font-size: 40px;
+		    text-align: center;
+		    font-weight: bold;
+		}
+		.orange-panel {
+			padding: 15px;		    background-color: #ffba00;
+
+		    color: white;
+		    font-style: oblique;
+		    font-weight: bolder;
+		}    
+		
+		@media ( min-width : 767px) {
+			.nav-side-menu .menu-list .menu-content {
+				display: block;
+			}
+		}
+</style>
+	<style th:inline="text">
+.message-container-top .row:first-of-type {
+	margin-top: 0px !important;
+}
+
+.message-visitor .message-content {
+	color: #FFFFFF;
+	background-color: #318f4d;
+	border-color: #09450C;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.message-company .message-content {
+	color: #FFFFFF;
+	background-color: #31708f;
+	border-color: #093145;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.message-company .message-content>.arrow {
+	top: 50%;
+	left: -6px;
+	margin-top: -11px;
+	border-right-color: #31708f;
+	border-left-width: 0;
+}
+
+.message-company .message-content>.arrow {
+	border-width: 11px;
+}
+
+.message-company .message-content>.arrow, .message-company .message-content>.arrow:after
+	{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.panel-heading .glyphicon {
+	top: 2px;
+}
+
+.message-visitor .message-content>.arrow {
+	top: 50%;
+	right: -5px;
+	margin-top: -11px;
+	border-right-width: 0;
+	border-left-color: #318f4d;
+}
+
+.message-visitor .message-content>.arrow {
+	border-width: 11px;
+}
+
+.message-visitor .message-content>.arrow, .message-visitor .message-content>.arrow:after
+	{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.panel-body .row {
+	margin-bottom: 10px;
+}
+
+.message-container {
+	/* position: fixed; */
+	/* right: 5px; */
+	/* bottom: -15px; */
+	/* width: 350px; */
+	/* z-index: 5000; */
+	
+}
+
+.message-container img {
+	width: 80px;
+	border-radius: 9999px;
+	border: 2px solid #FFF;
+}
+
+.visitor-img {
+	width: 80px;
+	height: 80px;
+	border-radius: 9999px;
+	border: 2px solid #FFF;
+	overflow: hidden;
+	background-color: #318f4d;
+	text-align: center;
+}
+
+.visitor-img span {
+	font-size: 64px;
+	margin-top: 15px;
+	color: white;
+}
+
+.message-container-top {
+	height: 400px;
+}
+
+.message-container-top a {
+	color: #FFF;
+}
+</style>
+	<div class="site-wrapper">
+		<div class="container-fluid">
+			<div class="row remove-top-margin">
+				<div class="col-sm-4 col-md-2">
+					<div class="row">
+						<div class="nav-side-menu">
+							<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
+								data-target="#menu-content"></i>
+
+							<div class="menu-list">
+
+								<ul id="menu-content" class="menu-content collapse out">
+									<li><a href="#"> <i class="fa fa-cog"
+											aria-hidden="true"></i> Dashboard
+									</a></li>
+
+									<li data-toggle="collapse" data-target="#messaging"
+										class="collapsed"><a href="#"><i class="fa fa-weixin"
+											aria-hidden="true"></i> Messaging <span class="arrow"></span></a>
+									</li>
+									<ul class="sub-menu collapse" id="messaging">
+										<li>Member</li>
+									</ul>
+
+									<li><a href="#"> <i class="fa fa-users fa-lg"></i>
+											Members
+									</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-8 col-md-10">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 no-gutter">
+							<div class="col-md-6 no-gutter chart-size-2">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											Popular Products
+											<button type="button" class="panel-btn pull-right">
+												<span class="glyphicon glyphicon-remove panel-remove" aria-hidden="true"></span>
+											</button>
+										</div>
+										<div class="panel-body">
+											<div id="columnchart_material"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 no-gutter chart-size-2">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											Browsers
+											<button type="button" class="panel-btn pull-right">
+												<span class="glyphicon glyphicon-remove panel-remove" aria-hidden="true"></span>
+											</button>
+										</div>
+										<div class="panel-body">
+											<div id="piechart_3d"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 no-gutter">
+							<div class="col-md-4 no-gutter">
+								<div class="panel panel-default">
+										<div class="panel-heading">
+											Weekly Sales
+											<button type="button" class="panel-btn pull-right">
+												<span class="glyphicon glyphicon-remove panel-remove" aria-hidden="true"></span>
+											</button>
+										</div>
+										<div class="panel-body">
+											<div th:text="'$'+ ${WeeklyPaymentsValue.get(0)}" class="payment-money"></div>
+											<div th:text="${WeeklyPayments}" class="payment-numbers"></div>
+										</div>
+									</div>
+							</div>
+							<div class="col-md-4 no-gutter">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											Monthly Sales
+											<button type="button" class="panel-btn pull-right">
+												<span class="glyphicon glyphicon-remove panel-remove" aria-hidden="true"></span>
+											</button>
+										</div>
+										<div class="panel-body">
+											<div th:text="'$'+ ${MonthlyPaymentsValue.get(0)}" class="payment-money"></div>
+											<div th:text="${MonthlyPayments}" class="payment-numbers"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 no-gutter">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											Yearly Sales
+											<button type="button" class="panel-btn pull-right">
+												<span class="glyphicon glyphicon-remove panel-remove" aria-hidden="true"></span>
+											</button>
+										</div>
+										<div class="panel-body">
+											<div th:text="'$'+ ${YearlyPaymentsValue.get(0)}" class="payment-money"></div>
+											<div th:text="${YearlyPayments}" class="payment-numbers"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 col-md-12 border_box">
+					<h3 class="h3-header details" data-toggle="collapse"
+						data-target="#message-settings">
+						<span class="pull-left glyphicon glyphicon-plus"></span> Message
+						Settings
+					</h3>
+					<div class="col-xs-12 col-md-12 collapse" id="message-settings">
+						<form th:action="@{/message-settings}" method="POST">
+							<div class="col-xs-12 col-md-12">
+								<h4>Turn Messaging</h4>
+							</div>
+							<div class="col-xs-12 col-md-12">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="col-xs-12 col-md-12">
+										<label class="switch"><input type="checkbox" value="1"
+											data-toggle="toggle" name="status"
+											th:checked="${MessagingSettings[0].status}"></input> <span
+											class="slider round"></span> </label>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-12">
+									<div class="form-group">
+										<input class="btn btn-orange btn-lg" type="submit"
+											value="Save"></input>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-12 message-holder border_box">
+					<h3 class="h3-header details" data-toggle="collapse"
+						data-target="#messages">
+						<span class="pull-left glyphicon glyphicon-plus"></span> Current
+						Chats
+					</h3>
+					<div class="col-xs-12 col-md-12 collapse" id="messages">
+						<div
+							class="col-xs-12 col-sm-6 col-md-4 col-lg-4 message-container-top"
+							data-th-each="DistinctMessagesItem : ${DistinctMessages}">
+							<div th:replace="fragments/message_box :: adminbox"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-md-12 border_box">
+					<h3 class="h3-header details" data-toggle="collapse"
+						data-target="#account-settings">
+						<span class="pull-left glyphicon glyphicon-plus"></span> Account
+						Settings
+					</h3>
+					<div class="col-xs-12 col-md-12 collapse" id="account-settings">
+						<div class="table-responsive">
+							<table class="table table-striped"
+								th:if="${not #lists.isEmpty(activeSessions)}">
+								<thead>
+									<tr>
+										<th>Username</th>
+										<th>Enabled</th>
+										<th>Roles</th>
+										<th>Add Role</th>
+										<th>Save</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										th:if="${not #lists.isEmpty(activeSessionsItem.granted_authorities)}"
+										data-th-each="activeSessionsItem, xStat : ${activeSessions}">
+										<td><h3>
+												<span th:text="${activeSessionsItem.username}"></span>
+											</h3></td>
+										<td><label class="switch"><input type="checkbox"
+												value="1" data-toggle="toggle" name="enabled"
+												th:checked="${activeSessionsItem.enabled}"></input> <span
+												class="slider round"></span> </label></td>
+										<td><div class="roles_container">
+												<span
+													data-th-each="granted_authorities_item : ${activeSessionsItem.granted_authorities}">
+													<span class="btn-role"
+													th:if="${#lists.contains(Roles, granted_authorities_item)}"
+													th:text="${#strings.substringAfter(granted_authorities_item,'ROLE_')}"></span>
+												</span>
+											</div></td>
+										<td>
+											<div
+												th:with="RoleList=${#lists.toList(activeSessionsItem.granted_authorities)}">
+												<select class="form-control form-big-letters"
+													th:field="*{AllRoles}">
+													<option th:each="itemRole, iStat : ${AllRoles}"
+														th:if="${not #strings.contains(#strings.toString(#lists.toList(activeSessionsItem.granted_authorities)),#strings.toString(itemRole.role_list_role))}"
+														th:value="${itemRole.role_list_role}"
+														th:text="${#strings.substringAfter(itemRole.role_list_role,'ROLE_')}">Roles</option>
+												</select>
+											</div>
+										</td>
+										<td><div class="form-group">
+												<input class="btn btn-orange btn-lg" type="submit"
+													value="Save"></input>
+											</div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<button class="btn btn-default add-role">Add Role</button>
+						<div class="navbar navbar-default"
+							th:replace="fragments/popup :: add_role"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	var folder = [[@{/images/}]];
+	var chats = [];
+	
+	function is_jquery_here(){
+    setTimeout(function(){
+      if(window.jQuery){
+    	  $.ajax({
+				url : "/messages/get",
+				async : false,
+				data : {				
+				},
+				dataType : 'html',
+				success : function(dat) {
+					var json = JSON.parse(dat);
+    					//console.log("length " + json.length);
+    					var userMessage = "";
+    					for(var i = 0; i < json.length; i++){
+    						if (json[i].user == 2){
+    							userMessage = "<div class='row message-visitor'><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div id='msg-"+ json[i].message_id +"'>"+ json[i].message +"</div></div></div><div class='col-xs-4 col-sm-4'><div class='visitor-img'><span class='glyphicon glyphicon-user'></span></div></div></div>";
+    						}else{
+    							userMessage = "<div class='row message-company'><div class='col-xs-4 col-sm-4'><img src='"+ folder +"user/head1.png' class='img-responsive' alt='Image'></img></div><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div id='msg-"+ json[i].message_id +"'>"+ json[i].message +"</div></div></div></div>";
+    						}
+    						//console.log("id " + json[i].conversation_id);
+    						if($( '#message-content-' +  json[i].conversation_id + ' .row' ).length == 0){
+    							//$( "#message" ).data( "conversation_id", json[0].conversation_id );
+    							$( '#message-content-' +  json[i].conversation_id).html( userMessage );
+    						}else{
+    							$( '#message-content-' +  json[i].conversation_id).last().append( userMessage );
+    						}
+    					}
+    				
+				}
+			});
+    	    $(".panel-body").animate({ scrollTop: $(".panel-body").prop("scrollHeight")}, 1000);
+    	  	
+    	  	function updateChatCollection (chats, chat) {
+			    if (chats.indexOf(chat) === -1) {
+			    	chats.push(chat);
+			    } else if (chats.indexOf(chat) > -1) {
+			        
+			    }
+			}
+    	  	
+    	  	function removeChatWindows(updatedChats){
+    	  		var CurrentChats = [];
+    		  	$('.send').each(function(i, obj) {
+
+    			  CurrentChats.push($(this).attr('id'));
+    			 
+    			});
+    		  	CurrentChats = CurrentChats.sort();
+    		  	updatedChats = updatedChats.sort();
+    		  	
+    		  	var array1 = updatedChats.sort(); //[1, 2, 3, 4, 5, 6, 7, 8, 9];
+    		  	var array2 = CurrentChats.sort(); //[1, 2, 3, 4, 5, 6, 7, 8, 9];
+    		  	//console.log(array1 + ':' + array2);
+    		  	var diff = [];
+    		  	var i = 0;
+    		  	jQuery.grep(array2, function(el) {
+    		  	    if (jQuery.inArray(parseInt(el), array1) == -1) diff.push(el);
+    		  	    i++;
+    		  	});
+    		  	//console.log('diff ' + diff);
+    		  	for(var i = 0; i <= diff.length; i++){
+    		  		$( "#message-container-"+ diff[i]).closest(".message-container-top").hide("slow");
+    		  	}
+    	  	}
+    	  
+    	  	function updateChat(){
+    	  		var chats = [];
+    	  		
+				var singles = [];
+    	  		
+	    		  $.ajax({
+	    				url : "/messages/get",
+	    				async : false,
+	    				data : {
+						},
+	    				dataType : 'html',
+	    				success : function(dat) {
+	    					var json = JSON.parse(dat);
+
+	    					var userMessage = "";
+    						
+							for(var i = 0; i < json.length; i++){
+
+	    						updateChatCollection (chats, json[i].conversation_id);
+	    						
+	    						if (json[i].user == 2){
+	    							userMessage = "<div class='row message-visitor'><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div id='msg-"+ json[i].message_id +"'>"+ json[i].message +"</div></div></div><div class='col-xs-4 col-sm-4'><div class='visitor-img'><span class='glyphicon glyphicon-user'></span></div></div></div>";
+	    						}else{
+	    							userMessage = "<div class='row message-company'><div class='col-xs-4 col-sm-4'><img src='"+ folder +"user/head1.png' class='img-responsive' alt='Image'></img></div><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div id='msg-"+ json[i].message_id +"'>"+ json[i].message +"</div></div></div></div>";
+	    						}
+
+	    						if($( '#message-content-' +  json[i].conversation_id ).length == 0){
+	    							var creatDiv ="<div class='col-xs-1 col-sm-6 col-md-4 col-lg-4 message-container-top'><div class='row'><div class='message-box'><div class='col-sm-12'><div class='panel panel-primary'><div class='panel-heading'>"+ json[i].conversation_id +"<span style='cursor: pointer;' class='pull-right glyphicon glyphicon-plus'></span></div><div class='panel-body message-content' id='message-content-" + json[i].conversation_id + "'></div><div class='panel-footer' id='message-footer'><div class='row'><div class='col-sm-12'><div class='input-group'><input type='text' class='form-control message' placeholder='Message' id='message-"+ json[i].conversation_id +"' data-conversation_id='"+ json[i].conversation_id +"'></input><div class='input-group-btn'><button class='btn btn-default send' type='submit' id='"+ json[i].conversation_id +"'>Send</button></div></div></div></div></div></div></div></div></div></div></div>"
+	    							$( '.message-holder').last().append( creatDiv );
+	    						}
+	    						
+	    						if($( '#msg-' +  json[i].message_id ).length == 0){
+		    						if($( '#message-content-' +  json[i].conversation_id + ' .row' ).length == 0){
+		    							//$( "#message" ).data( "conversation_id", json[0].conversation_id );
+		    							$( '#message-content-' +  json[i].conversation_id).html( userMessage );
+		    						}else{
+		    							$( '#message-content-' +  json[i].conversation_id).last().append( userMessage );
+		    						}
+		    						$(".panel-body").animate({ scrollTop: $(".panel-body").prop("scrollHeight")}, 1000);
+	    						}
+	    					}
+	    				}
+	    			});
+
+	    		  removeChatWindows(chats);	
+
+    	  	}
+    	  	if ([[${MessagingSettings[0].status}]] == 1){
+    	  	setInterval(updateChat, 10000);
+    	  	}
+    	  
+    	  	$('body').on('click', '.jquery-form .close', function() {
+    	  		$('.overlay-cover').hide();
+    	  	});
+    	  	
+    	  	$("#account-settings .add-role").on("click", function() {
+    	  	
+    	  		if($('.overlay-cover').length == 0){
+    	  			vidWidth =  $(window).width() * .90;
+    	  			if (vidWidth > 600){
+    	  				vidWidth = 600;
+    	  			}
+    	  			vidHeight = vidWidth * .5625;
+    	  		}
+
+    	  		$(".video-holder").width(vidWidth);
+    	  		$(".video-holder").height(vidHeight);
+    	  		$(".overlay-cover").show();
+    	  		
+    	  	});
+
+    	  	$(".message-container .panel-heading").on("click", function() {
+    		  //console.log(" click details");
+    		  $("span", this).toggleClass("glyphicon-plus glyphicon-minus");
+    		});
+    		//$("#message-footer .send").on("click", function() {
+    		$('.message-holder').on('click', '#message-footer .send', function() {
+    		  
+    		  //console.log("id " + $(this).attr('id'));
+    		  $(this).attr('id');
+    		  //console.log("message " +  $("#message-footer #message").val() + " message id " +  $( "#message" ).data( "conversation_id" ));
+    		  var conversation_id = $(this).attr('id');
+    		  var message = $("#message-footer #message-" + $(this).attr('id')).val();
+    		  
+    		  if (message != ""){
+	    		  $("#message-footer #message-" + $(this).attr('id')).val("");
+	    		  $(".message-content").html("");
+	    		  $.ajax({
+	    				url : "/messages/update",
+	    				async : false,
+	    				data : {
+	    					message : message,
+	    					conversation_id : conversation_id				
+	    				},
+	    				dataType : 'html',
+	    				success : function(dat) {
+	    					var json = JSON.parse(dat);
+	    					//console.log(json);
+	    					//console.log($( ".panel-body .row" ).length + " " + json.length);
+	    					var userMessage = "";
+							for(var i = 0; i < json.length; i++){
+	    						
+	    						//singles.push(json[i].conversation_id);
+	    						updateChatCollection (chats, json[i].conversation_id);
+	    						//console.log("id " + json[i].conversation_id);
+	    						
+	    						if (json[i].user == 2){
+	    							userMessage = "<div class='row message-visitor'><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div id='msg-"+ json[i].message_id +"'>"+ json[i].message +"</div></div></div><div class='col-xs-4 col-sm-4'><div class='visitor-img'><span class='glyphicon glyphicon-user'></span></div></div></div>";
+	    						}else{
+	    							userMessage = "<div class='row message-company'><div class='col-xs-4 col-sm-4'><img src='"+ folder +"user/head1.png' class='img-responsive' alt='Image'></img></div><div class='col-xs-8 col-sm-8'><div class='message-content'><div class='arrow' style='top: 50%;'></div><div id='msg-"+ json[i].message_id +"'>"+ json[i].message +"</div></div></div></div>";
+	    						}
+
+	    						if($( '#message-content-' +  json[i].conversation_id ).length == 0){
+	    							//console.log("does not exist working" +  json[i].conversation_id);
+	    							var creatDiv ="<div class='col-xs-1 col-sm-6 col-md-4 col-lg-4 message-container-top'><div class='row'><div class='message-box'><div class='col-sm-12'><div class='panel panel-primary'><div class='panel-heading'>"+ json[i].conversation_id +"<span style='cursor: pointer;' class='pull-right glyphicon glyphicon-plus'></span></div><div class='panel-body message-content' id='message-content-" + json[i].conversation_id + "'></div><div class='panel-footer' id='message-footer'><div class='row'><div class='col-sm-12'><div class='input-group'><input type='text' class='form-control message' placeholder='Message' id='message-"+ json[i].conversation_id +"' data-conversation_id='"+ json[i].conversation_id +"'></input><div class='input-group-btn'><button class='btn btn-default send' type='submit' id='"+ json[i].conversation_id +"'>Send</button></div></div></div></div></div></div></div></div></div></div></div>"
+	    							//$( '.message-holder').html( creatDiv );
+	    							$( '.message-holder').last().append( creatDiv );
+	    						}
+	    						//console.log("id msg " + $( '#msg-' +  json[i].message_id ).length);
+	    						if($( '#msg-' +  json[i].message_id ).length == 0){
+		    						if($( '#message-content-' +  json[i].conversation_id + ' .row' ).length == 0){
+		    							//console.log("insert message");
+		    							$( '#message-content-' +  json[i].conversation_id).html( userMessage );
+		    						}else{
+		    							//console.log("append message");
+		    							$( '#message-content-' +  json[i].conversation_id).last().append( userMessage );
+		    						}
+	    						}
+	    					}
+	    				}
+	    			});
+	    		  $(".panel-body").animate({ scrollTop: $(".panel-body").prop("scrollHeight")}, 1000);
+    		  }
+    		  //$("#message-footer #message").value();
+    		});
+    		
+    	  $( document ).ready(function() {
+    	
+    	  var chartWidth = $("chart-size-2").width();
+
+  	      google.charts.load("current", {packages:['corechart', 'bar', 'line']});
+  	      google.charts.setOnLoadCallback(drawChart);
+  	      function drawChart() {
+  	        var data = google.visualization.arrayToDataTable([
+  	          ['Device', 'Type'],
+  	          ['Macs', [[${Macs}]]],
+  	          ['Windows', [[${Windows}]]],
+  	          ['Ipad', [[${Ipad}]]],
+  	          ['Android', [[${Android}]]]
+  	        ]);
+
+  	        var options = {
+  	          title: null,
+  	          pieHole: 0.1,
+  	          legend: {
+  	        	  position: 'right',
+  	        	  textStyle: {
+  	              fontSize: '14px',
+  	        	  },
+  	          }, 
+  	        };
+
+  	        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+  	        chart.draw(data, options);
+  	      }
+
+  	      google.charts.setOnLoadCallback(drawColumnChart);
+  	      
+  	      var chartPurchase = [[${chartPurchase}]];
+  	      var chartNames = [];
+  	      var chartData = [];
+  	      chartNames.push('Product');
+  	      chartData.push('2017');
+  	      for(var i = 0; i < chartPurchase.length; i++){
+  	    	chartNames.push(chartPurchase[i].product_name);
+  	    	chartData.push(chartPurchase[i].count);
+  	      }
+  	      
+		  //console.log(chartPurchase);
+		  //console.log(chartNames);
+		  //console.log(chartData);
+		  
+  	      function drawColumnChart() {
+  	        var columnChartData = google.visualization.arrayToDataTable([
+  	        	chartNames,
+  	        	chartData
+  	        ]);
+
+  	        var columnChartOptions = {
+  	          chart: {
+  	            title: null,
+  	            subtitle: null,
+  	          },
+  	          legend: {
+  	        	  position: 'right',
+  	        	  textStyle: {
+  	              fontSize: '10px',
+  	        	  },
+  	          }, 
+  	        };
+
+  	        var columnChart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+  	        columnChart.draw(columnChartData, columnChartOptions);
+  	      }
+
+  		   google.charts.setOnLoadCallback(drawLineChart);
+
+  		    function drawLineChart() {
+
+  		      var LineData = new google.visualization.DataTable();
+  		      LineData.addColumn('number', '');
+  		      LineData.addColumn('number', 'Sales');
+
+  		      LineData.addRows([
+  		        [1,  37.8],
+  		        [2,  30.9]
+  		      ]);
+
+  		      var LineOptions = {
+  		        chart: {
+  		          title: null
+  		        },
+  		        legend: {
+  	        	  position: 'bottom',
+  	        	  textStyle: {
+  	              fontSize: '10px',
+  	        	  },
+  	            }, 
+  		        width: 300,
+  		        height: 200,
+  		        axes: {
+  		          x: {
+  		            0: {side: 'bottom'}
+  		          }
+  		        }
+  		      };
+
+  		      //var LineChart = new google.charts.Line(document.getElementById('line_top_x'));
+
+  		      //LineChart.draw(LineData, LineOptions);
+  		    }
+  		    document.getElementById('columnchart_material').width = chartWidth;
+  	        document.getElementById('columnchart_material').height = chartWidth/3;
+  	        document.getElementById('piechart_3d').width = chartWidth*2;
+  	        document.getElementById('piechart_3d').height = chartWidth*2/3;
+  	        
+  	      	$( '.panel-remove' ).click(function() {
+  	    	  $(this).parent().parent().parent().fadeOut(300);
+  	    	});
+
+			});
+      } else {
+        is_jquery_here();
+      }
+		    }, 300);
+		}
+		is_jquery_here();
+			//console.log("load ad javascript");
+		    //end of slider
+		    /*]]>*/
+		</script>
+
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

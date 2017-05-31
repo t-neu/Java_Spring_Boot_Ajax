@@ -1,0 +1,103 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 slider-width product-slider"
+	th:fragment="product_slider">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 border_box">
+	<div class="slider-holder" id="project-holder">
+		<div class="slider-container">
+		<div class="item" data-th-each="product : ${products}">
+			<div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 slider-xs">
+				<div class="thumbnail">
+				<a th:href="@{'/product/' + ${product.product_id}}"><img th:src="@{'/images/' + ${product.product_img}}"
+					class="img-responsive" alt="Responsive image" /></a>
+					<div class="caption">
+						<p>
+							<a th:href="@{'/product/' + ${product.product_id}}" th:text="${product.product_name}">Syphilis</a>
+						</p>
+						<div class="rating">
+							<span></span><span data-char="&#9733;">&#9733;</span><span
+								data-char="&#9733;">&#9733;</span><span data-char="&#9733;">&#9733;</span><span
+								data-char="&#9733;">&#9733;</span><span data-char="&#9733;">&#9733;</span>
+						</div>
+						<div class="rating-text">Rating: 5/5</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+		<!--  Example item end -->
+		<div class="left carousel-control" data-slide="prev"><i
+			class="glyphicon glyphicon-chevron-left"></i></div> <div
+			class="right carousel-control" data-slide="next"><i
+			class="glyphicon glyphicon-chevron-right"></i></div>
+	</div>
+	</div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 remove-padding slider-width product-slider"
+	th:fragment="product_slider_np">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 border_box">
+	<div class="slider-holder">
+		<div class="slider-container">
+		<div class="item" data-th-each="product : ${products}">
+			<div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 slider-xs">
+				<div class="thumbnail">
+				<a th:href="@{'/product/' + ${product.product_id}}"><img th:src="@{'/images/' + ${product.product_img}}"
+					class="img-responsive" alt="Responsive image" /></a>
+					<div class="caption">
+						<p>
+							<a th:href="@{'/product/' + ${product.product_id}}" th:text="${product.product_name}">Syphilis</a>
+						</p>
+						<div class="rating">
+							<span></span><span data-char="&#9733;">&#9733;</span><span
+								data-char="&#9733;">&#9733;</span><span data-char="&#9733;">&#9733;</span><span
+								data-char="&#9733;">&#9733;</span><span data-char="&#9733;">&#9733;</span>
+						</div>
+						<div class="rating-text">Rating: 5/5</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+		<!--  Example item end -->
+		<div class="left carousel-control" data-slide="prev"><i
+			class="glyphicon glyphicon-chevron-left"></i></div> <div
+			class="right carousel-control" data-slide="next"><i
+			class="glyphicon glyphicon-chevron-right"></i></div>
+	</div>
+	</div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 remove-padding slider-width product-slider"
+	th:fragment="product_slider_box_np">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 border_box">
+	<div class="slider-holder">
+		<div class="slider-container">
+		<div class="item" data-th-each="product : ${products}">
+			<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 slider-xs">
+				<div class="thumbnail">
+				<a th:href="@{'/product/' + ${product.product_id}}"><img th:src="@{'/images/' + ${product.product_img}}"
+					class="img-responsive" alt="Responsive image" /></a>
+					<div class="caption">
+						<p>
+							<a th:href="@{'/product/' + ${product.product_id}}" th:text="${product.product_name}">Syphilis</a>
+						</p>
+						<div class="rating">
+							<span></span><span data-char="&#9733;">&#9733;</span><span
+								data-char="&#9733;">&#9733;</span><span data-char="&#9733;">&#9733;</span><span
+								data-char="&#9733;">&#9733;</span><span data-char="&#9733;">&#9733;</span>
+						</div>
+						<div class="rating-text">Rating: 5/5</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+		<!--  Example item end -->
+		<div class="left carousel-control" data-slide="prev"><i
+			class="glyphicon glyphicon-chevron-left"></i></div> <div
+			class="right carousel-control" data-slide="next"><i
+			class="glyphicon glyphicon-chevron-right"></i></div>
+	</div>
+	</div>
+</div>
+</html>
+

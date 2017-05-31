@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<img th:src="@{/images/555886a6b6ed4418ac69efdd110fe57f.jpg}"
+					src="../images/555886a6b6ed4418ac69efdd110fe57f.jpg"
+					class="img-responsive center-block flex-img" alt="Responsive image" />
+			</div>
+			<!--
+			<div class="col-xs-12 col-md-12">
+				<div class="input-group" id="search-group">
+					<input type="hidden" name="search_param" value="zip"
+						id="search_param"> </input> <input type="text"
+						class="form-control" name="search" id="search"
+						th:value="${search}" placeholder="Search term..."></input> <span
+						class="input-group-btn">
+						<button class="btn btn-success" id="search-btn" type="submit">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+			-->
+		</div>
+	</div>
+	<div class="container" th:if="${action == null}">
+
+		<div th:switch="${action}">
+			<h3 th:case="'search'" th:text="'Searched for ' + ${term}"></h3>
+			<p class="alert alert-success" th:case="'new'" th:text="'New User'"></p>
+			<p class="alert alert-error" th:case="'error'"
+				th:text="'Unable to find the company.'"></p>
+			<p th:case="*"></p>
+		</div>
+		<div th:if="${company.empty}">
+			<div>No Results</div>
+		</div>
+	</div>
+	<div class="container">
+			<div class="col-xs-12 col-md-12">
+				<div class="col-xs-6 col-md-2 thumbnail remove-radius remove-margin-bottom"
+					data-th-each="companyItem : ${company}">
+					<div class="s-address"><span th:text="${companyItem.address}"></span><br/><span th:text="${companyItem.city}"></span>, <span th:text="${companyItem.state}"></span> <span th:text="${companyItem.zipcode}"></span></div>
+					<a href="#" data-th-href="@{'/company/'+ ${companyItem.id}}"> <img
+						th:if="${companyItem.logo} == 'default-logo.png'"
+						th:src="@{/images/default-logo.png}"
+						src="../images/default-logo.png"
+						class="img-responsive" alt="Responsive image" /> <img
+						th:if="${companyItem.logo} != 'default-logo.png'"
+						th:src="@{${url} + ${companyItem.logo}}"
+						src="${url} + ${companyItem.logo}}"
+						class="img-responsive" alt="Responsive image" /></a>
+				</div>
+			</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<nav aria-label="Page navigation">
+			<ul class="pagination">
+				<li class="gcolor_text" th:if="${prev} != 0"><a
+					data-th-href="@{'/list/?page='+ ${prev}}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li
+					th:class="${pageNum == current_page}? 'active gcolor' : 'gcolor_text'"
+					data-th-each="pageNum : ${pageNumbers}"><a
+					data-th-href="@{'/list/?page='+ ${pageNum}}"
+					data-th-text="${pageNum}"></a></li>
+				<li class="gcolor_text" th:if="${next} &lt; ${last_page}"><a
+					data-th-href="@{'/list/?page='+ ${next}}" aria-label="Next"> <span
+						aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
+		</div>
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<div class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+					<div class="col-xs-12 col-sm-12 col-md-12 site_sea" style="text-align:center;"></div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align:center;">Quick Registration</h4>
+							<img th:src="@{/images/registration.svg}"
+							src="../images/registration.svg"
+							class="img-responsive center-block sm-img" alt="Responsive image" />
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align:center;">Choose a Location</h4>
+							<img th:src="@{/images/location.svg}" src="../images/location.svg"
+							class="img-responsive center-block sm-img" alt="Responsive image" />
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea" style="text-align:center;">Get Results</h4>
+							<img th:src="@{/images/verified.svg}" src="../images/verified.svg"
+							class="img-responsive center-block sm-img-80" alt="Responsive image" />
+					</div>
+				</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+	<script src="../js/custom.js" th:href="@{/js/custom.js}"></script>
+</body>
+</html>

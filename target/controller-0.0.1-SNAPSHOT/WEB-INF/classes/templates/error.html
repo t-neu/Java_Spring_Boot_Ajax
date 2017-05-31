@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<head th:with="pageTitle = Error">
+	<title th:text="${pageTitle}">Template title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico"
+		th:href="@{/images/favicon.ico}" />
+	<link type="text/css" rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
+	<link type="text/css" rel="stylesheet" href="../css/style.css"
+		th:href="@{/css/style.css}" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" />
+</head>
+<body>
+	<nav class="navbar-fixed-top
+	navbar navbar-default"  th:with="pageTitle = Error" th:fragment="header" >
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{'/'}" href="/"></a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<!--<li>
+						<form class="form-inline float-xs-left">
+							<div class="input-group">
+								<input
+									type="tel" class="form-control" placeholder="Enter Zip" maxlength="5" size="8" id="search-nav"
+									aria-describedby="basic-addon1"></input><span class="input-group-addon glyphicon glyphicon-search" id="search-btn-nav"></span> 
+							</div>
+						</form>
+					</li> -->
+					<li th:class="${#strings.contains(pageTitle,'Company List')} ? active : ''"><a th:href="@{'/map/'}">Map</a></li>
+					<li th:class="${#strings.equals(pageTitle,'How It Works')} ? active : ''"><a
+						th:href="@{'/howItWorks/'}" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false">How It Works<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li th:class="${#strings.contains(pageTitle,'Frequently Asked Questions')} ? active : ''"><a th:href="@{'/faq'}">FAQ</a></li>
+							<li th:class="${#strings.contains(pageTitle,'Payment Details')} ? active : ''"><a th:href="@{'/payment-details'}">Payment Details</a></li>
+							<li th:class="${#strings.contains(pageTitle,'How It Works')} ? active : ''"><a th:href="@{'/howItWorks'}">How It Works</a></li>
+						</ul>
+					</li>
+					<li th:class="${#strings.contains(pageTitle,'Login')} ? active : ''" sec:authorize="isAnonymous()"><a th:href="@{'/login'}">Login</a></li>
+					<li th:class="${#strings.contains(pageTitle,'Sign Up')} ? active : ''" sec:authorize="isAnonymous()"><a th:href="@{'/signup'}">Sign Up</a></li>
+					<li class="dropdown" sec:authorize="isAuthenticated()"><a
+						href="#" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false"
+						th:inline="text"> <span class="glyphicon glyphicon-user"
+							aria-hidden="true"></span> [[${#httpServletRequest.remoteUser}]]<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li th:class="${#strings.contains(pageTitle,'Purchase')} ? active : ''"><a th:href="@{'/buy'}">Buy Token</a></li>
+							<li th:class="${#strings.contains(pageTitle,'Profile')} ? active : ''"><a th:href="@{'/profile'}">Profile</a></li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')" th:class="${#strings.contains(pageTitle,'Create Company')} ? active : ''"><a th:href="@{'/company/create'}">Create Company</a></li>
+							<!-- <li th:class="${#strings.contains(pageTitle,'Company List')} ? active : ''"><a th:href="@{'/list/'}">Locations</a></li>
+							<li th:class="${#strings.contains(pageTitle,'Map')} ? active : ''"><a th:href="@{'/map'}">Map</a></li> -->
+							<li role="separator" class="divider"></li>
+							<li><form th:action="@{/appLogout}" method="POST">
+									<input class="logout" type="submit" value="Logout" />
+								</form></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<div class="container">
+		<div class="row">
+		<!--<h1 th:text="${errorCode}">500</h1>
+		<p th:text="${errorMessage}">java.lang.NullPointerException</p>-->
+		<img th:src="@{/images/error_male_doc.svg}" src="../images/error_male_doc.svg"
+			class="img-responsive error-img center-block" alt="Responsive image" />
+			</div>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<div class="col-xs-12 col-sm-3 col-md-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+				<h2>Search</h2>
+				<div class="input-group" id="search-group">
+								<input type="hidden" name="search_param" value="zip"
+									id="search_param"/> <input type="text"
+									class="form-control" name="search" id="search"
+									th:value="${search}" placeholder="Enter a City, State or Zipcode"/>
+								<span class="input-group-btn">
+									<button class="btn btn-orange" id="search-btn" type="submit">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+				</div>
+				<a th:href="@{'/'}"><img th:src="@{/images/logo_w.svg}" src="../images/logo_w.svg" class="img-responsive center-block sm-ad bottom-logo" alt="Responsive image" /></a>
+			</div>
+			<div class="col-xs-12 col-sm-3 col-md-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+				<h2>Quick Links</h2>
+					<ul>
+					  <li><a th:href="@{'/map'}">Map</a></li>
+					  <li sec:authorize="isAuthenticated()"><a th:href="@{'/buy'}">Purchase</a></li>
+					  <li sec:authorize="isAuthenticated()"><a th:href="@{'/profile'}">Profile</a></li>
+					  <li sec:authorize="isAnonymous()"><a th:href="@{'/login'}">Login</a></li>
+					  <li sec:authorize="isAnonymous()"><a th:href="@{'/signup'}">Sign up</a></li>
+					</ul>
+				</div>
+			</div>
+		<div class="col-xs-12 col-sm-3 col-md-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+						<h2>How It Works</h2>
+							<ul>
+							  <li><a th:href="@{'/faq'}">Frequently Asked Questions</a></li>
+							  <li><a th:href="@{'/payment-details'}">Payments Details</a></li>
+							  <li><a th:href="@{'/howItWorks'}">How It Works</a></li>
+							</ul>
+				</div>
+		</div>
+		<div class="col-xs-12 col-sm-3 col-md-3">
+			<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+						<h2>Contact</h2>
+						<p>Do you have any questions or need help? Contact us today!</p>
+						<a href="mailto:support@genitalgenie.com?Subject=Hello%20again" target="_top"><span class="glyphicon glyphicon-envelope"></span></a>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 copyright">
+				&copy; 2016 GenitalGenie.com All Right Reserved
+		</div>
+			<script
+				src="https://code.jquery.com/jquery-1.9.1.min.js"
+				th:href="@{https://code.jquery.com/jquery-1.9.1.min.js}"></script>
+			<script
+				src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+				th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+			<script src="/js/bootstrap-datepicker.min.js" th:href="@{/js/bootstrap-datepicker.min.js}"></script>
+			<script src="/js/custom.js" th:href="@{/js/custom.js}"></script>
+			<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.js"
+		th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.js}"></script>
+		</div>
+	</div>
+</body>
+</html>

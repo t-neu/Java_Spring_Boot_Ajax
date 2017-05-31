@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="row">
+			<div th:switch="${action}">
+				<p class="alert alert-success" th:case="'success'"
+					th:text="${response}"></p>
+				<p class="alert alert-success" th:case="'failed'"
+					th:text="${response}"></p>
+				<p th:case="*"></p>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 remove-padding border_box map-holder"
+			style="width: 100%;">
+			<div id="map" class="col-xs-12 col-sm-12 col-md-12 remove-padding"
+				style="width: 100%; height: 400px;"></div>
+			<div id="form" class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+				<form action="#" th:action="@{/addlocation/create}" th:object="${addCompanyForm}"
+			method="post">
+				<div class="col-xs-12 col-sm-8 col-md-8 remove-padding">
+				<div class="form-group">
+				<h3>Company Details</h3>
+				<input type="text"
+						class="form-control" placeholder="company_id" name="company_id" id="company_id" th:value="${company.id}"/>
+				<input type="text"
+						class="form-control" placeholder="companyname" name="companyname" id="companyname"/>
+				<input type="text"
+						class="form-control" placeholder="address" name="address" id="address"/>
+				<input type="text"
+						class="form-control" placeholder="city" name="city" id="city"/>
+				<input type="text"
+						class="form-control" placeholder="state" name="state" id="state"/>
+				<input type="text"
+						class="form-control" placeholder="zipcode" name="zipcode" id="zipcode"/>
+				<input type="text"
+						class="form-control" placeholder="country" name="country" id="country"/>
+				<input type="text"
+						class="form-control" placeholder="phone" name="phone" id="phone"/>
+				<input type="text"
+						class="form-control" placeholder="Latitude" name="latitude" id="latitude"/>
+				<input type="text"
+						class="form-control" placeholder="longitude" name="longitude" id="longitude"/>
+				<input type="hidden"
+					class="form-control form-big-letters" name="username" th:value="${#httpServletRequest.remoteUser}"/>
+				</div>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4 remove-padding">
+				<div class="form-group">
+					<h3>Hours</h3>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Monday" id="Monday" value="Monday"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="MondayOt" id="MondayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="MondayCt" id="MondayCt"/>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Tuesday" id="Tuesday" value="Tuesday"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="TuesdayOt" id="TuesdayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="TuesdayCt" id="TuesdayCt"/>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Wednesday" id="Wednesday" value="Wednesday" />
+					<input type="text"
+						class="form-control" placeholder="Hours" name="WednesdayOt" id="WednesdayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="WednesdayCt" id="WednesdayCt"/>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Thursday" id="Thursday" value="Thursday"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="ThursdayOt" id="ThursdayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="ThursdayCt" id="ThursdayCt"/>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Friday" id="Friday" value="Friday"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="FridayOt" id="FridayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="FridayCt" id="FridayCt"/>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Saturday" id="Saturday" value="Saturday"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="SaturdayOt" id="SaturdayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="SaturdayCt" id="SaturdayCt"/>
+					<input type="text"
+						class="form-control" placeholder="Day of week" name="Sunday" id="Sunday" value="Sunday"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="SundayOt" id="SundayOt"/>
+					<input type="text"
+						class="form-control" placeholder="Hours" name="SundayCt" id="SundayCt"/>
+				</div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-orange login-btn" type="submit">Create a Company</button>
+				</div>
+				</form>
+			</div>
+			
+		</div>
+			</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    	
+	      var company = [[${company}]];
+	      console.log(company);
+		  var placeIDresult;
+		  
+		  var companyLatitude = parseFloat(company.latitude);
+		  var companyLongitude = parseFloat(company.longitude);
+		  
+		  function initMap() {
+		  var map = new google.maps.Map(document.getElementById('map'), {
+		    zoom: 8,
+		    center: {lat: companyLatitude, lng: companyLongitude}
+		  });
+
+		  var geocoder = new google.maps.Geocoder();
+		  geocodeAddress(geocoder, map);
+		
+		  waitForElement();
+		
+		  function waitForElement(){
+		    console.log("waitForElement " + placeIDresult);
+		    if(typeof placeIDresult !== "undefined"){
+		        //variable exists, do what you want
+		        var infowindow = new google.maps.InfoWindow();
+		    
+		        var service = new google.maps.places.PlacesService(map);
+		
+		        service.getDetails({
+		          placeId: placeIDresult
+		        }, function(place, status) {
+		          if (status === google.maps.places.PlacesServiceStatus.OK) {
+		            var marker = new google.maps.Marker({
+		              map: map,
+		              position: place.geometry.location
+		            });
+		
+		            if(place.permanently_closed === undefined){
+		                console.log("open");
+		            }else{
+		                console.log("permanently_closed");
+		            }
+		            //console.log("place.name " + place.name);
+		            console.log("place.formatted_address " + place.formatted_address);
+		
+		            var phNo = place.formatted_phone_number.replace(/\D+/g, '');
+		
+		            var splitAddress;
+		            splitAddress = place.formatted_address.split(","); 
+		            console.log("splitAddress " + splitAddress);
+		            console.log("---------=---------");
+		            console.log("address " + splitAddress[0].trim());
+		            console.log("city " + splitAddress[1].trim());
+		            var stateZip;
+		            stateZip = splitAddress[2].trim().split(" ");
+		            console.log("state " + stateZip[0]);
+		            console.log("zip " + stateZip[1]);
+		            console.log("country " + splitAddress[3].trim());
+		            console.log("place.name " + place.name);
+		            console.log("phone number " + phNo);
+		            
+		            document.getElementById("address").value = splitAddress[0].trim();
+		            document.getElementById("city").value = splitAddress[1].trim();
+		            document.getElementById("state").value = stateZip[0];
+		            document.getElementById("zipcode").value = stateZip[1];
+		            document.getElementById("country").value = splitAddress[3].trim();
+		            document.getElementById("companyname").value = place.name;
+		            document.getElementById("phone").value = phNo;
+		            document.getElementById("latitude").value = place.geometry.location.lat();
+		            document.getElementById("longitude").value = place.geometry.location.lng();
+		
+		            for(var i = 0; i <= 6; i++){
+		              //console.log("place.formatted_phone_number " + place.opening_hours.weekday_text[i]);
+		              
+		              var string = place.opening_hours.weekday_text[i],
+		              regex = /\b[A-Z]{2,}\b/g;
+		
+		              var modified = string.replace(regex, function(match) {
+		                  return match.toLowerCase();
+		              });
+		              var formatTime = modified.trim().split(" ");
+		
+		              var dayOfWeek = formatTime[0].replace(/:/g,'');
+		              var ot = formatTime[1] + formatTime[2];
+		              var ct = formatTime[4] + formatTime[5];
+		              console.log("day " + dayOfWeek);
+		              
+		              document.getElementById(dayOfWeek).value = dayOfWeek;
+		              
+		              
+		              if(ot == "Closedundefined"){
+		                ot = "Closed";
+		                ct = "Closed";
+		                console.log("ot " + ot);
+		                console.log("ct " + ct);
+		              }else{
+		                console.log("ot " + ot);
+		                console.log("ct " + ct);
+		              }
+		              //ot = ot.replace("-","am");
+		              //ct = ct.replace(/\,/g,"");
+		              //ct = ct.replace("am","");
+		              if(ot.indexOf("-") !== -1){
+		            	  console.log("contains a dash");
+		              }
+		              document.getElementById(dayOfWeek+"Ot").value = ot;
+		              document.getElementById(dayOfWeek+"Ct").value = ct.replace(/\,/g,"");
+		            }
+		
+		            console.log("Lat " + place.geometry.location.lat());
+		            console.log("Long " + place.geometry.location.lng());
+		
+		          }
+		        });
+		    }
+		    else{
+		        setTimeout(waitForElement, 250);
+		    }
+		    }
+		}
+		
+		function geocodeAddress(geocoder, resultsMap) {
+		  //var street = "2090 Northeast Wyatt Court #201";
+		  var street = "Quest Diagnostics";
+		  var zipcode = company.address + ", " + company.zipcode; //"97701";
+		  
+		  //alert(zipcode);
+		  var address = street + ", " + zipcode;
+		  //var address = document.getElementById('address').value;
+		  geocoder.geocode({'address': address}, function(results, status) {
+		    if (status === google.maps.GeocoderStatus.OK) {
+		      resultsMap.setCenter(results[0].geometry.location);
+		      console.log("place_id " + results[0].place_id);
+		      placeIDresult = results[0].place_id;
+		      var marker = new google.maps.Marker({
+		        map: resultsMap,
+		        position: results[0].geometry.location
+		      });
+		    } else {
+		      alert('Geocode was not successful for the following reason: ' + status);
+		    }
+		  });
+		}
+		
+		
+		$(document).ready(function() {
+		/*
+		var runOnce = true;
+			  setTimeout(function() {
+				  if(runOnce = true){
+					  runOnce = false;
+					  $( ".btn-orange.login-btn" ).trigger( "click" );
+				  }				  
+			  }, getRandomArbitrary(4000, 7000));
+			  
+		*/	  
+		});
+		
+		function getRandomArbitrary(min, max) {
+		    return Math.floor(Math.random() * (max - min) + min);
+		}
+		
+
+	    /*]]>*/
+		</script>
+		<!--  AIzaSyA46-B4auP9n87XHbzJuFHH8iQwxU3uL24  -->
+		
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChzrAxZCXZaLvVG6VtcP59LIHrCBfMsRs&amp;libraries=places&amp;callback=initMap"> </script>
+</body>
+</html>

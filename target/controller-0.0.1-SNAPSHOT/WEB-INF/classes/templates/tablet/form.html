@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<h3>Add User</h3>
+		<!-- Div login visibility condition -->
+		<form action="#" th:action="@{/add}" th:object="${personForm}"
+			method="post">
+			<div>
+				<div class="form-group">
+					<label for="Name">Name</label> <input type="text"
+						class="form-control" th:field="*{name}" />
+					<div class="alert alert-danger form-error" role="alert"
+						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name
+						Error</div>
+				</div>
+				<div class="form-group">
+					<label for="Age">Age</label> <input type="text"
+						class="form-control" th:field="*{age}" />
+					<div class="alert alert-danger form-error" role="alert"
+						th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age
+						Error</div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default" type="submit">Submit</button>
+				</div>
+			</div>
+		</form>
+		<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+	</div>
+</body>
+</html>

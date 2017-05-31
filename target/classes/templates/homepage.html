@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="col-xs-12 col-sm-12 col-md-12" th:replace="fragments/slider :: slider"></div>
+	<div class="container-fluid bg_grey br_top">
+		<div class="container">
+			<div class="col-xs-12 col-md-12" th:replace="fragments/locationsearch :: locationsearch">
+					</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

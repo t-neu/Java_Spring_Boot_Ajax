@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container" sec:authorize="isAuthenticated()">
+	<div class="row">
+		<div class="col-xs-12 col-md-8">
+		<div class="col-xs-12 col-md-12">
+				<img th:src="@{/images/555886a6b6ed4418ac69efdd110fe57f.jpg}"
+					src="../images/555886a6b6ed4418ac69efdd110fe57f.jpg"
+					class="img-responsive center-block flex-ad" alt="Responsive image" />
+		</div>
+			<div class="col-xs-12 col-md-12 margin-top-gray border_box bg_grey_other_profile">
+		<h3>Create Company</h3>
+		<p class="alert alert-danger" role="alert" th:if="${error}"
+			th:text="${error}"></p>
+		<form action="#" th:action="@{/company/create}" th:object="${companyForm}"
+			method="post">
+			<div class="form-group">
+				<input type="text"
+					class="form-control form-big-letters" placeholder="Company Name" th:field="*{companyname}"/>
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('companyname')}" th:errors="*{companyname}">
+					company Name Error</div>
+			</div>
+			<div class="form-group">
+				<input type="text"
+					class="form-control form-big-letters" placeholder="Address" th:field="*{address}" />
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+					Address Error</div>
+			</div>
+			<div class="form-group">
+				<input type="text"
+					class="form-control form-big-letters" placeholder="Zipcode" th:field="*{zipcode}" maxlength="5"/>
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}">
+					Zipcode Error</div>
+			</div>
+			<div class="form-group">
+				<input type="text"
+					class="form-control form-big-letters" placeholder="City" th:field="*{city}" />
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('city')}" th:errors="*{city}">
+					Longitude Error</div>
+			</div>
+			<div class="form-group">
+				<select class="form-control form-big-letters" th:field="*{state}">
+			  	<option th:each="state : ${states}" 
+			          th:value="${state.state_abbr}" 
+			          th:text="${state.state_abbr}">Wireframe</option>
+				</select>
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('state')}" th:errors="*{state}">
+					State Error</div>
+			</div>
+			<div class="form-group">
+				<input type="tel"
+					class="form-control form-big-letters" th:field="*{phone}" maxlength="14" placeholder="(XXX) XXX-XXXX"/>
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+					Zipcode Error</div>
+			</div>
+			<div class="form-group">
+				<!--  <label for="country">Country</label> --><input type="hidden"
+					class="form-control form-big-letters" th:value="'United States'" id="country" name="country"/>
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('country')}" th:errors="*{country}">
+					Country Error</div>
+			</div>
+			<div class="form-group">
+				<input type="text"
+					class="form-control form-big-letters" th:field="*{longitude}" placeholder="Longitude" readonly="readonly" />
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}">
+					Address Error</div>
+			</div>
+			<div class="form-group">
+				<input type="text"
+					class="form-control form-big-letters" th:field="*{latitude}" placeholder="Latitude" readonly="readonly" />
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}">
+					Address Error</div>
+			</div>
+			<div class="form-group">
+				<input type="hidden"
+					class="form-control form-big-letters" name="username" th:value="${#httpServletRequest.remoteUser}"/>
+				<div class="alert alert-danger form-error" role="alert"
+					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
+					Error</div>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-orange login-btn" type="submit">Create a Company</button>
+			</div>
+		</form>
+		</div>
+		</div>
+		<div class="col-xs-12 col-md-4">
+		<div class="col-xs-12 col-sm-12 col-md-12 remove-padding">
+						<img th:src="@{'/images/privacy/3.png'}"
+							src="../images/privacy/3.png" class="img-responsive ad-border"
+							alt="Responsive image" />
+					</div>
+		</div>
+		</div>
+	</div>
+	<script
+			src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA46-B4auP9n87XHbzJuFHH8iQwxU3uL24&amp;sensor=false"> </script>
+	
+	<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+	<script type="text/javascript">
+	//document.getElementById('companyname').value = "LabCorp";
+	//document.getElementById("address").focus();
+	document.getElementById("companyname").focus();
+	$("#zipcode").blur(function(){
+	    madeAjaxCall();
+	    var address = document.getElementById('address').value + " " + document.getElementById('zipcode').value;
+	    //alert(address);
+	    getLatitudeLongitude(showResult, address)
+	    
+	    $( "#phone" ).focus();
+	});
+		function madeAjaxCall(){
+			var variable= $("#zipcode").val();
+			$.ajax({
+			    url: "/company/zipcode",
+			    async: false,
+			    data: {val: variable},
+			    dataType: 'html',
+			    success: function (dat) {
+			        console.log(dat);
+			    	var json = JSON.parse(dat);
+			    	console.log("-----------------");
+			    	console.log(json);
+			        //$("#city").val(json[0].city);
+			        //$("#state").val(json[0].abr);
+			        document.getElementById('city').value = json[0].city;
+			        document.getElementById('state').value = json[0].abr;
+			    }
+			});
+		}
+		function showResult(result) {
+			//alert("lat: " + result.geometry.location.lat() + " long: " + result.geometry.location.lng());
+		    document.getElementById('latitude').value = result.geometry.location.lat();
+		    document.getElementById('longitude').value = result.geometry.location.lng();
+		}
+
+		function getLatitudeLongitude(callback, address) {
+		    // If adress is not supplied, use default value 'Ferrol, Galicia, Spain'
+		    // address = address;
+		    // Initialize the Geocoder
+		    geocoder = new google.maps.Geocoder();
+		    if (geocoder) {
+		        geocoder.geocode({
+		            'address': address
+		        }, function (results, status) {
+		            if (status == google.maps.GeocoderStatus.OK) {
+		                callback(results[0]);
+		            }
+		        });
+		    }
+		}
+	</script>
+</body>
+</html>

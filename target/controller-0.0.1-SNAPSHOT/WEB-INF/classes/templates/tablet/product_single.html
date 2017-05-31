@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-8 col-lg-9">
+			<div class="col-xs-12 col-sm-12 col-md-12 bcjs">
+				<div class="col-xs-12 col-md-12" th:replace="fragments/breadcrumb :: breadcrumb">
+				</div>
+			</div>
+				<div class="col-xs-12 col-md-12 company-title">
+					<img th:src="@{'/images/728v90/h/' + ${ad728x90} + '.png'}"
+						class="img-responsive center-block flex-img" alt="Responsive image" />
+				</div>
+				<div
+					class="col-xs-12 col-sm-12 col-md-12 border_box min-box-small">
+					<div class="col-xs-12 col-sm-4 col-md-4 remove-padding">
+						<img th:src="@{'/images/' + ${product.product_img}}"
+							src="$'/images/' + ${product.product_img}}"
+							class="img-responsive" alt="Responsive image" />
+					</div>
+					<div class="col-xs-12 col-sm-8 col-md-8 remove-padding">
+						<h3 th:text="${product.product_name}"></h3>
+						<div th:text="${product.product_description}"></div>
+						<div th:text="'$' + ${product.product_price}"></div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						
+							<a th:href="@{'/cart/product/' + ${id}}"
+							class="btn btn-lg btn-success pull-right" role="button">Choose Test</a>
+						
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 border_box">
+						<div class="site_sea">
+							<h3 class="header-center">Thousands Of Locations</h3>
+							<div class="input-group" id="search-group">
+								<input type="hidden" name="search_param" value="zip"
+									id="search_param"/> <input type="text"
+									class="form-control form-big-letters" name="search" id="search"
+									th:value="${search}" placeholder="Enter a City, State or Zipcode"/>
+								<span class="input-group-btn">
+									<button class="btn btn-orange btn-60" id="search-btn" type="submit">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div class="col-xs-12 col-md-4 col-lg-3">
+				<div class="hidden-xs hidden-sm col-md-12 col-lg-12 remove-padding">
+					<img th:src="@{'/images/privacy/2.png'}"
+							src="../images/privacy/2.png" class="img-responsive img-border"
+							alt="Responsive image" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<div class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+					<div class="col-xs-12 col-sm-12 col-md-12 site_sea"
+						style="text-align: center;"></div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<h4 class="site_sea" style="text-align: center;">Quick
+							Registration</h4>
+						<img th:src="@{/images/registration.svg}"
+							src="../images/registration.svg"
+							class="img-responsive center-block sm-img" alt="Responsive image" />
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<h4 class="site_sea" style="text-align: center;">Choose a
+							Location</h4>
+						<img th:src="@{/images/location.svg}" src="../images/location.svg"
+							class="img-responsive center-block sm-img" alt="Responsive image" />
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<h4 class="site_sea" style="text-align: center;">Get Results</h4>
+						<img th:src="@{/images/verified.svg}" src="../images/verified.svg"
+							class="img-responsive center-block sm-img-80" alt="Responsive image" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+		<div class="col-xs-12 col-md-12" th:replace="fragments/breadcrumb :: breadcrumb-js">
+				</div>
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	       
+	    /*]]>*/
+		</script>
+</body>
+</html>

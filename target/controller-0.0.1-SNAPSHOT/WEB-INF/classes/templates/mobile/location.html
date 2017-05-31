@@ -1,0 +1,602 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="row">
+			<div th:switch="${action}">
+				<p class="alert alert-success" th:case="'success'"
+					th:text="${response}"></p>
+				<p class="alert alert-success" th:case="'failed'"
+					th:text="${response}"></p>
+				<p th:case="*"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 search-bar">
+				<div class="col-xs-12 col-sm-12 col-md-12 border_box ">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 remove-padding">
+						<h4 class="h4-location-search-txt" style="color: #0e9948;">Location
+							Search</h4>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 loc-button-container">
+						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 remove-padding text-center">
+						<span class="loc-bar my-location" ><i class="material-icons">my_location</i>My Location</span>
+						</div>
+						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 remove-padding text-center loc-button">
+						<span class="loc-bar home"><i class="material-icons">zoom_out_map</i></span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 remove-padding">
+					<div class="input-group" id="search-group">
+						<input type="hidden" name="search_param" value="zip"
+							id="search_param"></input> <input type="text" size="8"
+							class="form-control" name="search" id="location-search"
+							th:value="${search}" placeholder="Enter a City, State or Zipcode"></input>
+						<span class="input-group-btn">
+							<button class="btn btn-orange" id="location-search-btn"
+								type="submit">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+			<!--
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 img-holder">
+				<div class="col-xs-12 col-md-12">
+				<a th:href="@{'/buy/'}"><img th:src="@{'/images/728v90/h/' + ${ad728x90} + '.png'}"
+					class="img-responsive center-block flex-img" alt="Responsive image" /></a>
+			</div>
+				-->
+			<div class="col-xs-12 col-md-12" th:replace="fragments/breadcrumb :: breadcrumb">
+				</div>
+			</div>
+		</div>
+		<div class="sidebar"></div>
+		<div class="col-xs-12 col-sm-12 col-md-12 remove-padding border_box map-holder"
+			style="width: 100%;">
+			<div class="hidden-xs hidden-sm hidden-md col-lg-4 pre-scrollable remove-padding">
+				<ul class="list-group" style="height: auto; max-height: 400px;">
+				</ul>
+			</div>
+			<div id="map" class="col-xs-12 col-sm-12 col-md-8 remove-padding"
+				style="width: 66.666%; height: 400px;"></div>
+			<div id="inline-actions" style="display: none">
+				<span>Max zoom level:
+			        <select id="zoom">
+			          <option value="-1">Default</option>
+			          <option value="7">7</option>
+			          <option value="8">8</option>
+			          <option value="9">9</option>
+			          <option value="10">10</option>
+			          <option value="11">11</option>
+			          <option value="12">12</option>
+			          <option value="13">13</option>
+			          <option value="14">14</option>
+			        </select>
+			      </span>
+			      <span class="">Cluster size:
+			        <select id="size">
+			          <option value="-1">Default</option>
+			          <option value="40">40</option>
+			          <option value="50">50</option>
+			          <option value="70">70</option>
+			          <option value="80">80</option>
+			        </select>
+			      </span>
+			      <span class="">Cluster style:
+			        <select id="style">
+			          <option value="-1">Default</option>
+			          <option value="0">People</option>
+			          <option value="1">Conversation</option>
+			          <option value="2">Heart</option>
+			          <option value="3">Pin</option>
+			       </select>
+			       </span>
+			       <input id="refresh" type="button" value="Refresh Map" class=""></input>
+       				<a href="#" id="clear">Clear</a>
+			</div>
+			
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 special_header">
+							Process</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 site_sea"
+							style="text-align: center;"></div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Quick
+								Registration</h4>
+							<a th:href="@{'/signup/'}"><img
+								th:src="@{/images/registration.svg}"
+								src="../images/registration.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Choose a
+								Location</h4>
+							<a th:href="@{'/map/'}"><img th:src="@{/images/location.svg}"
+								src="../images/location.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<h4 class="site_sea text-center">Get Results</h4>
+							<a th:href="@{'/profile/'}"><img th:src="@{/images/verified.svg}"
+								src="../images/verified.svg"
+								class="img-responsive center-block sm-img" alt="Responsive image" /></a>
+						</div>
+					</div>
+			</div>
+			<div th:replace="fragments/product_slider :: product_slider "></div>
+		</div>
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA46-B4auP9n87XHbzJuFHH8iQwxU3uL24"> </script>
+    		
+    		<script src="/js/markerclusterer.js" th:href="@{/js/markerclusterer.js}"></script>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+		<div th:replace="fragments/product_slider_js :: product_slider_js "></div>
+		<div th:replace="fragments/breadcrumb :: breadcrumb-js">
+				</div>
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    var defaultZoom = 4;
+	    var meLat = 39.762252;
+        var meLong = -75.119511;
+        var startLat = 36.171861;
+   		var startLong = -96.679129;
+	   	var search = [[${search}]];
+	   	var latlong = [[${latlong}]];
+	   	
+	   	if(latlong != undefined){
+	   	meLat = latlong[0].latitude;
+	   	meLong = latlong[0].longitude;
+	   	startLat = latlong[0].latitude;
+   		startLong = latlong[0].longitude;
+   		defaultZoom = 10;
+	   	}
+	    var context = [[@{/images/m}]];
+	    var companies = [[${companySize}]];
+	    var locations = [];
+        var locationsToAdd = [];
+        var contentString = "";
+        var listItem;
+        var posLat = "";
+      	var posLong = "";
+      	var positionCalled = false;
+        
+        var markers = [];
+        
+        var _eQuatorialEarthRadius = 6378.1370;
+        var _d2r = (Math.PI / 180.0);
+
+        function HaversineInM(lat1, long1, lat2, long2)
+        {
+            return (0.621371 * HaversineInKM(lat1, long1, lat2, long2));
+        }
+
+        function HaversineInKM(lat1, long1, lat2, long2)
+        {
+            var dlong = (long2 - long1) * _d2r;
+            var dlat = (lat2 - lat1) * _d2r;
+            var a = Math.pow(Math.sin(dlat / 2.0), 2.0) + Math.cos(lat1 * _d2r) * Math.cos(lat2 * _d2r) * Math.pow(Math.sin(dlong / 2.0), 2.0);
+            var c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
+            var d = _eQuatorialEarthRadius * c;
+
+            return d;
+        }
+  	  
+    	var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+        setLocationList(meLat, meLong);
+        function setLocationList(latSet, longSet){
+        	listItem = "";
+        	$(".list-group-item").detach();
+        	console.log("lat " + latSet + " long " + longSet);
+        	meLat = latSet;
+        	meLong = longSet;
+        	locations = [];
+        	//moveToLocation(meLat, meLong);
+        for(var i=0;i<companies.length; i++){
+        	locationsToAdd = [];
+        	var distance = HaversineInKM(meLat, meLong, companies[i].latitude, companies[i].longitude);
+        	var distance_final = Math.round( distance * 10 ) / 10;
+        	contentString = 
+        	'<div class="col-xs-12 col-md-12 remove-padding" id="content">'+
+        	'<div class="col-xs-12 col-md-12 remove-padding">'+
+        	'<div class="distance">'+ distance_final +' miles</div>'+
+        	'</div>'+
+	        '<div class="col-xs-4 col-md-4 remove-padding"><a href="/company/' + companies[i].id + '/"><img src="https://toms-java-blog-demo.s3.amazonaws.com/' + companies[i].logo + '" class="img-responsive list-logo" alt="Responsive image"></a>'+'</div><div class="col-xs-8 col-md-8"><h5 id="firstHeading" class="firstHeading">' + companies[i].companyname + '</h5>'+
+	        '<div class="col-xs-12 col-md-12 remove-padding">'+
+	        '<p>' + companies[i].address + '</br>' + companies[i].city + ', ' + companies[i].state + ' ' + companies[i].zipcode + '</p>'+
+	        '</div>'+
+	        '<div class="hidden-xs col-sm-12 col-md-12 col-lg-12 loc-button-container">'+
+	        '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 loc-button remove-padding text-center">'+		
+	        '<a href="/cart/location/' + companies[i].id + '"><span class="glyphicon glyphicon-plus"></span>'+
+	        '</a> '+
+	        '</div>'+
+	        '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 loc-button remove-padding text-center">'+		
+	        '<a target="_blank" href="https://www.google.com/maps?saddr=My+Location&daddr='+ companies[i].latitude +','+ companies[i].longitude + '"><i class="material-icons">directions</i>'+
+	        '</a> '+
+	        '</div>'+
+	        '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 loc-button remove-padding text-center">'+		
+	        '<span onclick="myClick(' + i + ');" ><i class="material-icons">place</i>'+
+	        '</div>'+
+	        '</div>'+
+	        '</div>'+
+	        '<div class="col-xs-12 hidden-sm hidden-md hidden-lg loc-button-container">'+
+	        '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 loc-button remove-padding text-center">'+		
+	        '<a href="/cart/location/' + companies[i].id + '"><span class="glyphicon glyphicon-plus"></span>'+
+	        '</a> '+
+	        '</div>'+
+	        '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 loc-button remove-padding text-center">'+		
+	        '<a target="_blank" href="https://www.google.com/maps?saddr=My+Location&daddr='+ companies[i].latitude +','+ companies[i].longitude + '"><i class="material-icons">directions</i>'+
+	        '</a> '+
+	        '</div>'+
+	        '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 loc-button remove-padding text-center">'+		
+	        '<span onclick="myClick(' + i + ');" ><i class="material-icons">place</i>'+
+	        '</span> '+
+	        '</div>'+
+	        '</div>'+
+	        '</div>';
+        	locationsToAdd.push(contentString);
+	        locationsToAdd.push(companies[i].latitude);
+	        locationsToAdd.push(companies[i].longitude);
+	        locationsToAdd.push(i);
+	        locations.push(locationsToAdd);
+        
+	        //$(".list-group").append("<button class = 'list-group-item' data-milage='"+ distance_final +"' id='" + locations[i][3] + "' onclick='myClick(" + i + ");' style='padding:10px; cursor:pointer;'>" + locations[i][0] + "</button>");
+        	if(distance_final <= 250){
+	        if(i != 0){
+	        	listItem = listItem + "<button class = 'list-group-item' data-milage='"+ distance_final +"' id='" + locations[i][3] + "' style='padding:10px;'>" + locations[i][0] + "</button>";
+        	}else{
+        		listItem = "<button class = 'list-group-item' data-milage='"+ distance_final +"' id='" + locations[i][3] + "' style='padding:10px;'>" + locations[i][0] + "</button>";
+        	}
+        	}
+	        //console.log(listItem);
+        }
+        $(".list-group").append(listItem);
+        sortByMilage();
+        }
+        
+        function sortByMilage(){
+            var $wrapper = $('.list-group');
+
+            $wrapper.find('.list-group-item').sort(function (a, b) {
+                return +a.dataset.milage - +b.dataset.milage;
+            })
+            .appendTo( $wrapper );
+            
+        }
+	    
+	    var styles = [[{
+        url: '../images/people35.png',
+        height: 35,
+        width: 35,
+        anchor: [16, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+      }, {
+        url: '../images/people45.png',
+        height: 45,
+        width: 45,
+        anchor: [24, 0],
+        textColor: '#ff0000',
+        textSize: 11
+      }, {
+        url: '../images/people55.png',
+        height: 55,
+        width: 55,
+        anchor: [32, 0],
+        textColor: '#ffffff',
+        textSize: 12
+      }], [{
+        url: '../images/conv30.png',
+        height: 27,
+        width: 30,
+        anchor: [3, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+      }, {
+        url: '../images/conv40.png',
+        height: 36,
+        width: 40,
+        anchor: [6, 0],
+        textColor: '#ff0000',
+        textSize: 11
+      }, {
+        url: '../images/conv50.png',
+        width: 50,
+        height: 45,
+        anchor: [8, 0],
+        textSize: 12
+      }], [{
+        url: '../images/heart30.png',
+        height: 26,
+        width: 30,
+        anchor: [4, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+      }, {
+        url: '../images/heart40.png',
+        height: 35,
+        width: 40,
+        anchor: [8, 0],
+        textColor: '#ff0000',
+        textSize: 11
+      }, {
+        url: '../images/heart50.png',
+        width: 50,
+        height: 44,
+        anchor: [12, 0],
+        textSize: 12
+      }], [{
+        url: '../images/pin.png',
+        height: 48,
+        width: 30,
+        anchor: [-18, 0],
+        textColor: '#ffffff',
+        textSize: 10,
+        iconAnchor: [15, 48]
+      }]];
+
+      var markerClusterer = null;
+      var map = null;
+      var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+          'chco=FFFFFF,008CFF,000000&ext=.png';
+
+      function refreshMap() {
+        if (markerClusterer) {
+          markerClusterer.clearMarkers();
+        }
+
+
+        var markerImage = new google.maps.MarkerImage(imageUrl,
+          new google.maps.Size(24, 32));
+
+        for(var i=0;i<locations.length; i++){
+          var latLng = new google.maps.LatLng(locations[i][1], locations[i][2])
+          //console.log("lat " + companies[i].latitude);
+          var marker = new google.maps.Marker({
+            position: latLng
+          });
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+	          return function() {
+	            infowindow.setContent(locations[i][0]);
+	            infowindow.open(map, marker);
+	            map.panTo(marker.getPosition());
+	            map.setZoom(13);
+	            console.log(i + " was clicked");
+	          }
+	        })(marker, i));
+          
+          markers.push(marker);
+        }
+
+        var zoom = parseInt(document.getElementById('zoom').value, 10);
+        var size = parseInt(document.getElementById('size').value, 10);
+        var style = parseInt(document.getElementById('style').value, 10);
+        zoom = zoom === -1 ? null : zoom;
+        size = size === -1 ? null : size;
+        style = style === -1 ? null : style;
+		
+        
+        markerClusterer = new MarkerClusterer(map, markers, {
+          maxZoom: zoom,
+          gridSize: size,
+          styles: styles[style],
+          imagePath: context
+        });
+
+      }
+
+      function initialize() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: defaultZoom,
+          center: new google.maps.LatLng(startLat,startLong),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var refresh = document.getElementById('refresh');
+        google.maps.event.addDomListener(refresh, 'click', refreshMap);
+        
+
+        var clear = document.getElementById('clear');
+        google.maps.event.addDomListener(clear, 'click', clearClusters);
+        
+        google.maps.event.addListener(map, 'click', function() {
+            infowindow.close();
+        });
+  		
+  		google.maps.event.addListener(map, 'tilesloaded', function() {
+
+  	  	});
+  		
+  		google.maps.event.addListener(map, 'zoom_changed', function() {
+  		    //zoom = true;
+  		});
+  		
+  		var currentMapCenter = null; 
+  		google.maps.event.addListener(map, 'resize', function () {
+  		    currentMapCenter = map.getCenter();
+  		});
+
+  		google.maps.event.addListener(map, 'bounds_changed', function () {
+  		    if (currentMapCenter) {
+  		    // react here
+  		        map.setCenter(currentMapCenter);
+  		    }
+  		    currentMapCenter = null;
+  		});
+
+        refreshMap();
+      }
+
+      function clearClusters(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        markerClusterer.clearMarkers();
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+      
+      var a = 0;
+      function setMapOnAll(map) {
+    	a = 0;
+    		for (var i = 0; i < markers.length; i++) {
+	        	for(var i = 0;i < companies.length; i++){
+	        		var miles = "";
+	        		returnedState = $("#location-search").val();
+	        		if (returnedState.length == 2){
+	        			miles = 250;
+	        		}else{
+	        			miles = 25;
+	        		}
+	        		if($("#" + i).attr("data-milage") > miles ){
+	        			//console.log(companies[i].state);
+	        			//markers[i].setMap(map);
+	        		}else{
+	                    if (a == 0){
+	                    	document.activeElement.blur();
+	                    	$(".h4-location-search-txt").text("Searching...");
+	                        $("#location-search").blur();
+	                        $("#location-search").prop("disabled", "disabled");
+	                        moveToLocation(meLat, meLong);
+	                        //refreshMap();
+	                        setTimeout(disableTimeout, 1000);
+	                    	a++;
+	                    }
+	        		}
+	        	}
+	        }    		
+      }
+      
+      function disableTimeout(){
+    	  console.log("No longer disabled");
+    	  $("#location-search").attr("disabled", false);
+    	  $(".h4-location-search-txt").text("Location Search");
+    	  //refreshMap();
+    	}
+      
+      function showAllOnMap(map) {
+      	for(var i=0;i<companies.length; i++){
+      			markers[i].setMap(map);
+      	}    		
+	  }
+      
+      function showAllMarkers() {
+    	  showAllOnMap(map);
+	  }
+    
+      // Shows any markers currently in the array.
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+ 
+  	 // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+      
+      function moveToLocation(lat, lng){
+	  	    var center = new google.maps.LatLng(lat, lng);
+	  	    returnedState = $("#location-search").val();
+	  	    if(map.getZoom() != 8){
+	  	    	map.setZoom(8);
+	  	    }else{
+	  	    	map.setZoom(7);
+	  	    	map.setZoom(8);
+	  	    }
+	  	    map.panTo(center);
+	  	}
+      
+      function moveToHome(){
+	  	    var center = new google.maps.LatLng(36.171861,-96.679129);
+	  	    map.setZoom(4);
+	  	    map.panTo(center);
+	  	}
+      function errorHandler(err) {
+    	  switch(err.code) {
+          case error.PERMISSION_DENIED:
+              alert("User denied the request for Geolocation.");
+              break;
+          case error.POSITION_UNAVAILABLE:
+        	  alert("Location information is unavailable.");
+              break;
+          case error.TIMEOUT:
+        	  alert("The request to get user location timed out.");
+              break;
+          case error.UNKNOWN_ERROR:
+        	  alert("An unknown error occurred.");
+              break;
+      }
+       }      
+      
+      	function myCurrentPosition() {
+      		
+     	if(positionCalled == false){
+     		if (navigator.geolocation) {
+     			positionCalled = true;
+     			var options = {timeout:60000, enableHighAccuracy: false};
+    	        navigator.geolocation.getCurrentPosition(showPosition, errorHandler, options);
+    	        console.log("Got location" + showPosition);
+    	    }else{
+    	    	console.log("Error could not get location");
+    	    }
+     	}else{
+     		center = new google.maps.LatLng(posLat, posLong);
+	  	    map.setZoom(8);
+	  	    map.panTo(center);
+	  	    setLocationList(posLat, posLong);
+     	}
+      	}
+      	
+    	function showPosition(position) {
+    		var center = "";
+    		console.log("Show position");
+    		console.log("Latitude " + position.coords.latitude);
+    		console.log("Longitude" + position.coords.longitude);
+    		//console.log("city" + position.results[0].address_components[2].long_name)
+    		var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en';
+
+            $.getJSON(GEOCODING).done(function(location) {
+               //console.log(location.results[0].address_components[5].long_name);
+                console.log(location.results[0].address_components[4].long_name);
+                console.log(location.results[0].address_components[2].long_name);
+                //console.log(location.results[0].formatted_address);
+                $("#location-search").val(location.results[0].address_components[2].long_name + ", " + location.results[0].address_components[4].long_name);
+            })
+    		posLat = position.coords.latitude;
+        	posLong = position.coords.longitude;
+    		center = new google.maps.LatLng(posLat, posLong);
+	  	    map.setZoom(8);
+	  	    map.panTo(center);
+	  	    console.log("Post pan");
+	  	    setLocationList(posLat, posLong);
+    	}
+      
+      function myClick(id){
+      	console.log("click " + id);
+      	     markers[id].setMap(map);
+	         google.maps.event.trigger(markers[id], 'click');
+	      }
+      
+      $(window).resize(function(){
+    	  google.maps.event.trigger(map, 'resize');
+      });
+
+	    /*]]>*/
+		</script>
+</body>
+</html>

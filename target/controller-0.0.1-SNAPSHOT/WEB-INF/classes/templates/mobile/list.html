@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="navbar-form navbar-left">
+			<div class="form-group">
+				<!--<label for="Search">Search</label>-->
+				<input type="text" class="form-control" placeholder="Search By Name"
+					name="search" id="search" th:value="${search}" />
+				<!--<div th:if="${#fields.hasErrors('search')}" th:errors="*{search}">Name Error</div>-->
+			</div>
+			<button type="submit" id="search-btn" class="btn btn-primary">Search</button>
+		</div>
+	</div>
+	<div class="container" sec:authorize="hasRole('ROLE_USER')">
+
+		<!-- This content is only shown to administrators. -->
+		<div class="alert alert-success" sec:authorize="hasRole('ROLE_ADMIN')">
+			Sample administrator content.</div>
+		<!-- This content is only shown to users. -->
+<div class="alert alert-success" sec:authorize="hasRole('ROLE_USER')"></div>
+
+		<div th:switch="${action}">
+			<p class="alert alert-success" th:case="'delete'"
+				th:text="'Successfully deleted ' + ${name}"></p>
+			<p class="alert alert-success" th:case="'insert'"
+				th:text="'Successfully added ' + ${name}"></p>
+			<h3 th:case="'search'" th:text="'Searched for ' + ${term}"></h3>
+			<p class="alert alert-success" th:case="'new'" th:text="'New User'"></p>
+			<p th:case="*"></p>
+		</div>
+		<div th:if="${company.empty}">
+			<div>No Results</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Age</th>
+						<th>Updated</th>
+						<th>Created</th>
+						<th>Delete</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-th-each="user : ${students}">
+						<td data-th-text="${user.id}">1</td>
+						<td data-th-text="${user.name}">Name</td>
+						<td data-th-text="${user.age}">22</td>
+						<td
+							data-th-text="${#dates.format(user.lastchange, 'MMM dd, yyyy HH:mm')}">22</td>
+						<td
+							data-th-text="${#dates.format(user.creation, 'MMM dd, yyyy HH:mm')}">22</td>
+						<td sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
+							class="btn btn-default" href="#"
+							data-th-href="@{'/delete/'+ ${user.id}}"><span
+								class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+								Delete</a></td>
+						<td sec:authorize="!hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a
+							class="btn btn-default" href="#" data-th-href="@{'/login/'}"><span
+								class="glyphicon glyphicon glyphicon-login" aria-hidden="true"></span>
+								Must be logged in</a></td>
+						<td><a class="btn btn-default" href="#"
+							data-th-href="@{'/edit/'+ ${user.id}}"><span
+								class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
+								Edit</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+	</div>
+	<script
+	src="../js/custom.js"
+	th:href="@{/js/custom.js}"></script>
+</body>
+</html>

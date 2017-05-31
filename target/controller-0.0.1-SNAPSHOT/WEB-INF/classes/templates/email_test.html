@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="site-wrapper">
+		<nav class="navbar navbar-default"
+			th:replace="fragments/header :: header"></nav>
+		<!-- Div login visibility condition -->
+		<div class="container">
+			<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-4"></div>
+				<div class="col-xs-12 col-sm-8 col-md-4 border_box login">
+					<img th:src="@{/email/logo/whatafuckingjoke@yahoo.com}"
+					src="../email/logo/whatafuckingjoke@yahoo.com"
+					class="img-responsive center-block flex-img" alt="Responsive image" />
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-4">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

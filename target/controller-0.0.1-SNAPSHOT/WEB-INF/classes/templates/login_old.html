@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="site-wrapper">
+		<nav class="navbar navbar-default"
+			th:replace="fragments/header :: header"></nav>
+		<!-- Div login visibility condition -->
+		<div class="container">
+			<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-4"></div>
+				<div class="col-xs-12 col-sm-8 col-md-4 border_box login">
+					<h3>Welcome Back!</h3>
+					<p class="alert alert-danger" role="alert" th:if="${param.error}">
+						Wrong Username or Password</p>
+					<p class="alert alert-success" role="alert"
+						th:if="${message} == 'success'">Your password has been
+						successfully changed!</p>
+					<form th:action="@{/appLogin}" method="POST">
+						<div class="form-group">
+							<label for="Username">Username</label> <input
+								class="form-control" type="text" name="username"
+								placeholder="Username" />
+						</div>
+						<div class="form-group">
+							<label for="Password">Password</label> <input
+								class="form-control" type="password" name="password"
+								placeholder="Password" />
+						</div>
+						<div class="form-group">
+							<label for="RememberMe">Remember Me</label> <input
+								type="checkbox" name="remember-me" />
+						</div>
+						<div class="form-group">
+							<a th:href="@{'/reset'}">Forgot Password?</a>
+						</div>
+						<div class="form-group">
+							<input class="btn btn-orange login-btn" type="submit" value="Login" />
+						</div>
+					</form>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-4">
+					<!--<img
+						th:src="@{/images/AZR_FY17-quickstart-EN_US_300x250_BAN_Sept-16.png}"
+						src="../images/AZR_FY17-quickstart-EN_US_300x250_BAN_Sept-16.png"
+						class="img-responsive advertising" alt="Responsive image" />
+						-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="row">
+			<div th:switch="${action}">
+				<p class="alert alert-success" th:case="'success'"
+					th:text="${response}"></p>
+				<p class="alert alert-success" th:case="'failed'"
+					th:text="${response}"></p>
+				<p th:case="*"></p>
+			</div>
+		</div>
+		<!--<div class="h3" th:text="${clientToken}"></div> -->
+		<div class="row">
+		<h3>Purchase A Verification Token</h3>
+		</div>
+			<form id="checkout" method="post" action="/checkout">
+  <div id="payment-form"></div>
+  <input type="hidden" name="amount" value="10.00"></input>
+  <input type="submit" value="Pay $10"></input>
+</form>
+		
+		<script
+			src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"
+			th:href="@{https://js.braintreegateway.com/js/braintree-2.30.0.min.js}"></script>
+		  <script th:inline="javascript">
+		    /*<![CDATA[*/
+			
+		   var clientToken = "[[${clientToken}]]"; 	
+		    	
+		    braintree.setup(clientToken, "dropin", {
+			  container: "payment-form"
+			});
+		    /*]]>*/
+		  </script>
+	
+	</div>
+	<div class="container">
+		<div class="row">
+		<h3><span>Verification Tokens</span><span class="badge" th:text="${tokenSize}"></span></h3>
+			<div class="col-xs-6 col-md-2 thumbnail remove-border" data-th-each="tokensItem : ${tokens}">
+			<img th:src="@{/images/token.svg}"
+					src="../images/token.svg"
+					class="img-responsive" alt="Responsive image" />
+				<p class="text-center"><a href="/list" class="btn btn-success" role="button">Use Token</a></p>
+				<p class="text-center details" data-toggle="collapse" th:attr="data-target = '#' + ${tokensItem.amazon_ref_id}">Details</p>
+				<div th:id="${tokensItem.amazon_ref_id}" class="collapse">
+					<p class="text-center details-text">Transaction Id Number</p>
+					<p class="text-center details-text" data-th-text="${tokensItem.amazon_ref_id}">Name</p>
+					<p class="text-center details-text">Date of Purchase</p>
+					<p class="text-center details-text" data-th-text="${tokensItem.payment_date}">Name</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+	<script src="../js/custom.js" th:href="@{/js/custom.js}"></script>
+</body>
+</html>

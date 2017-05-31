@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container-fluid svg-background">
+		<div class="row">
+			<div class="col-md-8 col-xs-12">
+				<div class="header_slogan">
+					<h1>Get The Freedom</h1>
+					<h5>To Fearlessly Explore Your Desires</h5>
+				</div>
+			</div>
+			<div class="col-md-4 col-xs-6" sec:authorize="isAuthenticated()"></div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="sub_header_image_g c-image"></div>
+			</div>
+			<div class="col-md-8">
+				<div class="row_slogan site_green">
+					<h2 class="header-center">Privacy Guaranteed</h2>
+					<h5>
+						We will never ask for your name.
+					</h5>
+					<h5>
+						We will never release your medical information.
+					</h5>
+				</div> 
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey_other br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 location1">
+				<div class="row_slogan site_green">
+					<h2 class="header-center">All Major Credit Cards Accepted</h2>
+					<div class="credit_cards c-image"></div>
+				</div>
+			</div>
+			<div class="col-md-4 location2">
+				<div class="sub_header_image_3steps_g c-image"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="hiw_location c-image"></div>
+			</div>
+			<div class="col-md-6">
+				<div class="row_slogan site_green">
+					<h2 class="header-center">Thousands Of Locations</h2>
+					<div class="input-group" id="search-group">
+					<input type="hidden" name="search_param" value="zip"
+						id="search_param"> </input> <input type="tel" maxlength="5"
+						class="form-control" name="search" id="search"
+						th:value="${search}" placeholder="Enter Your Zipcode"></input>
+						<span class="input-group-btn">
+						<button class="btn btn-orange" id="search-btn" type="submit">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

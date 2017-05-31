@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="add_role">
+	<div class="overlay-cover">
+		<div class="jquery-form">
+			<div class="outer">
+				<div class="middle">
+					<div class="inner">
+						<div class="video-holder">
+							<div style="height:400px;">
+								<span style="background-color:#FFF;color:#555;width:20px;height:20px;border-radius:999px;font-size:14px;" class="badge pull-right close">x</span>
+								<h3 style="color: white">Add User Role</h3>
+								<form method="post" th:object="${addRoleForm}" th:action="@{/addrole}">
+									<input type="text" style="text-transform: uppercase" class="form-control form-big-letters" placeholder="Role" name="role_list_role"></input>
+									<div class="alert alert-danger form-error" role="alert" th:if="${#fields.hasErrors('role_list_role')}" th:errors="*{role_list_role}">Product Name Error</div>
+									<input type="text" class="form-control form-big-letters" placeholder="Title" name="role_list_title"></input>
+									<div class="alert alert-danger form-error" role="alert" th:if="${#fields.hasErrors('role_list_title')}" th:errors="*{role_list_title}">role_list_title</div>
+									<input type="text" class="form-control form-big-letters" placeholder="Description" name="role_list_description"></input>
+									<div class="alert alert-danger form-error" role="alert" th:if="${#fields.hasErrors('role_list_description')}" th:errors="*{role_list_description}">role_list_description</div>
+									<input class="btn btn-orange btn-lg pull-right" type="submit" value="Save"></input>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var showAddRoleForm = [[${showAddRoleForm}]];
+	function is_jquery_here(){
+    setTimeout(function(){
+      if(window.jQuery){
+    		if(showAddRoleForm === 'true'){
+    			
+    			if($('.overlay-cover').length == 0){
+    	  			vidWidth =  $(window).width() * .90;
+    	  			if (vidWidth > 600){
+    	  				vidWidth = 600;
+    	  			}
+    	  			vidHeight = vidWidth * .5625;
+    	  		}
+
+    	  		$(".video-holder").width(vidWidth);
+    	  		$(".video-holder").height(vidHeight);
+    	  		
+    	  		$('[data-target="#account-settings"]').trigger( "click" );
+	  			$(".overlay-cover").show();
+    		}
+    		
+      } else {
+        is_jquery_here();
+      }
+		    }, 300);
+		}
+		is_jquery_here();
+			//console.log("load ad javascript");
+		    //end of slider
+		    /*]]>*/
+		</script>
+</div>
+</html>

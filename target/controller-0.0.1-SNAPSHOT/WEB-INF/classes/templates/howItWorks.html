@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container-fluid bg_grey br_top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="hiw_registration"></div>
+				</div>
+				<div class="col-md-8">
+					<div class="row_slogan site_green">
+						<h1 class="header-center">Extremely Fast Registration!</h1>
+						<h5 class="header-center">Finish Within Seconds!</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey_other br_top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 location1">
+					<div class="row_slogan site_green">
+						<h1 class="header-center">Choose A Location</h1>
+						<h5 class="header-center">We have relationships with business's in your area!</h5>
+					</div>
+				</div>
+				<div class="col-md-6 location2">
+					<div class="hiw_location"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey br_top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="hiw_verified"></div>
+				</div>
+				<div class="col-md-9">
+					<div class="row_slogan site_green">
+						<h1 class="header-center">Receive your results within days!</h1>
+						<h5 class="header-center">You than have the option to post those results and the
+							date of verification.</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

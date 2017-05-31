@@ -1,0 +1,443 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="site-wrapper">
+		<nav class="navbar navbar-default"
+			th:replace="fragments/header :: header"></nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-2 col-md-3"></div>
+				<div class="col-xs-12 col-sm-8 col-md-6">
+					<div
+						class="col-xs-12 col-sm-12 col-md-12 border_box login remove-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<h1>Sign Up</h1>
+							<h4>Please remember we will never ask for your name or
+								address.</h4>
+							<p class="alert alert-danger" role="alert" th:if="${error}"
+								th:text="${error}"></p>
+							<form action="#" th:action="@{/signup}" th:object="${userForm}"
+								method="post">
+								<div class="form-group">
+									<input type="text" class="form-control form-big-letters"
+										th:field="*{email}" placeholder="Email" id="email" />
+									<div class="form-email-error form-error" role="alert"
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+										Error</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 email-errors">
+										<div class="form-error">
+											<ul>
+												<li class="validation-email-taken"></li>
+												<li class="email-valid-name"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>Name before @</li>
+												<li class="validation-noAt"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>@ symbol</li>
+												<li class="email-valid-domain"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>Domain <span class="domain-name">.com</span> <span class="domain-result">is valid</span></li>
+													<li class="validation-com"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>Valid Suffix <span class="email-suffix"></span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control form-big-letters"
+										th:field="*{password}" id="password" placeholder="Password" />
+									<div class="alert alert-danger form-password-error"
+										role="alert" th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}">Password Error</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 password-errors">
+										<div class="form-error">
+											<ul>
+												<li class="validation-length"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>8-30
+													characters, numbers and symbols.</li>
+												<li class="validation-number"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Number (0-9)</li>
+												<li class="validation-lowercase"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Lowercase Letter (a-z)</li>
+												<li class="validation-Uppercase"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Uppercase Letter (A-Z)</li>
+												<li class="validation-symbol"><span
+													class="glyphicon glyphicon-remove" aria-hidden="true"></span>1
+													Symbol (!@#$%^&amp;*()_+)</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-orange login-btn" type="submit" id="submit" disabled="disabled">Sign
+										Up</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-3"></div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		document.getElementById("email").focus();
+		var wasVisible = false;
+		var emailVisible = false;
+		var takenEmail = false;
+		checkEmailValidation();
+		var emailValidationPoints = 0;
+		var passwordValidationPoints = 0;
+
+		if ($('.form-password-error').is(':visible') || wasVisible == true) {
+			wasVisible = true;
+			$('.form-password-error').css("display", "none");
+			$('.password-errors').css("display", "block");
+		} else {
+			$('.password-errors').css("display", "none");
+		}
+		
+		if ($('.form-email-error').is(':visible') || emailVisible == true) {
+			emailVisible = true;
+			$('.form-email-error').css("display", "none");
+			$('.email-errors').css("display", "block");
+		} else {
+			$('.email-errors').css("display", "none");
+		}
+
+		function checkPasswordValidation() {
+
+			var str = document.getElementById("password").value;
+			var res = (/[0-9]/.test(str));
+			passwordValidationPoints = 0;
+
+			if (res == 1) {
+				//alert("Contains a number");
+				$('.validation-number').css("color", "green");
+				$(".validation-number .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-number').css("color", "red");
+				$(".validation-number .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			res = (/[a-z]/.test(str));
+
+			if (res == 1) {
+				$('.validation-lowercase').css("color", "green");
+				$(".validation-lowercase .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-lowercase').css("color", "red");
+				$(".validation-lowercase .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			res = (/[A-Z]/.test(str));
+
+			if (res == 1) {
+				$('.validation-Uppercase').css("color", "green");
+				$(".validation-Uppercase .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-Uppercase').css("color", "red");
+				$(".validation-Uppercase .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			if (containsSymbol(str) == 1) {
+				$('.validation-symbol').css("color", "green");
+				$(".validation-symbol .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				//alert("Does not contain a number");
+				$('.validation-symbol').css("color", "red");
+				$(".validation-symbol .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+
+			if (str.length >= 4 || wasVisible == true) {
+				wasVisible = true;
+				$('.password-errors').css("display", "block");
+			} else {
+				$('.password-errors').css("display", "none");
+			}
+
+			if (str.length >= 8) {
+				$('.validation-length').css("color", "green");
+				$(".validation-length .glyphicon-remove").addClass(
+						"glyphicon-ok").removeClass("glyphicon-remove").css(
+						"color", "green");
+				passwordValidationPoints++;
+			} else {
+				$('.validation-length').css("color", "red");
+				$(".validation-length .glyphicon-ok").addClass(
+						"glyphicon-remove").removeClass("glyphicon-ok").css(
+						"color", "red");
+			}
+			checkValid();
+		}
+		
+		function checkEmailValidation() {
+			
+			emailValidationPoints = 0;
+			var atSymbolFound = false;
+			var email = $("#email").val();
+			var aresult = "";
+			var suffix = "";
+			var domain = "";
+			var beforeAt = "";
+			
+			if (email.length >= 4 || emailVisible == true) {
+				emailVisible = true;
+				$('.email-errors').css("display", "block");
+			} else {
+				$('.email-errors').css("display", "none");
+			}
+			
+			if (email.indexOf("@") != -1) {
+				console.log("@ symbol found");
+				atSymbolFound = true;
+				var a = email.lastIndexOf("@");
+			    aresult = email.substring(a, email.length);
+			    console.log("@ " + aresult);
+			    var t = email.lastIndexOf(".");
+			    suffix = email.substring(t, email.length);
+			    console.log("suffix " + suffix);
+			    domain = aresult.substring(aresult.lastIndexOf("@")+1,aresult.lastIndexOf("."));
+			    console.log("between: " + domain);
+			    var beforeAt = email.substr(0, email.indexOf('@'))
+			    console.log("before At: " + beforeAt);
+			    
+				$('.validation-noAt').html("<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>@ symbol");
+				$('.validation-noAt').css("color", "green");
+				$('.validation-noAt .glyphicon-ok').css("color", "green");
+				emailValidationPoints++;
+				
+			}else{
+				$('.validation-noAt').html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>@ symbol");
+				$('.validation-noAt').css("color", "red");
+				$('.validation-noAt .glyphicon-remove').css("color", "red");
+				atSymbolFound = false;
+			}
+			
+		if (atSymbolFound == true) {
+			
+				//domain name
+				if (beforeAt.length < 1){
+					$('.email-valid-name').css("color", "red");
+					$(".email-valid-name .glyphicon-ok").addClass(
+							"glyphicon-remove").removeClass("glyphicon-ok")
+							.css("color", "red");
+					$(".email-valid-name")
+					.html(
+							"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Name Missing");
+					$(".validation-email-taken")
+					.html(
+							"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is not valid.");
+					$('.validation-email-taken').css("color", "red");
+					$(".validation-com")
+					.html(
+							"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Valid suffix");
+					$('.validation-com').css("color", "red");
+				}else{
+					$(".email-valid-name")
+					.html(
+							"<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>Name <span class='domain-name'>"+ beforeAt +"</span> <span class='domain-result'>found</span>");
+					$('.email-valid-name').css("color", "green");
+					$('.email-valid-name .glyphicon-ok').css("color", "green");
+					emailValidationPoints++;
+				}
+				if (domain.length < 2 || aresult.indexOf(".") == -1) {
+						$('.email-valid-domain').css("color", "red");
+						$(".email-valid-domain .glyphicon-ok").addClass(
+								"glyphicon-remove").removeClass("glyphicon-ok")
+								.css("color", "red");
+						$(".email-valid-domain")
+						.html(
+								"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Domain <span class='domain-name'></span> <span class='domain-result'>invalid</span>");
+						$(".validation-email-taken")
+						.html(
+								"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is not valid.");
+						$('.validation-email-taken').css("color", "red");
+						$(".validation-com")
+						.html(
+								"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Valid suffix");
+						$('.validation-com').css("color", "red");
+					}else{
+		
+						//$(".email-valid-domain .glyphicon-remove").addClass("glyphicon-ok").removeClass("glyphicon-remove").css("color", "green");
+						$(".email-valid-domain")
+						.html(
+								"<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>Domain <span class='domain-name'>"+ domain +"</span> <span class='domain-result'></span>");
+						$('.email-valid-domain').css("color", "green");
+						$('.email-valid-domain .glyphicon-ok').css("color", "green");
+						emailValidationPoints++;
+					}
+				
+				if (aresult.indexOf(".") != -1) {
+					if (suffix.length >= 3) {
+						$(".validation-com")
+						.html(
+								"<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>Suffix "+ suffix);
+						$('.validation-com').css("color", "green");
+						$('.validation-com .glyphicon-ok').css("color", "green");
+						emailValidationPoints++;
+							if (emailAjaxCall() == 1) {
+								$('.validation-email-taken').css("color", "red");
+								$(".validation-email-taken .glyphicon-ok").addClass(
+										"glyphicon-remove").removeClass("glyphicon-ok")
+										.css("color", "red");
+								$(".validation-email-taken")
+								.html(
+										"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is already registered <span class='email-taken-msg'></span>");
+								$(".validation-email-taken .email-taken-msg")
+										.html(
+												"<br />Would you like to <a href='/login/'>login</a> or <a href='/reset/'>reset your password</a>.");
+								takenEmail = true;
+								
+							} else {
+								$(".validation-email-taken")
+										.html(
+												"<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>Valid email.<span class='email-taken-msg'></span>");
+								$(".validation-email-taken .email-taken-msg").html(
+										" We will send you a welcome email.");
+								hideLi();
+								$('.validation-email-taken').css("color", "green");
+								$(".validation-email-taken .glyphicon-ok").css("color",
+												"green");
+								takenEmail = false;
+								emailValidationPoints++;
+							}
+					} else {
+						$(".validation-email-taken")
+						.html(
+								"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Email is not valid.");
+						$('.validation-email-taken').css("color", "red");
+						$(".validation-com")
+						.html(
+								"<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Valid suffix");
+						$('.validation-com').css("color", "red");
+					}
+
+				}
+			}
+		checkValid();
+		}
+		
+		function hideLi(){
+			$('.validation-noAt').css("display", "none");
+			$('.email-valid-domain').css("display", "none");
+			$('.validation-com').css("display", "none");
+			$('.email-valid-name').css("display", "none");
+			$('.validation-email-taken').css("display", "block");
+		}
+		
+		function showLi(){
+			$('.validation-noAt').css("display", "block");
+			$('.email-valid-domain').css("display", "block");
+			$('.validation-com').css("display", "block");
+			$('.email-valid-name').css("display", "block");
+			if (takenEmail == true){
+				$('.validation-email-taken').css("display", "block");
+			}else{
+				$('.validation-email-taken').css("display", "none");
+			}
+		}
+		
+		function checkValid(){
+			console.log("passwordValidationPoints " + passwordValidationPoints);
+			console.log("emailValidationPoints " + emailValidationPoints);
+			if (emailValidationPoints < 5){
+				showLi();
+			}
+			if (passwordValidationPoints == 5 && emailValidationPoints == 4){
+				$("#submit").removeAttr('disabled');
+			}else{
+				$("#submit").prop("disabled", true);
+			}
+
+		}
+
+		function containsSymbol(str1) {
+			var symbols = "!@#$%^&*()_+";
+
+			for (var i = 0; i < str1.length; i++) {
+				if (symbols.indexOf(str1.charAt(i)) != -1) {
+					return true;
+				}
+			}
+			return false;
+		}
+		function emailAjaxCall() {
+			var variable = $("#email").val();
+			var returnVar = 0;
+			$.ajax({
+				url : "/validate/email",
+				async : false,
+				data : {
+					val : variable
+				},
+				dataType : 'html',
+				success : function(dat) {
+					console.log("-----------------");
+					console.log(dat);
+					//var json = JSON.parse(dat);
+					//console.log("-----------------");
+					//console.log(json);
+					if (dat == 1) {
+						console.log("true");
+						returnVar = 1;
+					} else {
+						console.log("false");
+						returnVar = 0;
+					}
+					//   /.+@.+\\..+/
+				}
+			});
+			return returnVar;
+		}
+		$('#password').on('input', function(e) {
+			checkPasswordValidation();
+		});
+		$('#password').bind('paste', function(e) {
+			checkPasswordValidation();
+		});
+
+		var globalTimeout = null;
+		$('#email').on('input', function(e) {
+			if (globalTimeout != null)
+				clearTimeout(globalTimeout);
+			globalTimeout = setTimeout(checkEmailValidation, 200);
+			//checkEmailValidation();
+		});
+		$('#email').bind('paste', function(e) {
+			checkEmailValidation();
+		});
+
+		/*]]>*/
+	</script>
+</body>
+</html>

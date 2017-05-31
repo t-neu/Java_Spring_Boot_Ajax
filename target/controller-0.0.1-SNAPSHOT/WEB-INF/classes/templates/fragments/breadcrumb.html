@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="col-xs-12 col-md-12 breadcrumb-holder remove-padding" th:fragment="breadcrumb">
+	<nav>
+	<span data-type="purchase" th:if="${session.product} != null" class="glyphicon glyphicon-minus-sign bc-product"></span>
+			<span data-type="location" th:if="${session.location} != null" class="glyphicon glyphicon-minus-sign bc-location"></span>
+		<ol class="cd-breadcrumb triangle">
+			<li th:class="${session.product} == null ? current : ''"><a th:href="@{'/product'} + '/' + ${session.product}" th:if="${session.product} != null">Test</a><a th:href="@{'/products/'}" th:if="${session.product} == null">Test</a></li>
+			<li th:class="${session.location} == null ? current : ''"><a th:href="@{'/company'} + '/' + ${session.location}" th:if="${session.location} != null" data-type="location">Location</a><a th:href="@{'/map/'}" th:if="${session.location} == null">Location</a></li>
+			<li><p th:if="${session.product == null or session.location == null}" th:class="${session.product == null and session.location == null} ? breaadcrumb-grey : breaadcrumb-grey">Checkout</p><a th:href="@{'/buy'}" th:if="${session.product != null and session.location != null}" th:class="${session.product == null and session.location == null} ? breaadcrumb-grey : breadcrumb-orange" th:text="'Checkout'"></a></li>
+		</ol>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		if (window.jQuery) {
+			$( document ).ajaxSuccess(function( event, xhr, settings ) {
+				  breadcrumbSize();
+				  console.log("Ajax success");
+			});
+		}
+		/*]]>*/
+	</script>
+	</nav>
+	<div class="breadcrumb-holder2"></div>
+</div>
+
+<div class="breadcrumb-js" th:fragment="breadcrumb-js">
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(window).load(function() {
+		breadcrumbSize();
+	});
+	
+	$(window).resize(function() {
+		breadcrumbSize();
+	});
+	
+	//"<span class='glyphicon glyphicon-minus-sign'></span>" 
+	
+	//$(".cd-breadcrumb .glyphicon-minus-sign").on("click", function() {
+	
+	
+	/*]]>*/
+	</script>
+</div>
+</html>

@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="col-xs-12 col-sm-12 col-md-12 border_box"
+	th:fragment="locationsearch">
+	<div class="">
+		<h3 class="header-center">Thousands Of Locations</h3>
+		<div class="input-group" id="search-group">
+			<input type="hidden" name="search_param" value="zip"
+				id="search_param"/> <input type="text"
+				class="form-control form-big-letters" name="search" id="search"
+				th:value="${search}" placeholder="Enter a City or Zipcode"/>
+			<span class="input-group-btn">
+				<button class="btn btn-orange btn-60" id="search-btn" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 border_box" th:fragment="locationsearch_small">
+	<h3>Location Search</h3>
+	<div class="input-group" id="search-group">
+		<input type="hidden" name="search_param" value="zip" id="search_param"/>
+		<input type="tel" maxlength="5" class="form-control" name="search"
+			id="search" th:value="${search}" placeholder="Enter Your Zipcode"/>
+		<span class="input-group-btn">
+			<button class="btn btn-orange" id="search-btn" type="submit">
+				<span class="glyphicon glyphicon-search"></span>
+			</button>
+		</span>
+	</div>
+</div>
+</html>

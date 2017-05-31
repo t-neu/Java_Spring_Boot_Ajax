@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container" sec:authorize="isAuthenticated()">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<div class="col-xs-12 col-md-4 logo-js">
+					<div class="col-xs-12 col-md-12 border_box">
+						<img th:if="${company.logo} == 'default-logo.png'"
+							th:src="@{/images/default-logo.png}"
+							src="../images/default-logo.png"
+							class="img-responsive company-logo" alt="Responsive image" /> <img
+							th:if="${company.logo} != 'default-logo.png'"
+							th:src="@{${url} + ${company.logo}}"
+							src="${url} + ${company.logo}}"
+							class="img-responsive company-logo" alt="Responsive image" />
+						<div th:if="${edit_page} == 'logo'">
+							<form method="POST" enctype="multipart/form-data"
+								th:action="@{'/upload/' + ${id}}">
+								<div class="fileinput fileinput-new" data-provides="fileinput">
+									<span class="btn btn-default btn-file"><span>Choose
+											file</span><input type="file" name="file" id="fileinput-load" /></span> <span
+										class="fileinput-filename"></span><br />
+									<span class="fileinput-new">No file chosen</span>
+								</div>
+								<div class="form-group">
+									<input class="btn btn-default" type="submit" value="Upload" />
+								</div>
+
+							</form>
+						</div>
+						<div th:if="${edit_page} != 'logo'">
+							<a th:if="${pageTitle.contains('Edit') and edit_page != 'logo'}"
+								th:href="@{'logo'}" data-toggle="tooltip" title="Change Logo">
+								<span class="glyphicon glyphicon-pencil edit-icon"
+								aria-hidden="true"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-8 company-title">
+					<div class="col-xs-12 col-md-12 border_box">
+						<h1 th:if="${edit_page} != 'companyname'">
+							<span data-th-text="${company.companyname}"></span> <a
+								th:if="${pageTitle.contains('Edit') and edit_page != 'companyname'}"
+								th:href="@{'companyname'}" data-toggle="tooltip" title="Edit">
+								<span class="glyphicon glyphicon-pencil edit-icon"
+								aria-hidden="true"></span>
+							</a>
+						</h1>
+						<form th:if="${edit_page} == 'companyname'" action="#"
+							th:action="@{'/company/' + ${id} + '/edit/companyname/companyname'}"
+							th:object="${CCNameForm}" th:method="'put'">
+							<h3>Company Name</h3>
+							<input class="form-control" type="text" name="companyname"
+								th:value="${company.companyname}" />
+							<div class="alert alert-danger form-error" role="alert"
+								th:if="${#fields.hasErrors('companyname')}"
+								th:errors="*{companyname}">company Name Error</div>
+							<button class="btn btn-default" type="submit">Save</button>
+						</form>
+					</div>
+					<div class="col-xs-12 col-md-12 border_box">
+						<p th:if="${edit_page} != 'slogan'">
+							<span data-th-text="${company.slogan}"></span><a
+								th:if="${pageTitle.contains('Edit') and edit_page != 'slogan'}"
+								th:href="@{'slogan'}" data-toggle="tooltip" title="Edit"> <span
+								class="glyphicon glyphicon-pencil edit-icon" aria-hidden="true"></span>
+							</a>
+						</p>
+						<form th:if="${edit_page} == 'slogan'" action="#"
+							th:action="@{'/company/' + ${id} + '/edit/slogan/slogan'}"
+							th:object="${CCSloganForm}" th:method="'put'">
+							<input class="form-control" type="text" name="slogan"
+								th:value="${company.slogan}" />
+							<!--<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('slogan')}"
+							th:errors="*{slogan}">company Name Error</div>-->
+							<button class="btn btn-default" type="submit">Save</button>
+						</form>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="col-xs-12 col-sm-12 col-md-12 border_box">
+					<h3>
+						Description <a
+							th:if="${pageTitle.contains('Edit') and edit_page != 'description'}"
+							th:href="@{'description'}" data-toggle="tooltip" title="Edit">
+							<span class="glyphicon glyphicon-pencil edit-icon"
+							aria-hidden="true"></span>
+						</a>
+					</h3>
+					<p th:if="${edit_page} != 'description'"
+						data-th-text="${company.description}">Example Description</p>
+					<form th:if="${edit_page} == 'description'" id="descriptionForm"
+						action="#"
+						th:action="@{'/company/' + ${id} + '/edit/description/description'}"
+						th:object="${CCDescriptionForm}" th:method="'put'">
+						<!-- <input class="description-edit" type="textarea" name="description" th:value="${company.description}"/> -->
+						<textarea class="description-edit" name="description"
+							id="description" th:inline="text" form="descriptionForm">[[${company.description}]]</textarea>
+						<!--<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('companyname')}"
+							th:errors="*{companyname}">company Name Error</div>-->
+						<button class="btn btn-default pull-right" type="submit">Save</button>
+					</form>
+				</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-4">
+			<div class="col-xs-12 col-md-12 edit-button" th:switch="${edit}">
+			    <div class="col-xs-12 col-md-12 border_box">
+			    <a th:case="'edit'" th:href="@{'/company/' + ${id} + '/edit/'}" class="btn grn-btn-custom btn-lg" role="button">Edit Company</a>
+				<a th:case="'true'" th:href="@{'/company/' + ${id}}" class="btn grn-btn-custom btn-lg" role="button">Normal Mode</a>
+				<a th:case="*" th:href="@{'/company/' + ${id} + '/add/'}" class="btn grn-btn-custom btn-lg" role="button">Make Appointment</a>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-12 address">
+				<div class="col-xs-12 col-md-12 border_box">
+					<h3>
+						Address<a
+							th:if="${pageTitle.contains('Edit') and edit_page != 'address'}"
+							th:href="@{'address'}" data-toggle="tooltip" title="Edit"> <span
+							class="glyphicon glyphicon-pencil edit-icon" aria-hidden="true"></span>
+						</a>
+					</h3>
+					<form th:if="${edit_page} == 'address'" action="#"
+						th:action="@{'/company/' + ${id} + '/edit/address/address'}"
+						th:object="${CCAddressForm}" th:method="'put'">
+						<label for="address">Address</label><input class="form-control"
+							type="text" name="address" th:value="${company.address}" />
+						<div class="alert-danger" th:if="${#fields.hasErrors('address')}"
+							th:errors="*{address}"></div>
+						<label for="city">City</label> <input class="form-control"
+							type="text" name="city" th:value="${company.city}" />
+						<div class="alert-danger" th:if="${#fields.hasErrors('city')}"
+							th:errors="*{city}"></div>
+						<label for="state">State</label> <select class="form-control"
+							id="state" name="state">
+							<option th:each="state : ${states}"
+								th:value="${state.state_abbr}"
+								th:selected="${state.state_abbr.equals(company.state)}"
+								th:text="${state.state_abbr}">Wireframe</option>
+						</select> <label for="zipcode">Zipcode</label> <input class="form-control"
+							type="text" name="zipcode" th:value="${company.zipcode}" />
+						<div class="alert-danger" th:if="${#fields.hasErrors('zipcode')}"
+							th:errors="*{zipcode}"></div>
+						<label for="phone">Phone</label> <input class="form-control"
+							type="text" name="phone" th:value="${company.phone}" />
+						<div class="alert-danger" th:if="${#fields.hasErrors('phone')}"
+							th:errors="*{phone}"></div>
+						<label for="latitude">Latitude</label> <input class="form-control"
+							type="text" name="latitude" th:value="${company.latitude}" /> <label
+							for="longitude">Longitude</label> <input class="form-control"
+							type="text" name="longitude" th:value="${company.longitude}" />
+						<!--<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('address')}"
+							th:errors="*{address}">company Name Error</div>-->
+						<button class="btn btn-default pull-right" type="submit">Save</button>
+					</form>
+					<p th:if="${edit_page} != 'address'"
+						data-th-text="${company.address}" style="line-height: 60%;">
+						Default address code</p>
+					<p th:if="${edit_page} != 'address'"
+						data-th-text="${company.city} + ', ' + ${company.state} + ' ' + ${company.zipcode}"
+						style="line-height: 60%;">Name</p>
+					<p th:if="${edit_page} != 'address'" data-th-text="${pnum}"
+						style="line-height: 60%;">(123) 456-7890</p>
+				</div>
+				<div class="col-xs-12 col-md-12 border_box">
+					<h3>
+						Hours<a
+							th:if="${pageTitle.contains('Edit') and edit_page != 'hours'}"
+							th:href="@{'hours'}" data-toggle="tooltip" title="Edit"> <span
+							class="glyphicon glyphicon-pencil edit-icon" aria-hidden="true"></span>
+						</a>
+					</h3>
+					<div th:if="${edit_page} == 'hours'"
+						class="row hours remove-top-margin" data-th-each="hour : ${hours}">
+						<form action="#"
+							th:action="@{'/company/' + ${id} + '/edit/hours/hours'}"
+							th:object="${HoursForm}" th:method="'put'">
+							<input type="hidden" name="day" th:value="${hour.day}" />
+							<div class="col-xs-3 col-md-3 hours-col">
+								<p data-th-text="${hour.day}">1</p>
+							</div>
+							<div class="col-xs-3 col-md-3 hours-col">
+								<select class="form-control" id="times" name="ot">
+									<option th:each="time : ${times}" th:value="${time}"
+										th:selected="${time.equals(hour.ot)}" th:text="${time}">Open</option>
+								</select>
+							</div>
+							<div class="col-xs-3 col-md-3 hours-col">
+								<select class="form-control" id="times" name="ct">
+									<option th:each="time : ${times}" th:value="${time}"
+										th:selected="${time.equals(hour.ct)}" th:text="${time}">Open</option>
+								</select>
+							</div>
+							<div class="col-xs-3 col-md-3 hours-col">
+								<button class="btn btn-default" type="submit">Save</button>
+							</div>
+						</form>
+					</div>
+					<div th:if="${edit_page != 'hours'}" class="hours-m"
+						data-th-each="hour : ${hours}">
+						<div class="col-xs-12 col-md-12"
+							th:if="${hour.ot} != 'Closed' and ${hour.ct} != 'Closed'">
+							<strong><span th:text="${hour.day} + ': '"></span></strong><span
+								th:text="${hour.ot}+ ' - '"></span><span th:text="${hour.ct}"></span>
+						</div>
+						<div class="col-xs-12 col-md-12"
+							th:if="${hour.ot} == 'Closed' or ${hour.ct} == 'Closed'">
+							<strong><span th:text="${hour.day} + ': '"></span></strong><span>Closed</span>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p th:if="${pageTitle.contains('Edit') and edit_page == 'description'}">THIS
+		WORKS</p>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

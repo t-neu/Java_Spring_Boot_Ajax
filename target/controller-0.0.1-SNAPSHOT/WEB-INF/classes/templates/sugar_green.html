@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container-fluid svg-background">
+		<div class="row">
+			<div class="col-md-8 col-xs-12">
+				<div class="header_slogan">
+					<h1>Get The Freedom</h1>
+					<h5>To Fearlessly Explore Your Desires</h5>
+				</div>
+			</div>
+			<div class="col-md-4 col-xs-6 hp-login" style="background-color: rgba(0, 0, 0, 0.2);" sec:authorize="!isAuthenticated()">
+				<p class="alert alert-danger" role="alert" th:if="${error}"
+					th:text="${error}"></p>
+				<form action="#" th:action="@{/signup}" th:object="${userForm}"
+					method="post">
+					<h3 class="white">Sign Up</h3>
+					<div class="form-group">
+						<!--  <label for="Username">Name</label>-->
+						<input type="text" class="form-control" th:field="*{username}"
+							placeholder="Username" />
+						<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
+							Error</div>
+					</div>
+					<div class="form-group">
+						<!-- <label for="Email">Email</label>-->
+						<input type="text" class="form-control" th:field="*{email}"
+							placeholder="Email" />
+						<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+							Error</div>
+					</div>
+					<div class="form-group">
+						<!-- <label for="Password">Password</label>-->
+						<input type="password" class="form-control" th:field="*{password}"
+							placeholder="Password" />
+						<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
+							Error</div>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-default-site-sea" type="submit">Sign
+							Up</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4 col-xs-6" sec:authorize="isAuthenticated()"></div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="sub_header_image_g"></div>
+			</div>
+			<div class="col-md-8">
+				<div class="row_slogan site_green">
+					<h1>Safety Has No Limits</h1>
+					<h5>
+						You Can't Go Far Enough To Stay Safe<span
+							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					</h5>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey_other br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 location1">
+				<div class="row_slogan site_green">
+					<h1>3 Step Process</h1>
+					<h5>
+						Find Out How It Works<span
+							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					</h5>
+				</div>
+			</div>
+			<div class="col-md-4 location2">
+				<div class="sub_header_image_3steps_g"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container-fluid bg_grey br_top">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="sub_header_image_lock_g"></div>
+			</div>
+			<div class="col-md-8">
+				<div class="row_slogan site_green">
+					<h1>Results Remain Hidden</h1>
+					<h5>
+						Until you want them public<span
+							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					</h5>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<div th:fragment="rebate-code" class="rebate-box">
+	<div sec:authorize="isAuthenticated()" class="col-xs-12 col-sm-12 col-md-12 border_box" th:if="${product} != null and ${location} != null">
+		<div class="site_sea">
+		<p></p>
+		<div class="input-group" id="rebate-code-group">
+			<input type="text"
+				class="form-control form-big-letters" name="rebate-code" id="rebate-code"
+				th:value="${rebatecode}" maxlength="5" placeholder="Rebate Code"></input>
+			<span class="input-group-btn">
+				<button class="btn btn-grn btn-60" id="rebate-code-btn" type="submit">Check</button>
+			</span>
+		</div>
+	</div>
+	</div>
+</div>
+
+<div th:fragment="checkout" class="checkout">
+	<div sec:authorize="isAuthenticated()" class="col-xs-12 col-sm-12 col-md-12 border_box purchase_box" th:if="${product} != null and ${location} != null">
+	<div class="col-xs-12 col-md-12">
+		<h3>
+			<span class="pull-left">Checkout</span>
+		</h3>
+	</div>
+	<form class="col-xs-12 col-md-12" id="checkout-form"
+		th:object="${CheckoutForm}" th:action="@{/transaction-endpoint}"
+		method="post">
+		<div id="error-message"></div>
+		<div
+			class="form-group has-feedback col-xs-12 col-md-12 remove-padding">
+			<label for="card-number">Card Number</label>
+			<div class="form-control form-big-letters glyph-form-control"
+				id="card-number"></div>
+			<span class="glyphicon glyphicon-credit-card form-control-feedback"></span>
+		</div>
+		<div class="form-group has-feedback col-xs-12 col-md-5 remove-padding">
+			<label for="cvv">CVV</label>
+			<div class="form-control form-big-letters glyph-form-control"
+				id="cvv"></div>
+			<span class="glyphicon glyphicon-question-sign form-control-feedback"></span>
+		</div>
+		<div class="hidden-xs hidden-sm col-md-1"></div>
+		<div class="form-group has-feedback col-xs-12 col-md-6 remove-padding">
+			<label for="expiration-date">Expiration Date</label>
+			<div class="form-control form-big-letters glyph-form-control"
+				id="expiration-date"></div>
+			<span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+		</div>
+		<input type="hidden" name="paymentMethodNonce"></input> <input
+			type="hidden" name="clientToken"></input> <input type="submit"
+			class="btn btn-orange login-btn" id="submition" value="Buy Token"
+			disabled="disabled"></input>
+	</form>
+
+	<form>
+		<div id="dropin-container"></div>
+	</form>
+
+	<script
+		src="https://js.braintreegateway.com/web/3.6.0/js/hosted-fields.min.js"
+		th:href="@{https://js.braintreegateway.com/web/3.6.0/js/hosted-fields.min.js}"></script>
+
+	<script
+		src="https://js.braintreegateway.com/web/3.6.0/js/client.min.js"
+		th:href="@{https://js.braintreegateway.com/web/3.6.0/js/client.min.js}"></script>
+
+	<script th:inline="javascript">
+				// We generated a client token for you so you can test out this code
+				// immediately. In a production-ready integration, you will need to
+				// generate a client token on your server (see section below).
+				
+				var authorization = [[${clientToken}]];
+				var form = document.querySelector('#checkout-form');
+				var submit = document.querySelector('input[type="submit"]');
+				
+				braintree.client.create({
+				  authorization: authorization
+				}, function (clientErr, clientInstance) {
+				  if (clientErr) {
+				    // Handle error in client creation
+				    return;
+				  }
+				
+				  braintree.hostedFields.create({
+				    client: clientInstance,
+				    styles: {
+				      'input': {
+				        'font-size': '25pt'
+				      },
+				      'input.invalid': {
+				        'color': 'red'
+				      },
+				      'input.valid': {
+				        'color': 'green'
+				      }
+				    },
+				    fields: {
+				      number: {
+				        selector: '#card-number',
+				        placeholder: '4111 1111 1111 1111'
+				      },
+				      cvv: {
+				        selector: '#cvv',
+				        placeholder: '123'
+				      },
+				      expirationDate: {
+				        selector: '#expiration-date',
+				        placeholder: '10/2019'
+				      }
+				    }
+				  }, function (hostedFieldsErr, hostedFieldsInstance) {
+				    if (hostedFieldsErr) {
+				      // Handle error in Hosted Fields creation
+				      return;
+				    }
+				
+				    
+				    document.getElementById('submition').disabled = false;
+				    
+				    form.addEventListener('submit', function (event) {
+				        event.preventDefault();
+						
+				        hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+				          if (tokenizeErr) {
+				            // Handle error in Hosted Fields tokenization
+				            return;
+				          }
+				
+				          // Put `payload.nonce` into the `payment-method-nonce` input, and then
+				          // submit the form. Alternatively, you could send the nonce to your server
+				          // with AJAX.
+				          document.querySelector('input[name="paymentMethodNonce"]').value = payload.nonce;
+				          form.submit();
+				        });
+				      }, false);
+				    });
+				  });
+				
+		
+				var checkFields = function(){
+				   if ($('#card-number').hasClass('braintree-hosted-fields-valid')) {
+					$(".glyphicon-credit-card").css({"color": "green"});
+				    }else{
+					$(".glyphicon-credit-card").css({"color": "gray"});
+				 }
+		
+				   if ($('#cvv').hasClass('braintree-hosted-fields-valid')) {
+					$(".glyphicon-question-sign").css({"color": "green"});
+				    }else{
+					$(".glyphicon-question-sign").css({"color": "gray"});
+				 }
+		
+				   if ($('#expiration-date').hasClass('braintree-hosted-fields-valid')) {
+					$(".glyphicon-calendar").css({"color": "green"});
+				    }else{
+					$(".glyphicon-calendar").css({"color": "gray"});
+				 }
+				}
+				setInterval(checkFields, 2000);
+		
+				 function validate(id)
+				{
+				    var regex = /^[a-zA-Z ]{2,30}$/;
+				    var ctrl =  document.getElementById(id);
+		
+				    if (regex.test(ctrl.value)) {
+				        return true;
+				    }
+				    else {
+				        return false;
+				    }
+				}
+				</script>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 border_box purchase_box" th:if="${product} == null or ${location} == null">
+<h4>Please select a test and location before checking out.</h4>
+</div>
+</div>
+
+<div th:fragment="location"
+	class="col-xs-12 col-sm-12 col-md-5 checkout-location">
+	<h2>Location</h2>
+	<div th:if="${location} != null">
+		<h4 th:text="${location.companyname}">Location 1</h4>
+		<div class="col-xs-12 col-sm-12 col-md-12 remove-padding" th:text="${location.address}"></div>
+		<div class="col-xs-12 col-sm-12 col-md-12 remove-padding" th:text="${location.city} + ', ' + ${location.state}"></div>
+		<div class="col-xs-12 col-sm-12 col-md-12 remove-padding" th:text="${location.zipcode}"></div>
+	</div>
+	<div th:if="${location} == null">
+	<p class="nothing-selected">A location has not been selected.</p>
+	<a th:href="'/map/'" class="text-center btn btn-success btn-sz-fix" role="button">Find A Location</a>
+	</div>
+</div>
+
+<div th:fragment="product"
+	class="col-xs-12 col-sm-12 col-md-7 checkout-product">
+	<h2>Product</h2>
+	<div th:if="${product} != null">
+		<h4 th:text="${product.product_name}">Location 1</h4>
+		<div th:with="percentage=(100 - (${product.product_sale}))">
+			<div
+				th:with="result=(${product.product_price} * (${product.product_sale}/100))">
+				<h3>
+					<span>$</span><span class="finalprice" th:utext="${#numbers.formatDecimal(result, 0, 2)}"></span>
+				</h3>
+				<h5>
+					<span th:if="${product.product_sale} != '100.00'"
+						th:utext="'Retail: &lt;strike&gt; $'+ ${product.product_price} +'&lt;/strike&gt;'"></span>
+					<span th:if="${product.product_sale} != '100.00'"
+						th:utext="'(' + ${#numbers.formatDecimal(percentage, 0, 0)} + '% Off)'"></span>
+				</h5>
+				<h5>
+					<span class="checkout-rebate">Rebate: </span><span class="checkout-rebate-amount"></span>
+				</h5>
+			</div>
+		</div>
+	</div>
+	<div th:if="${product} == null">
+	<p class="nothing-selected">A product has not been selected.</p>
+	<a th:href="'/products/'" class="text-center btn btn-success btn-sz-fix" role="button">Find A Product</a>
+	</div>
+</div>
+</html>

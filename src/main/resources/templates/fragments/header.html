@@ -1,0 +1,37 @@
+	<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+	<nav class="navbar-fixed-top
+	navbar navbar-default" th:fragment="header">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{'/'}" href="/">SITENAME</a>
+			</div>
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li th:class="${#strings.contains(pageTitle,'Login')} ? active : ''" sec:authorize="isAnonymous()"><a th:href="@{'/login'}">Login</a></li>
+					<li th:class="${#strings.contains(pageTitle,'Sign Up')} ? active : ''" sec:authorize="isAnonymous()"><a th:href="@{'/signup'}">Sign Up</a></li>
+					<li class="dropdown" sec:authorize="isAuthenticated()"><a
+						href="#" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false"
+						th:inline="text"> <span class="glyphicon glyphicon-user"
+							aria-hidden="true"></span> [[${#httpServletRequest.remoteUser}]]<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><form th:action="@{/appLogout}" method="POST">
+									<input class="logout" type="submit" value="Logout" />
+								</form></li>
+						</ul></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	</html>

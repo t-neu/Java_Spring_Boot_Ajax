@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<div class="site-wrapper">
+	<div class="col-xs-12 col-sm-12 col-md-12 above-nav" th:replace="fragments/header :: advertisement"></div>
+		<nav class="navbar navbar-default"
+			th:replace="fragments/header :: header"></nav>
+		<!-- Div login visibility condition -->
+		<div class="container">
+			<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-3"></div>
+				<div class="col-xs-12 col-sm-8 col-md-6">
+				<div class="col-xs-12 col-md-12" th:if="${session.product != null and session.location != null}">
+					<div class="bcjs">
+						<div class="col-xs-12 col-md-12" th:replace="fragments/breadcrumb :: breadcrumb">
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 border_box login remove-padding">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div th:switch="${message}"> 
+					  <h3 th:case="'signup'">Congratulations!</h3>
+					  <h3 th:case="*">Welcome Back!</h3>
+					</div>
+					<p class="alert alert-danger" role="alert" th:if="${param.error}">
+						Wrong Username or Password</p>
+					<p class="alert alert-success" role="alert"
+						th:if="${message} == 'signup'">Your registration was successful!</p>
+					<p class="alert alert-success" role="alert"
+						th:if="${message} == 'success'">Your password has been
+						successfully changed!</p>
+					<form th:action="@{/appLogin}" method="POST">
+						<div class="form-group">
+							<input
+								class="form-control form-big-letters" type="text" id="username" name="username"
+								placeholder="Username" />
+						</div>
+						<div class="form-group">
+							<input
+								class="form-control form-big-letters" type="password" name="password"
+								placeholder="Password" />
+						</div>
+						<div class="form-group">
+							<input class="btn btn-orange login-btn" type="submit" value="Login" />
+						</div>
+					</form>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 bottom-form reset_link">
+							<a th:href="@{'/reset'}">Reset Password</a>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 bottom-form new_account_link">
+							<a th:href="@{'/signup'}">Create a New Account</a>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-3">
+					<!--<img
+						th:src="@{/images/AZR_FY17-quickstart-EN_US_300x250_BAN_Sept-16.png}"
+						src="../images/AZR_FY17-quickstart-EN_US_300x250_BAN_Sept-16.png"
+						class="img-responsive advertising" alt="Responsive image" />
+						-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+		<div th:replace="fragments/breadcrumb :: breadcrumb-js">
+				</div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById("username").focus();
+	$(".reset_link").on("click", function() {
+		window.location.replace("/reset/");
+	});
+	$(".new_account_link").on("click", function() {
+		window.location.replace("/signup/");
+	});
+	/*
+	var url = '/ajax/fragment';	
+	$("#resultsBlock").load(url);
+	$("#resultsBlock2").load("fragments/breadcrumb :: breadcrumb-js");
+	*/
+	/*]]>*/
+	</script>
+</body>
+</html>

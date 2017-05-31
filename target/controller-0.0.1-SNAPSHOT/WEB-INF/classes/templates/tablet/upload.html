@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container">
+		<div class="row">
+			<div th:switch="${message}">
+			<p th:case="'Please select a file first.'"
+				class="alert alert-danger" th:text="${message}" />
+			<p th:case="'You successfully uploaded'" class="alert alert-success" th:text="${message} + ' ' + ${filename}" />
+			<p th:case="'You successfully deleted'" class="alert alert-success" th:text="${message} + ' ' + ${filename}" />
+			<p th:case="'Empty bucket'" class="alert alert-success" th:text="'The last image was deleted and the bucket has now been refilled.'" />
+			<p th:case="*"></p>
+			</div>
+
+			<div class="alert alert-info" role="alert" th:if="${img}">
+				<h4>Direct link to file</h4>
+				<a href="#" th:href="${img}" th:text="${img}">delete</a>
+			</div>
+
+			<div>
+				<form method="POST" enctype="multipart/form-data"
+					th:action="@{/upload}">
+
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<span class="btn btn-default btn-file"><span>Choose
+								file</span><input type="file" name="file" /></span> <span
+							class="fileinput-filename"></span><span class="fileinput-new">No
+							file chosen</span>
+					</div>
+					<div class="form-group">
+						<input class="btn btn-default" type="submit" value="Upload" />
+					</div>
+
+				</form>
+			</div>
+			<h2>Images Uploaded</h2>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Link</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="file : ${files}">
+							<td><img th:src="@{${url} +${file.getKey()}}"
+								src="${url} + ${file.getKey()}" class="img-responsive error-img"
+								alt="Responsive image" /></td>
+							<td><a th:href="${url} + ${file.getKey()}"
+								th:text="${url} + ${file.getKey()}"></a></td>
+							<td><a class="btn btn-default" href="#"
+								th:href="@{'/image/delete/' + ${file.getKey()}}"><span
+									class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div
+			th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+			2016 Footer</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-default"
+		th:replace="fragments/header :: header"></nav>
+	<div class="container" sec:authorize="hasRole('ROLE_USER')">
+		<div class="row">
+			<div class="col-xs-6 col-md-1">
+				<img th:if="${company.logo} == 'default-logo.png'"
+					th:src="@{/images/default-logo.png}"
+					src="../images/default-logo.png"
+					class="img-responsive company-logo" alt="Responsive image" /> <img
+					th:if="${company.logo} != 'default-logo.png'"
+					th:src="@{${url} + ${company.logo}}"
+					src="${url} + ${company.logo}}" class="img-responsive company-logo"
+					alt="Responsive image" />
+			</div>
+			<div class="col-xs-12 col-md-7 company-title">
+				<h1>
+					<span data-th-text="${company.companyname}"></span>
+				</h1>
+				<p>
+					<span data-th-text="${company.slogan}"></span>
+				</p>
+			</div>
+			<div class="col-xs-12 col-md-4" th:switch="${edit}">
+			    <a th:case="'edit'" th:href="@{'/company/edit/' + ${id} + '/'}" class="btn grn-btn-custom btn-lg" role="button">Edit Company</a>
+				<a th:case="'true'" th:href="@{'/company/' + ${id}}" class="btn grn-btn-custom btn-lg" role="button">Exit Edit</a>
+			</div>
+			
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<h3>Scheduling An Appointment</h3>
+				<form id="appointmentForm"
+					action="#"
+					th:action="@{'/company/' + ${id} + '/add/'}"
+					th:object="${CCApointmentForm}" th:method="'post'">
+					<label for="Date">Date</label>
+					<div class="input-group date" data-provide="datepicker">
+						<input type="text" class="form-control" name="date"/>
+						<div class="input-group-addon datepicker" id="datepicker">
+							<span class="glyphicon glyphicon-th"></span>
+						</div>
+					</div>
+					<label for="Time">Time</label>
+					<select class="form-control" id="times" name="time">
+								<option th:each="time : ${times}" th:value="${time}"
+									th:text="${time}">Open</option>
+					</select>
+					<label for="Extra Information">Extra Information</label>
+					<textarea class="description-txt" name="description"
+						id="description" th:inline="text" form="appointmentForm"></textarea>
+					<!--<div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('companyname')}"
+							th:errors="*{companyname}">company Name Error</div>-->
+					<button class="btn btn-default pull-right" type="submit">Save</button>
+				</form>
+			</div>
+			<div class="col-xs-12 col-md-4">
+				<h3>Address</h3>
+				<form th:if="${edit_page} == 'address'" action="#"
+					th:action="@{'/company/edit/' + ${id} + '/address/address'}"
+					th:object="${CCAddressForm}" th:method="'put'">
+					<label for="address">Address</label><input class="form-control"
+						type="text" name="address" th:value="${company.address}" /> <label
+						for="city">City</label> <input class="form-control" type="text"
+						name="city" th:value="${company.city}" /> <label for="state">State</label>
+					<select class="form-control" id="state" name="state">
+						<option th:each="state : ${states}" th:value="${state.state_abbr}"
+							th:selected="${state.state_abbr.equals(company.state)}"
+							th:text="${state.state_abbr}">Wireframe</option>
+					</select> <label for="zipcode">Zipcode</label> <input class="form-control"
+						type="text" name="zipcode" th:value="${company.zipcode}" /> <label
+						for="phone">Phone</label> <input class="form-control" type="text"
+						name="phone" th:value="${company.phone}" />
+
+					<!-- <div class="alert alert-danger form-error" role="alert"
+							th:if="${#fields.hasErrors('address')}"
+							th:errors="*{address}">company Name Error</div> -->
+					<button class="btn btn-default pull-right" type="submit">Save</button>
+				</form>
+				<p th:if="${edit_page} != 'address'"
+					data-th-text="${company.address}" style="line-height: 60%;">
+					Default address code</p>
+				<p th:if="${edit_page} != 'address'"
+					data-th-text="${company.city} + ', ' + ${company.state} + ' ' + ${company.zipcode}"
+					style="line-height: 60%;">Name</p>
+				<p th:if="${edit_page} != 'address'" data-th-text="${pnum}"
+					style="line-height: 60%;">(123) 456-7890</p>
+				<h3>Hours</h3>
+				<div th:if="${edit_page != 'hours'}" class="row hours-m"
+					data-th-each="hour : ${hours}">
+					<div class="col-xs-12 col-md-12"
+						th:if="${hour.ot} != 'Closed' and ${hour.ct} != 'Closed'">
+						<strong><span th:text="${hour.day} + ': '"></span></strong><span
+							th:text="${hour.ot}+ ' - '"></span><span th:text="${hour.ct}"></span>
+					</div>
+					<div class="col-xs-12 col-md-12"
+						th:if="${hour.ot} == 'Closed' or ${hour.ct} == 'Closed'">
+						<strong><span th:text="${hour.day} + ': '"></span></strong><span>Closed</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div
+		th:replace="fragments/footer :: ${#authorization.expression('isAuthenticated()')} ? 'footer-admin' : 'footer'">&copy;
+		2016 Footer</div>
+</body>
+</html>
