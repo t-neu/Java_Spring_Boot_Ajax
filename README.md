@@ -26,13 +26,13 @@ JDBC<br />
 
 ## Instructions
 
-Edit the AuthenticationProviderConfig.java file. <br />
+#### H4 Edit the AuthenticationProviderConfig.java file. <br />
 driverManagerDataSource.setUrl("Database information"); <br />
 driverManagerDataSource.setUsername("admin"); <br />
 driverManagerDataSource.setPassword("rootroot");
 
 ## Getting Started
-Edit the Beans.xml file. <br />
+#### H4 Edit the Beans.xml file. <br />
 
 property name="url" value="Database information" <br />
 property name="username" value="username" <br />
