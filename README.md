@@ -35,20 +35,32 @@ JDBC<br />
 
 ## Instructions
 
+### Beginner <br />
+
 #### Edit the AuthenticationProviderConfig.java file. <br />
+Go into AWS, setup RDS. (URL, USERNAME, PASSWORD)
 driverManagerDataSource.setUrl("Database information"); <br />
-driverManagerDataSource.setUsername("admin"); <br />
-driverManagerDataSource.setPassword("rootroot");
+driverManagerDataSource.setUsername("username"); <br />
+driverManagerDataSource.setPassword("password");
 
 #### Edit the Beans.xml file. <br />
-
+Go into AWS, setup RDS. (URL, USERNAME, PASSWORD)
 property name="url" value="Database information" <br />
 property name="username" value="username" <br />
 property name="password" value="password" <br />
 
 #### Edit the application.properties file. <br />
+Go into AWS, setup IAM.
 cloud.aws.credentials.accessKey = <br />
 cloud.aws.credentials.secretKey = <br />
+
+### Advanced <br />
+
+#### Edit the JDBCTemplate.java <br />
+Go into AWS, signup for ses and verify your email address.
+
+AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br />
+				new BasicAWSCredentials("", "")); <br />
 
 ## Authors
 
