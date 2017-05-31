@@ -42,8 +42,8 @@ public class WebController extends WebMvcConfigurerAdapter {
 	JDBCTemplate JDBC_Template = (JDBCTemplate) context.getBean("JDBC_Template");
 	
 	// AWS INFORMATION
-	AWSCredentials credentials = new BasicAWSCredentials("AKIAJ56R56DBPTDGXPMA",
-			"h+Wqh1AHig2kHvTwoqQIWaM2tF/6XQmOcGb+PUat");
+	AWSCredentials credentials = new BasicAWSCredentials("",
+			"");
 
 	// create a client connection based on credentials
 	AmazonS3 s3client = new AmazonS3Client(credentials);
