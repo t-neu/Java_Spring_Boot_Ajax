@@ -38,7 +38,7 @@ property name="url" value="Database information" <br />
 property name="username" value="username" <br />
 property name="password" value="password" <br />
 
-Edit the application.properties file. <br />
+#### Edit the application.properties file. <br />
 cloud.aws.credentials.accessKey = <br />
 cloud.aws.credentials.secretKey = <br />
 
