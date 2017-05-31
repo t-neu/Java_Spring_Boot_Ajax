@@ -80,7 +80,7 @@ AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br 
 ```
 				
 #### Response Body <br />
-The email being sent out will include an auto generated id parameter will use and <img> tag and will appear to be a normal image on users side. However, <img src=""> link will include the id parameter that will call a rest api and allow you to see when the email was opened. <br />
+The email being sent out will include an auto generated id parameter will use and <img> tag and will appear to be a normal image on users side. However, img src="" link will include the id parameter that will call a rest api and allow you to see when the email was opened. <br />
 ```
 @ResponseBody
 @RequestMapping(value = "/email/logo/{Id}", method = RequestMethod.GET, produces = MediaType.IMAGE_GIF_VALUE)
