@@ -60,7 +60,7 @@ cloud.aws.credentials.secretKey = <br />
 ### Advanced <br />
 
 #### Edit the JDBCTemplate.java <br />
-Go into AWS, signup for ses and verify your email address.
+Go into AWS, signup for SES and verify your email address.
 
 AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br />
 				new BasicAWSCredentials("", "")); <br />
