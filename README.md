@@ -32,6 +32,7 @@ Hibernate Validation<br />
 Themeleaf<br />
 Maven<br />
 JDBC<br />
+REST<br />
 
 ## Instructions
 
@@ -64,6 +65,8 @@ Go into AWS, signup for SES and verify your email address.
 
 AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br />
 				new BasicAWSCredentials("", "")); <br />
+				
+#### Response Body <br />
 
 ## Authors
 
