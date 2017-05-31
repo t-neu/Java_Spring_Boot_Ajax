@@ -42,8 +42,8 @@ REST<br />
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD)<br />
 <br />
 ```
-driverManagerDataSource.setUrl("Database information"); <br />
-driverManagerDataSource.setUsername("username"); <br />
+driverManagerDataSource.setUrl("Database information");
+driverManagerDataSource.setUsername("username");
 driverManagerDataSource.setPassword("password");
 ```
 
@@ -51,9 +51,9 @@ driverManagerDataSource.setPassword("password");
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD) <br />
 <br />
 ```
-property name="url" value="Database information" <br />
-property name="username" value="username" <br />
-property name="password" value="password" <br />
+property name="url" value="Database information"
+property name="username" value="username"
+property name="password" value="password"
 ```
 
 #### Edit the application.properties file. <br />
