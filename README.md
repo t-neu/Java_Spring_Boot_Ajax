@@ -1,6 +1,4 @@
-# Project Title
-
-Java Spring Boot Login and Password Reset
+# Java Spring Boot Login and Password Reset
 
 ![alt text](https://github.com/t-neu/Java_Spring_Boot_Ajax/blob/master/homepage.jpg?raw=true)
 
