@@ -51,9 +51,9 @@ driverManagerDataSource.setPassword("password");
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD) <br />
 <br />
 ```
-property name="url" value="Database information"
-property name="username" value="username"
-property name="password" value="password"
+<property name="url" value="Database information"/>
+<property name="username" value="username"/>
+<property name="password" value="password"/>
 ```
 
 #### Edit the application.properties file. <br />
