@@ -12,8 +12,7 @@ The username field also uses JQuery and an Ajax call to find out if the username
 
 ## Video
 
-[![IMAGE ALT TEXT HERE](https://i.ytimg.com/vi/Kklw_QDzCq4/1.jpg?time=1496251253919)]
-(https://youtu.be/Kklw_QDzCq4)
+[![Youtube](https://i.ytimg.com/vi/Kklw_QDzCq4/1.jpg?time=1496251253919)](https://youtu.be/Kklw_QDzCq4)
 
 ## Built With
 
