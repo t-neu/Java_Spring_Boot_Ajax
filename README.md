@@ -41,33 +41,39 @@ REST<br />
 #### Edit the AuthenticationProviderConfig.java file. <br />
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD)<br />
 <br />
+```
 driverManagerDataSource.setUrl("Database information"); <br />
 driverManagerDataSource.setUsername("username"); <br />
 driverManagerDataSource.setPassword("password");
+```
 
 #### Edit the Beans.xml file. <br />
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD) <br />
 <br />
+```
 property name="url" value="Database information" <br />
 property name="username" value="username" <br />
 property name="password" value="password" <br />
+```
 
 #### Edit the application.properties file. <br />
 Go into AWS, setup IAM. <br />
 <br />
-cloud.aws.credentials.accessKey = <br />
-cloud.aws.credentials.secretKey = <br />
+```
+cloud.aws.credentials.accessKey =
+cloud.aws.credentials.secretKey =
+```
 
 ### Advanced <br />
 
 #### Edit the JDBCTemplate.java <br />
 Go into AWS, signup for SES and verify your email address. <br />
 <br />
-Find
+Find and edit
 ```
 final String FROM = "noreply@yourwebsite.com";
 ```
-Find
+Find and edit
 ```
 AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br />
 				new BasicAWSCredentials("", "")); <br />
