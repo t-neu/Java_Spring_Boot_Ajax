@@ -8,9 +8,7 @@
 
 ![alt text](https://github.com/t-neu/Java_Spring_Boot_Ajax/blob/master/signup.jpg?raw=true)
 
-Uses both front-end and back-end validation. <br />
-<br />
-The username field also uses JQuery and an Ajax call to find out if the username is already been used.
+Uses both front-end and back-end validation.
 
 ## Video
 
