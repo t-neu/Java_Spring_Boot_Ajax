@@ -1,5 +1,7 @@
 # Java Spring Boot Login and Password Reset
 
+## Homepage
+
 ![alt text](https://github.com/t-neu/Java_Spring_Boot_Ajax/blob/master/homepage.jpg?raw=true)
 
 ## Sign Up Page
