@@ -12,7 +12,7 @@ Uses both front-end and back-end validation.
 
 ## Videos
 
-#### Login
+#### JQuery Autocomplete Search & Login
 
 [![Youtube](https://i.ytimg.com/vi/Kklw_QDzCq4/1.jpg?time=1496251253919)](https://youtu.be/Kklw_QDzCq4)
 
