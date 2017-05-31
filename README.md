@@ -10,9 +10,15 @@
 
 Uses both front-end and back-end validation.
 
-## Video
+## Videos
+
+#### Login
 
 [![Youtube](https://i.ytimg.com/vi/Kklw_QDzCq4/1.jpg?time=1496251253919)](https://youtu.be/Kklw_QDzCq4)
+
+#### Password Must Include
+
+[![Youtube](https://i.ytimg.com/vi/SPjyb1dSKLk/2.jpg?time=1496251253919)](https://youtu.be/SPjyb1dSKLk)
 
 ## Built With
 
