@@ -61,14 +61,21 @@ cloud.aws.credentials.secretKey = <br />
 ### Advanced <br />
 
 #### Edit the JDBCTemplate.java <br />
-Go into AWS, signup for SES and verify your email address.
-
+Go into AWS, signup for SES and verify your email address. <br />
+<br />
+Find
+```
+final String FROM = "noreply@yourwebsite.com";
+```
+Find
+```
 AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br />
 				new BasicAWSCredentials("", "")); <br />
+```
 				
 #### Response Body <br />
-The email being sent out will include an auto generated id parameter, which will appear to be an image. <br />
-This id parameter will call emailOpenedUpdate(intId) and allow you to see when the email was opened.<br />
+The email being sent out will include an auto generated id parameter. <br /> Which will appear to be an image on users side. <br />
+This id parameter will be inserted in the function call emailOpenedUpdate(intId) and allow you to see when the email was opened. <br />
 ```
 @ResponseBody
 @RequestMapping(value = "/email/logo/{Id}", method = RequestMethod.GET, produces = MediaType.IMAGE_GIF_VALUE)
