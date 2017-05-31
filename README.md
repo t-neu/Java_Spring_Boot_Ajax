@@ -41,7 +41,6 @@ ResponseBody<br />
 
 #### Edit the AuthenticationProviderConfig.java file. <br />
 Go into AWS, setup RDS. (URL, USERNAME, PASSWORD)<br />
-<br />
 ```
 driverManagerDataSource.setUrl("Database information");
 driverManagerDataSource.setUsername("username");
