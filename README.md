@@ -73,8 +73,8 @@ final String FROM = "noreply@yourwebsite.com";
 ```
 Find and edit
 ```
-AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( <br />
-				new BasicAWSCredentials("", "")); <br />
+AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient( 
+				new BasicAWSCredentials("", "")); 
 ```
 				
 #### Response Body <br />
