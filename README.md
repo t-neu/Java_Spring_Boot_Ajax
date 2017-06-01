@@ -29,6 +29,7 @@ AWS<br />
 Bootstrap<br />
 JQuery<br />
 MySql<br />
+Scheduling<br />
 Hibernate Validation<br />
 Themeleaf<br />
 Maven<br />
